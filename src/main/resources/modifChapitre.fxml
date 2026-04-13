@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.ModifierChapitreController"
+      prefWidth="900" prefHeight="650"
+      style="-fx-background-color: #f0f2f5;">
+
+    <!-- NAVBAR -->
+    <HBox prefHeight="60">
+        <HBox prefWidth="260" prefHeight="60" alignment="CENTER"
+              style="-fx-background-color: #1a1a2e;">
+            <Label text="Edu" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label text="verse" style="-fx-text-fill: #f5a623; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+        </HBox>
+        <HBox HBox.hgrow="ALWAYS" prefHeight="60" alignment="CENTER" spacing="24"
+              style="-fx-background-color: #f5a623;">
+            <Label text="ACCUEIL"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="COURS"      style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="FORUM"      style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+        </HBox>
+    </HBox>
+
+    <!-- CONTENU -->
+    <VBox spacing="16" style="-fx-padding: 28 40 28 40;">
+
+        <!-- Titre + Retour -->
+        <HBox alignment="CENTER_LEFT">
+            <VBox HBox.hgrow="ALWAYS" spacing="4">
+                <Label fx:id="titreCours" text="Modifier le chapitre"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+            </VBox>
+            <Button text="Retour" onAction="#retour"
+                    style="-fx-background-color: transparent;
+                           -fx-border-color: #f5a623; -fx-text-fill: #f5a623;
+                           -fx-border-radius: 4; -fx-font-size: 12px;"/>
+        </HBox>
+
+        <!-- Carte blanche -->
+        <VBox spacing="16"
+              style="-fx-background-color: white; -fx-background-radius: 10;
+                     -fx-border-color: #e0e0e0; -fx-border-radius: 10; -fx-padding: 28;">
+
+            <VBox spacing="4">
+                <Label text="Titre" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                <TextField fx:id="titreChap" promptText="Titre du chapitre..."/>
+            </VBox>
+
+            <VBox spacing="4">
+                <Label text="Description" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                <TextArea fx:id="descChap" promptText="Description..." prefHeight="80" wrapText="true"/>
+            </VBox>
+
+            <HBox spacing="24">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Ordre" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    <TextField fx:id="ordreChap" promptText="ex: 1"/>
+                </VBox>
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Durée" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    <TextField fx:id="dureeChap" promptText="ex: 1h30 min"/>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="24">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Statut" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    <ComboBox fx:id="statutChap" prefWidth="300"/>
+                </VBox>
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Type de contenu" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    <ComboBox fx:id="typeContenu" prefWidth="300"/>
+                </VBox>
+            </HBox>
+
+            <VBox spacing="4">
+                <Label text="Contenu" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                <TextField fx:id="contenuChap" promptText="ex: intro.pdf"/>
+            </VBox>
+
+            <HBox alignment="CENTER_RIGHT" spacing="12">
+                <Button text="Annuler" onAction="#annuler"/>
+                <Button text="Modifier" onAction="#modifierChapitre"
+                        style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-background-radius: 6;"/>
+            </HBox>
+
+        </VBox>
+    </VBox>
+</VBox>

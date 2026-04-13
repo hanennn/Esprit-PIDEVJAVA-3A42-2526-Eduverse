@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.controllers.catalogueChapitresController"
+      prefHeight="700.0" prefWidth="1150.0"
+      spacing="0" style="-fx-background-color: #f4f6f8;">
+
+    <!-- NAVBAR -->
+    <HBox minHeight="64" spacing="0">
+        <HBox alignment="CENTER_LEFT" minWidth="320"
+              style="-fx-background-color: #1a1a2e; -fx-padding: 0 0 0 30;">
+            <Label text="Edu"   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text="verse" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+        </HBox>
+        <HBox alignment="CENTER" HBox.hgrow="ALWAYS" spacing="28"
+              style="-fx-background-color: #f5a623; -fx-padding: 0 40;">
+            <Label text="ACCUEIL"    style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="À PROPOS"   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="BOURSES"    style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="COURS"      style="-fx-text-fill: #1a1a2e; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="ÉVÉNEMENTS" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="FORUM"      style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="CONTACT"    style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+        </HBox>
+    </HBox>
+
+    <VBox VBox.vgrow="ALWAYS" spacing="20" style="-fx-background-color: #f4f6f8;">
+        <padding><Insets top="16" right="60" bottom="40" left="60"/></padding>
+
+        <!-- Retour -->
+        <Label text="Retour Au Catalogue"
+               onMouseClicked="#retour"
+               style="-fx-text-fill: #555; -fx-font-size: 13px; -fx-cursor: hand;"/>
+
+        <!-- TITRE SECTION -->
+        <Label text="Contenu du cours"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+        <!-- TABLE -->
+        <VBox VBox.vgrow="ALWAYS"
+              style="-fx-background-color: white;
+                     -fx-background-radius: 12;
+                     -fx-border-color: #e8e8e8;
+                     -fx-border-radius: 12;
+                     -fx-border-width: 1;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);">
+
+            <TableView fx:id="tableChapitres"
+                       VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <columns>
+                    <TableColumn fx:id="colNumero"  text="#"           prefWidth="50"/>
+                    <TableColumn fx:id="colTitre"   text="Titre"       prefWidth="180"/>
+                    <TableColumn fx:id="colDesc"    text="Description" prefWidth="280"/>
+                    <TableColumn fx:id="colOrdre"   text="Ordre"       prefWidth="70"/>
+                    <TableColumn fx:id="colDuree"   text="Durée"       prefWidth="100"/>
+                    <TableColumn fx:id="colStatut"  text="Statut"      prefWidth="120"/>
+                    <TableColumn fx:id="colType"    text="Type"        prefWidth="80"/>
+                    <TableColumn fx:id="colActions" text="Voir"        prefWidth="120"/>
+                </columns>
+
+                <placeholder>
+                    <Label text="Aucun chapitre disponible."
+                           style="-fx-text-fill: #aaa; -fx-font-size: 13px;"/>
+                </placeholder>
+
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+
+    </VBox>
+
+</VBox>

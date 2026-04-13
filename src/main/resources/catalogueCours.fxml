@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.catalogueCoursController"
+      prefWidth="900" prefHeight="650"
+      style="-fx-background-color: #f0f2f5;">
+
+    <!-- NAVBAR -->
+    <HBox prefHeight="60">
+        <HBox prefWidth="260" prefHeight="60" alignment="CENTER"
+              style="-fx-background-color: #1a1a2e;">
+            <Label text="Edu"
+                   style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label text="verse"
+                   style="-fx-text-fill: #f5a623; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+        </HBox>
+        <HBox HBox.hgrow="ALWAYS" prefHeight="60" alignment="CENTER" spacing="24"
+              style="-fx-background-color: #f5a623;">
+            <Label text="ACCUEIL"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="À PROPOS"   style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="BOURSES"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="COURS"      style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="ÉVÉNEMENTS" style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="FORUM"      style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="CONTACT"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Button text="Vue Enseignant" onAction="#versEnseignant"
+                    style="-fx-background-color: white; -fx-text-fill: #1a1a2e;
+                           -fx-border-color: #1a1a2e; -fx-border-radius: 4;
+                           -fx-font-size: 11px; -fx-font-weight: bold;"/>
+        </HBox>
+    </HBox>
+
+    <!-- TITRE -->
+    <Label text="Catalogue des Cours" alignment="CENTER" maxWidth="Infinity"
+           style="-fx-font-size: 28px; -fx-font-weight: bold;
+                  -fx-text-fill: #1a1a2e; -fx-padding: 20 0 10 0;"/>
+
+    <!-- BARRE DE RECHERCHE -->
+    <HBox spacing="16" alignment="CENTER_LEFT"
+          style="-fx-background-color: white; -fx-background-radius: 10;
+                 -fx-border-color: #e0e0e0; -fx-border-radius: 10;
+                 -fx-padding: 16 28 16 28;">
+
+        <Label text="Critère :" style="-fx-font-size: 13px; -fx-text-fill: #555;"/>
+
+        <ComboBox fx:id="critereRecherche" prefWidth="120"
+                  onAction="#filtrerCours"/>
+
+        <TextField fx:id="searchField"
+                   promptText="Rechercher un cours..."
+                   HBox.hgrow="ALWAYS"
+                   onKeyReleased="#filtrerCours"/>
+
+        <Label text="Trier par :" style="-fx-font-size: 13px; -fx-text-fill: #555;"/>
+
+        <ComboBox fx:id="trierPar" prefWidth="120"
+                  onAction="#filtrerCours"/>
+
+        <Button text="🔍" onAction="#filtrerCours"
+                style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                       -fx-background-radius: 6; -fx-font-size: 14px;
+                       -fx-padding: 8 16;"/>
+    </HBox>
+
+    <!-- LISTE DES COURS -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background: transparent;
+                       -fx-background-color: transparent;">
+        <VBox fx:id="listContainer" spacing="16"
+              style="-fx-padding: 0 40 20 40;"/>
+    </ScrollPane>
+
+</VBox>
