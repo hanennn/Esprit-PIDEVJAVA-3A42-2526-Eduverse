@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="620.0" prefWidth="1100.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AdminController">
+    <children>
+
+        <Label layoutX="20.0" layoutY="20.0" text="Gestion des Utilisateurs"
+               style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+        <Button fx:id="addUserBtn" layoutX="20.0" layoutY="60.0"
+                prefWidth="120.0" text="➕ Ajouter" onAction="#goToAddUser"/>
+
+        <Button fx:id="deleteUserBtn" layoutX="150.0" layoutY="60.0"
+                prefWidth="120.0" text="🗑 Supprimer" onAction="#SupprimerUser"/>
+
+        <TextField fx:id="searchField" layoutX="20.0" layoutY="100.0"
+                   prefWidth="220.0" promptText="Rechercher par username..."/>
+
+        <Button layoutX="250.0" layoutY="100.0"
+                prefWidth="90.0" text="Chercher" onAction="#searchUser"/>
+
+        <ComboBox fx:id="sortComboBox" layoutX="360.0" layoutY="100.0"
+                  prefWidth="180.0" promptText="Trier par..."
+                  onAction="#sortUsers"/>
+
+        <Button layoutX="550.0" layoutY="100.0"
+                prefWidth="110.0" text="Réinitialiser" onAction="#reinitialiser"/>
+
+        <TableView fx:id="usersTable" layoutX="20.0" layoutY="140.0"
+                   prefHeight="450.0" prefWidth="1060.0"
+                   editable="true">
+            <columns>
+                <TableColumn fx:id="idCol"            text="ID"           prefWidth="50.0"/>
+                <TableColumn fx:id="firstNameCol"      text="Prénom"          prefWidth="100.0"/>
+                <TableColumn fx:id="lastNameCol"     text="Nom"           prefWidth="100.0"/>
+                <TableColumn fx:id="usernameCol"      text="Username"       prefWidth="110.0"/>
+                <TableColumn fx:id="emailCol"          text="Email"         prefWidth="160.0"/>
+                <TableColumn fx:id="activeCol"        text="Actif"           prefWidth="60.0"/>
+                <TableColumn fx:id="dateInscriptionCol" text="Inscription"    prefWidth="120.0"/>
+                <TableColumn fx:id="roleCol"      text="Rôle"          prefWidth="110.0"/>
+                <TableColumn fx:id="specialtyCol"       text="Spécialité"      prefWidth="100.0"/>
+                <TableColumn fx:id="experienceCol"   text="Expérience"      prefWidth="100.0"/>
+                <TableColumn fx:id="googleIdCol"     text="Google ID"      prefWidth="100.0"/>
+            </columns>
+        </TableView>
+
+        <Button layoutX="1000.0" layoutY="100.0"
+                prefWidth="110.0" text="Se deconnecter" onAction="#logout"/>
+
+    </children>
+</AnchorPane>
