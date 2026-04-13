@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.PasserQuizController"
+      spacing="0" prefWidth="900" prefHeight="700"
+      style="-fx-background-color: #f4f6f9;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: #1a1f3c; -fx-padding: 15 25;">
+        <Label text="📚" style="-fx-font-size: 24;"/>
+        <Label text="edu" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <Label text="verse" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Label fx:id="timerLabel" text="⏱ 00:00"
+               style="-fx-font-size: 16; -fx-font-weight: bold;
+                      -fx-text-fill: white; -fx-background-color: #2d3561;
+                      -fx-background-radius: 8; -fx-padding: 6 16;"/>
+    </HBox>
+
+    <!-- Barre info -->
+    <HBox style="-fx-background-color: #f5a623; -fx-padding: 7 25;"
+          alignment="CENTER_LEFT" spacing="15">
+        <Label fx:id="quizTitreLabel" text="Quiz"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold; -fx-font-size: 13;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Label fx:id="progressLabel" text="0 / 0 questions"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- ProgressBar -->
+    <ProgressBar fx:id="progressBar" prefWidth="900" prefHeight="6"
+                 progress="0"
+                 style="-fx-accent: #1a1f3c; -fx-background-color: #f0c060;"/>
+
+    <!-- Contenu -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent;
+                       -fx-background: transparent;
+                       -fx-border-color: transparent;">
+        <content>
+            <VBox fx:id="mainContent" spacing="20" style="-fx-padding: 30;">
+
+                <!-- Liste questions -->
+                <VBox fx:id="questionsContainer" spacing="15"/>
+
+                <!-- Bouton soumettre -->
+                <Button fx:id="soumettreBtn"
+                        text="✅  Soumettre mes réponses"
+                        onAction="#soumettreQuiz"
+                        style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-font-size: 14;
+                               -fx-background-radius: 10; -fx-padding: 13 30;
+                               -fx-cursor: hand;"/>
+
+            </VBox>
+        </content>
+    </ScrollPane>
+</VBox>

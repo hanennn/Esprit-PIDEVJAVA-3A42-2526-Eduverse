@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.AccueilEtudiantController"
+      spacing="0" prefWidth="1100" prefHeight="700"
+      style="-fx-background-color: #f4f6f9;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: #1a1f3c; -fx-padding: 15 25;">
+        <Label text="📚" style="-fx-font-size: 24;"/>
+        <Label text="edu" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <Label text="verse" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+        <Label text=" — Espace Étudiant" style="-fx-font-size: 16; -fx-text-fill: #a0a8c0;"/>
+    </HBox>
+
+    <HBox style="-fx-background-color: #f5a623; -fx-padding: 7 25;"
+          alignment="CENTER_LEFT" spacing="10">
+        <Label text="🏠 Accueil  ›  Cours"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="⬅️ Changer d'espace" onAction="#retourChoixEspace"
+                style="-fx-background-color: #1a1f3c; -fx-text-fill: white;
+                       -fx-background-radius: 8; -fx-padding: 5 15; -fx-cursor: hand;
+                       -fx-font-weight: bold;"/>
+    </HBox>
+
+    <HBox VBox.vgrow="ALWAYS">
+
+        <!-- SIDEBAR -->
+        <VBox spacing="5" prefWidth="210"
+              style="-fx-background-color: #1a1f3c; -fx-padding: 20 0;">
+
+            <Label text="MENU"
+                   style="-fx-text-fill: #a0a8c0; -fx-font-size: 11;
+                          -fx-font-weight: bold; -fx-padding: 0 20 10 20;"/>
+
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 12 20; -fx-background-color: #f5a623;">
+                <Label text="🏠" style="-fx-font-size: 15;"/>
+                <Label text="Accueil" style="-fx-text-fill: white;
+                       -fx-font-size: 13; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 12 20; -fx-cursor: hand;">
+                <Label text="📖" style="-fx-font-size: 15;"/>
+                <Label text="Mes Cours" style="-fx-text-fill: #a0a8c0; -fx-font-size: 13;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 12 20; -fx-cursor: hand;">
+                <Label text="🏆" style="-fx-font-size: 15;"/>
+                <Label text="Certifications" style="-fx-text-fill: #a0a8c0; -fx-font-size: 13;"/>
+            </HBox>
+
+            <VBox style="-fx-background-color: #2d3561; -fx-min-height: 1;"/>
+
+            <Label text="COMPTE"
+                   style="-fx-text-fill: #a0a8c0; -fx-font-size: 11;
+                          -fx-font-weight: bold; -fx-padding: 10 20 10 20;"/>
+
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 12 20; -fx-cursor: hand;">
+                <Label text="⚙️" style="-fx-font-size: 15;"/>
+                <Label text="Paramètres" style="-fx-text-fill: #a0a8c0; -fx-font-size: 13;"/>
+            </HBox>
+
+            <!-- Bouton changer d'espace dans la sidebar -->
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  onMouseClicked="#retourChoixEspace"
+                  style="-fx-padding: 12 20; -fx-cursor: hand;">
+                <Label text="🔄" style="-fx-font-size: 15;"/>
+                <Label text="Changer espace" style="-fx-text-fill: #a0a8c0; -fx-font-size: 13;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 12 20; -fx-cursor: hand;">
+                <Label text="🚪" style="-fx-font-size: 15;"/>
+                <Label text="Déconnexion" style="-fx-text-fill: #a0a8c0; -fx-font-size: 13;"/>
+            </HBox>
+
+        </VBox>
+
+        <!-- CONTENU -->
+        <VBox spacing="20" VBox.vgrow="ALWAYS" style="-fx-padding: 25;">
+
+            <Label text="📖 Tous les Cours"
+                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+
+            <TextField fx:id="searchField"
+                       promptText="🔍 Rechercher un cours..."
+                       style="-fx-background-color: white; -fx-border-color: #dde1e7;
+                              -fx-border-radius: 8; -fx-background-radius: 8;
+                              -fx-padding: 10; -fx-font-size: 13; -fx-pref-width: 350;"/>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: transparent;
+                               -fx-background: transparent;
+                               -fx-border-color: transparent;">
+                <content>
+                    <FlowPane fx:id="coursContainer" hgap="20" vgap="20"
+                              style="-fx-padding: 5;"/>
+                </content>
+            </ScrollPane>
+
+        </VBox>
+    </HBox>
+</VBox>

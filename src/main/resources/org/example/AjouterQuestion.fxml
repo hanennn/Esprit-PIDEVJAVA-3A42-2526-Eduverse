@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.AjouterQuestionController"
+      spacing="0" prefWidth="1100" prefHeight="700"
+      style="-fx-background-color: #f4f6f9;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: #1a1f3c; -fx-padding: 15 25;">
+        <Label text="📚" style="-fx-font-size: 24;"/>
+        <Label text="edu" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <Label text="verse" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+        <Label text=" — Gestion des Questions"
+               style="-fx-font-size: 16; -fx-text-fill: #a0a8c0;"/>
+    </HBox>
+
+    <!-- Barre dorée avec bouton retour -->
+    <HBox style="-fx-background-color: #f5a623; -fx-padding: 7 25;"
+          alignment="CENTER_LEFT" spacing="10">
+        <Label text="🏠 Accueil  ›  Quiz  ›  Questions"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="⬅️ Retour au tableau de bord"
+                onAction="#goAccueil"
+                style="-fx-background-color: #1a1f3c; -fx-text-fill: white;
+                       -fx-font-weight: bold; -fx-background-radius: 8;
+                       -fx-padding: 6 16; -fx-cursor: hand;"/>
+    </HBox>
+
+    <!-- CONTENU sans sidebar -->
+    <HBox spacing="20" VBox.vgrow="ALWAYS" style="-fx-padding: 20;">
+
+        <!-- Formulaire -->
+        <ScrollPane fitToWidth="true" prefWidth="420"
+                    style="-fx-background-color: transparent;
+                           -fx-background: transparent;
+                           -fx-border-color: transparent;">
+            <content>
+                <VBox spacing="5"
+                      style="-fx-background-color: white;
+                             -fx-background-radius: 12; -fx-padding: 20;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 3);">
+
+                    <!-- Info quiz -->
+                    <HBox alignment="CENTER_LEFT" spacing="8"
+                          style="-fx-background-color: #f0f4ff;
+                                 -fx-background-radius: 8; -fx-padding: 10;">
+                        <Label text="📝" style="-fx-font-size: 14;"/>
+                        <Label fx:id="quizTitreLabel" text="Quiz : —"
+                               style="-fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+                    </HBox>
+
+                    <Label text="➕ Nouvelle Question"
+                           style="-fx-font-size: 16; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a1f3c; -fx-padding: 8 0 0 0;"/>
+                    <HBox style="-fx-background-color: #f5a623;
+                                 -fx-min-height: 3; -fx-background-radius: 2;"/>
+
+                    <Label text="Question :"
+                           style="-fx-text-fill: #555; -fx-font-weight: bold;
+                                  -fx-padding: 6 0 0 0;"/>
+                    <TextArea fx:id="questionField"
+                              promptText="Entrez la question (min. 5 caractères)"
+                              prefHeight="75" wrapText="true"
+                              style="-fx-background-color: #f4f6f9; -fx-border-color: #dde1e7;
+                                     -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9;"/>
+                    <Label fx:id="questionError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;"/>
+
+                    <Label text="Points :"
+                           style="-fx-text-fill: #555; -fx-font-weight: bold;
+                                  -fx-padding: 4 0 0 0;"/>
+                    <TextField fx:id="pointsField"
+                               promptText="Ex: 5  (entre 1 et 100)"
+                               style="-fx-background-color: #f4f6f9; -fx-border-color: #dde1e7;
+                                      -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9;"/>
+                    <Label fx:id="pointsError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;"/>
+
+                    <Label text="Réponse A :"
+                           style="-fx-text-fill: #555; -fx-font-weight: bold;
+                                  -fx-padding: 4 0 0 0;"/>
+                    <TextField fx:id="reponseA" promptText="Réponse A"
+                               style="-fx-background-color: #f4f6f9; -fx-border-color: #dde1e7;
+                                      -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9;"/>
+                    <Label fx:id="reponseAError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;"/>
+
+                    <Label text="Réponse B :"
+                           style="-fx-text-fill: #555; -fx-font-weight: bold;
+                                  -fx-padding: 4 0 0 0;"/>
+                    <TextField fx:id="reponseB" promptText="Réponse B"
+                               style="-fx-background-color: #f4f6f9; -fx-border-color: #dde1e7;
+                                      -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9;"/>
+                    <Label fx:id="reponseBError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;"/>
+
+                    <Label text="Réponse C :"
+                           style="-fx-text-fill: #555; -fx-font-weight: bold;
+                                  -fx-padding: 4 0 0 0;"/>
+                    <TextField fx:id="reponseC" promptText="Réponse C"
+                               style="-fx-background-color: #f4f6f9; -fx-border-color: #dde1e7;
+                                      -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9;"/>
+                    <Label fx:id="reponseCError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;"/>
+
+                    <Label text="Réponse D :"
+                           style="-fx-text-fill: #555; -fx-font-weight: bold;
+                                  -fx-padding: 4 0 0 0;"/>
+                    <TextField fx:id="reponseD" promptText="Réponse D"
+                               style="-fx-background-color: #f4f6f9; -fx-border-color: #dde1e7;
+                                      -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9;"/>
+                    <Label fx:id="reponseDError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;"/>
+
+                    <Label fx:id="reponsesError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;
+                                  -fx-font-weight: bold;"/>
+
+                    <Label text="Bonne réponse :"
+                           style="-fx-text-fill: #555; -fx-font-weight: bold;
+                                  -fx-padding: 4 0 0 0;"/>
+                    <ComboBox fx:id="bonneReponseBox"
+                              promptText="Choisir la bonne réponse"
+                              prefWidth="380"
+                              style="-fx-background-color: #f4f6f9; -fx-border-color: #dde1e7;
+                                     -fx-border-radius: 8; -fx-background-radius: 8;"/>
+                    <Label fx:id="bonneReponseError" text=""
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 11;"/>
+
+                    <VBox spacing="8" style="-fx-padding: 10 0 0 0;">
+
+                        <Button text="✅  Ajouter Question"
+                                onAction="#ajouterQuestion" prefWidth="380"
+                                style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-font-size: 13;
+                                       -fx-background-radius: 8; -fx-padding: 11;
+                                       -fx-cursor: hand;"/>
+
+                        <Button text="✏️  Modifier"
+                                onAction="#modifierQuestion" prefWidth="380"
+                                style="-fx-background-color: #1a1f3c; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-font-size: 13;
+                                       -fx-background-radius: 8; -fx-padding: 11;
+                                       -fx-cursor: hand;"/>
+
+                        <Button text="🗑️  Supprimer"
+                                onAction="#supprimerQuestion" prefWidth="380"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-font-size: 13;
+                                       -fx-background-radius: 8; -fx-padding: 11;
+                                       -fx-cursor: hand;"/>
+
+                        <Button text="🔄  Annuler"
+                                onAction="#annuler" prefWidth="380"
+                                style="-fx-background-color: #f4f6f9; -fx-text-fill: #555;
+                                       -fx-font-size: 13; -fx-border-color: #dde1e7;
+                                       -fx-border-radius: 8; -fx-background-radius: 8;
+                                       -fx-padding: 11; -fx-cursor: hand;"/>
+
+                        <Button text="⬅️  Retour aux Quiz"
+                                onAction="#retourQuiz" prefWidth="380"
+                                style="-fx-background-color: #2196F3; -fx-text-fill: white;
+                                       -fx-font-size: 13; -fx-background-radius: 8;
+                                       -fx-padding: 11; -fx-cursor: hand;"/>
+
+                        <Button text="🏠  Retour au tableau de bord"
+                                onAction="#goAccueil" prefWidth="380"
+                                style="-fx-background-color: #2d3561; -fx-text-fill: white;
+                                       -fx-font-size: 13; -fx-background-radius: 8;
+                                       -fx-padding: 11; -fx-cursor: hand;"/>
+                    </VBox>
+
+                    <Label fx:id="messageLabel" text="" wrapText="true"
+                           style="-fx-font-size: 12; -fx-font-weight: bold;"/>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <!-- TableView -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="📋 Questions du Quiz"
+                       style="-fx-font-size: 16; -fx-font-weight: bold;
+                              -fx-text-fill: #1a1f3c;"/>
+                <Button text="🔃 Rafraîchir" onAction="#chargerQuestions"
+                        style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-background-radius: 8;
+                               -fx-padding: 7 16; -fx-cursor: hand;"/>
+            </HBox>
+
+            <TableView fx:id="questionTable" VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: white; -fx-background-radius: 12;
+                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 3);">
+                <columns>
+                    <TableColumn fx:id="idCol"       text="ID"         prefWidth="50"/>
+                    <TableColumn fx:id="questionCol" text="Question"    prefWidth="200"/>
+                    <TableColumn fx:id="pointsCol"   text="Points"      prefWidth="70"/>
+                    <TableColumn fx:id="reponseACol" text="A"           prefWidth="100"/>
+                    <TableColumn fx:id="reponseBCol" text="B"           prefWidth="100"/>
+                    <TableColumn fx:id="reponseCCol" text="C"           prefWidth="100"/>
+                    <TableColumn fx:id="reponseDCol" text="D"           prefWidth="100"/>
+                    <TableColumn fx:id="correcteCol" text="✅ Correcte" prefWidth="90"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+    </HBox>
+</VBox>

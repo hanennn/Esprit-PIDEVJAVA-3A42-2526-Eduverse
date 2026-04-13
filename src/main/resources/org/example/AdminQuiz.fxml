@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.AdminQuizController"
+      spacing="0" prefWidth="1100" prefHeight="700"
+      style="-fx-background-color: #f4f6f9;">
+
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: #1a1f3c; -fx-padding: 15 25;">
+        <Label text="📚" style="-fx-font-size: 24;"/>
+        <Label text="edu" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <Label text="verse" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+        <Label text=" — Espace Admin"
+               style="-fx-font-size: 16; -fx-text-fill: #a0a8c0;"/>
+    </HBox>
+
+    <HBox style="-fx-background-color: #f5a623; -fx-padding: 7 25;"
+          alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="breadcrumb" text="🏠 Admin  ›  Quiz"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="⬅️ Changer d'espace" onAction="#retourAccueil"
+                style="-fx-background-color: #1a1f3c; -fx-text-fill: white;
+                       -fx-background-radius: 8; -fx-padding: 5 15;
+                       -fx-cursor: hand; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <HBox VBox.vgrow="ALWAYS">
+
+        <!-- SIDEBAR -->
+        <VBox spacing="5" prefWidth="210"
+              style="-fx-background-color: #1a1f3c; -fx-padding: 20 0;">
+
+            <Label text="MENU"
+                   style="-fx-text-fill: #a0a8c0; -fx-font-size: 11;
+                          -fx-font-weight: bold; -fx-padding: 0 20 10 20;"/>
+
+            <HBox fx:id="menuQuiz" alignment="CENTER_LEFT" spacing="10"
+                  onMouseClicked="#afficherQuiz"
+                  style="-fx-padding: 12 20; -fx-background-color: #f5a623;
+                         -fx-cursor: hand;">
+                <Label text="📝" style="-fx-font-size: 15;"/>
+                <Label text="Quiz" style="-fx-text-fill: white;
+                       -fx-font-size: 13; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <HBox fx:id="menuCertif" alignment="CENTER_LEFT" spacing="10"
+                  onMouseClicked="#afficherCertifications"
+                  style="-fx-padding: 12 20; -fx-cursor: hand;">
+                <Label text="🏆" style="-fx-font-size: 15;"/>
+                <Label text="Certifications"
+                       style="-fx-text-fill: #a0a8c0; -fx-font-size: 13;"/>
+            </HBox>
+
+            <VBox style="-fx-background-color: #2d3561; -fx-min-height: 1;"/>
+
+            <Label text="COMPTE"
+                   style="-fx-text-fill: #a0a8c0; -fx-font-size: 11;
+                          -fx-font-weight: bold; -fx-padding: 10 20 10 20;"/>
+
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  onMouseClicked="#retourAccueil"
+                  style="-fx-padding: 12 20; -fx-cursor: hand;">
+                <Label text="🔄" style="-fx-font-size: 15;"/>
+                <Label text="Changer espace"
+                       style="-fx-text-fill: #a0a8c0; -fx-font-size: 13;"/>
+            </HBox>
+
+        </VBox>
+
+        <!-- CONTENU -->
+        <VBox spacing="0" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS"
+              style="-fx-padding: 25;">
+
+            <Label fx:id="titreSection" text="📝 Gestion des Quiz"
+                   style="-fx-font-size: 22; -fx-font-weight: bold;
+                          -fx-text-fill: #1a1f3c; -fx-padding: 0 0 15 0;"/>
+
+            <!-- Section Quiz -->
+            <VBox fx:id="sectionQuiz" spacing="15" VBox.vgrow="ALWAYS">
+
+                <!-- Header actions -->
+                <HBox alignment="CENTER_LEFT" spacing="12"
+                      style="-fx-background-color: white; -fx-background-radius: 10;
+                             -fx-padding: 15 20;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);">
+                    <Label text="📋 Tous les Quiz"
+                           style="-fx-font-size: 15; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a1f3c;"/>
+                    <HBox HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="quizCountLabel" text=""
+                           style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                  -fx-font-size: 11; -fx-font-weight: bold;
+                                  -fx-background-radius: 20; -fx-padding: 4 12;"/>
+                    <Button text="🔃  Rafraîchir" onAction="#chargerQuiz"
+                            style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-background-radius: 8;
+                                   -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 12;"/>
+                </HBox>
+
+                <!-- Tableau stylisé -->
+                <VBox VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 12;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 3);">
+
+                    <TableView fx:id="quizTable" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color: transparent;
+                                      -fx-background-radius: 12;
+                                      -fx-border-color: transparent;">
+                        <columns>
+                            <TableColumn fx:id="idCol"    text="ID"
+                                         prefWidth="60"  minWidth="60"/>
+                            <TableColumn fx:id="titreCol" text="Titre"
+                                         prefWidth="220" minWidth="150"/>
+                            <TableColumn fx:id="typeCol"  text="Type"
+                                         prefWidth="130" minWidth="100"/>
+                            <TableColumn fx:id="dureeCol" text="Durée (min)"
+                                         prefWidth="110" minWidth="90"/>
+                            <TableColumn fx:id="scoreCol" text="Score Min"
+                                         prefWidth="110" minWidth="90"/>
+                            <TableColumn fx:id="coursCol" text="Cours"
+                                         prefWidth="160" minWidth="100"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="Aucun quiz disponible"
+                                   style="-fx-text-fill: #aaa; -fx-font-size: 14;"/>
+                        </placeholder>
+                    </TableView>
+
+                </VBox>
+
+                <!-- Bouton supprimer stylisé -->
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Button text="🗑️  Supprimer le Quiz sélectionné"
+                            onAction="#supprimerQuiz"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13;
+                                   -fx-background-radius: 10; -fx-padding: 12 25;
+                                   -fx-cursor: hand;
+                                   -fx-effect: dropshadow(gaussian, rgba(231,76,60,0.4), 8, 0, 0, 3);"/>
+                    <Label fx:id="messageQuiz" text="" wrapText="true"
+                           style="-fx-font-size: 12; -fx-font-weight: bold;"/>
+                </HBox>
+
+            </VBox>
+
+            <!-- Section Certifications -->
+            <VBox fx:id="sectionCertif" spacing="12" VBox.vgrow="ALWAYS"
+                  managed="false" visible="false">
+
+                <HBox alignment="CENTER_LEFT" spacing="12"
+                      style="-fx-background-color: white; -fx-background-radius: 10;
+                             -fx-padding: 15 20;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);">
+                    <Label text="🏆 Toutes les Certifications"
+                           style="-fx-font-size: 15; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a1f3c;"/>
+                    <HBox HBox.hgrow="ALWAYS"/>
+                    <Button text="🔃  Rafraîchir" onAction="#chargerCertifications"
+                            style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-background-radius: 8;
+                                   -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 12;"/>
+                </HBox>
+
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent;
+                                   -fx-background: transparent;
+                                   -fx-border-color: transparent;">
+                    <content>
+                        <VBox fx:id="certifContainer" spacing="15"
+                              style="-fx-padding: 5;"/>
+                    </content>
+                </ScrollPane>
+
+            </VBox>
+
+        </VBox>
+    </HBox>
+</VBox>
