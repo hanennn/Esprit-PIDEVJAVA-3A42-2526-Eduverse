@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.demandes.DetailDemandeController">
+    <children>
+        <Label layoutX="320.0" layoutY="30.0" text="Détail de la Demande" textFill="#2c3e50">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+        </Label>
+
+        <VBox layoutX="250.0" layoutY="100.0" prefHeight="400.0" prefWidth="400.0" spacing="15.0">
+            <children>
+                <TextField fx:id="tfNiveauEtudes" editable="false" promptText="Niveau d'études" style="-fx-background-radius: 5; -fx-opacity: 0.8;" />
+                <ComboBox fx:id="cbStatut" disable="true" prefWidth="400.0" promptText="Sélectionner un statut" style="-fx-background-radius: 5; -fx-opacity: 0.8;" />
+                <TextArea fx:id="taLettreMotivation" editable="false" prefHeight="100.0" prefWidth="400.0" promptText="Lettre de motivation (min 50 caractères)" style="-fx-background-radius: 5; -fx-opacity: 0.8;" />
+
+                <Label fx:id="lblErreur" text="Message d'erreur" textFill="RED" visible="false">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+
+        <HBox layoutX="150.0" layoutY="520.0" prefHeight="35.0" prefWidth="600.0" spacing="20.0">
+            <children>
+                <Button fx:id="btnModifier" mnemonicParsing="false" onAction="#activerModification" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Modifier" />
+                <Button fx:id="btnSauvegarder" disable="true" mnemonicParsing="false" onAction="#sauvegarder" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Sauvegarder" />
+                <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#supprimer" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Supprimer" />
+                <Button mnemonicParsing="false" onAction="#retourListe" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Retour" />
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

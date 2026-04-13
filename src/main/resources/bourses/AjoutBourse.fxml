@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.bourses.AjoutBourseController">
+    <children>
+        <Label layoutX="320.0" layoutY="30.0" text="Ajouter une Bourse" textFill="#2c3e50">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+        </Label>
+
+        <VBox layoutX="250.0" layoutY="100.0" prefHeight="400.0" prefWidth="400.0" spacing="15.0">
+            <children>
+                <TextField fx:id="tfTitre" promptText="Titre de la bourse" style="-fx-background-radius: 5;" />
+                <TextArea fx:id="taDescription" prefHeight="80.0" prefWidth="400.0" promptText="Description" style="-fx-background-radius: 5;" />
+                <TextField fx:id="tfMontant" promptText="Montant (DT)" style="-fx-background-radius: 5;" />
+                <DatePicker fx:id="dpDateAttribution" prefWidth="400.0" promptText="Date d'attribution" />
+                <DatePicker fx:id="dpDateFin" prefWidth="400.0" promptText="Date de fin" />
+
+                <!-- Label d'erreur -->
+                <Label fx:id="lblErreur" text="Message d'erreur" textFill="RED" visible="false">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+
+        <Button layoutX="250.0" layoutY="520.0" mnemonicParsing="false" onAction="#ajouterBourse" prefHeight="35.0" prefWidth="180.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Enregistrer" />
+        <Button layoutX="470.0" layoutY="520.0" mnemonicParsing="false" onAction="#annuler" prefHeight="35.0" prefWidth="180.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Annuler" />
+    </children>
+</AnchorPane>

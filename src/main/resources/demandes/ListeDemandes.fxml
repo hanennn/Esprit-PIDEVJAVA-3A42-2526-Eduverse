@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.demandes.ListeDemandesController">
+   <children>
+      <Label layoutX="320.0" layoutY="24.0" text="Gestion des Demandes" textFill="#2c3e50">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      
+      <HBox layoutX="50.0" layoutY="80.0" prefHeight="30.0" prefWidth="800.0" spacing="10.0">
+         <children>
+            <Button fx:id="btnRetour" mnemonicParsing="false" onAction="#retourBourses" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Retour Bourses" />
+         </children>
+      </HBox>
+      
+      <TableView fx:id="tableView" layoutX="50.0" layoutY="130.0" prefHeight="420.0" prefWidth="800.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+        <columns>
+          <TableColumn fx:id="colNiveau" prefWidth="200.0" text="Niveau Etudes" />
+          <TableColumn fx:id="colStatut" prefWidth="200.0" text="Statut" />
+          <TableColumn fx:id="colDate" prefWidth="250.0" text="Date Demande" />
+          <TableColumn fx:id="colBourseId" prefWidth="150.0" text="Bourse ID" />
+        </columns>
+      </TableView>
+      
+   </children>
+</AnchorPane>
