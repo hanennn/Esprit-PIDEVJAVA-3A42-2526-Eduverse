@@ -12,13 +12,15 @@ public class AjoutCoursController {
     @FXML private TextArea  descCours;
     @FXML private TextField niveauCours;
     @FXML private TextField matiereCours;
-    @FXML private TextField langueCours;
+    @FXML private ComboBox<String> langueCours;
+
 
     @FXML
+    public void initialize() {
+        langueCours.getItems().addAll("Français", "Anglais");
+    }
+    @FXML
     void ajouterCours()  {
-
-        // ✅ CONTROLE DE SAISIE
-
         titreCours.setStyle("");
         descCours.setStyle("");
         niveauCours.setStyle("");
@@ -30,7 +32,7 @@ public class AjoutCoursController {
         String desc = descCours.getText().trim();
         String niveau = niveauCours.getText().trim();
         String matiere = matiereCours.getText().trim();
-        String langue = langueCours.getText().trim();
+        String langue  = langueCours.getValue() != null ? langueCours.getValue().trim() : "";
 
         if (titre.isEmpty()) {
             showError("Le titre est obligatoire !");
@@ -85,21 +87,8 @@ public class AjoutCoursController {
             langueCours.setStyle("-fx-border-color: red;");
             return;
         }
-        if (langue.length() < 5) {
-            showError("La langue doit contenir au moins 5 caractères !");
-            langueCours.setStyle("-fx-border-color: red;");
-            return;
-        }
 
-        // INSERTION EN BD
-        cours c = new cours(
-                titreCours.getText(),
-                descCours.getText(),
-                niveauCours.getText(),
-                matiereCours.getText(),
-                langueCours.getText()
-        );
-
+        cours c = new cours(titre, desc, niveau, matiere, langue);
         // doublon
         try {
             new coursservices().ajouter(c);
@@ -122,7 +111,7 @@ public class AjoutCoursController {
         descCours.clear();
         niveauCours.clear();
         matiereCours.clear();
-        langueCours.clear();
+        langueCours.setValue(null);
 
         // Réinitialiser les bordures
         titreCours.setStyle("");

@@ -23,7 +23,7 @@ public class chapitresservices implements ICrud<chapitres> {
         ps.setInt(2, chapitre.getCours_id());
         ResultSet rs = ps.executeQuery();
         rs.next();
-        if (rs.getInt(1) > 0) {
+        if (rs.getInt(1) > 0) { // il ya une col
             throw new SQLException("Ce chapitre existe déjà dans ce cours !");
         }
 

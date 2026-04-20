@@ -88,12 +88,13 @@
                 </VBox>
             </HBox>
 
-            <!-- Langue -->
+            <!-- Langue ← ComboBox -->
             <VBox spacing="4">
                 <Label text="Langue"
                        style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
-                <TextField fx:id="langueCours"
-                           promptText="ex: Français, Anglais..."/>
+                <ComboBox fx:id="langueCours"
+                          promptText="Sélectionnez une langue..."
+                          maxWidth="Infinity"/>
             </VBox>
 
             <!-- Boutons -->

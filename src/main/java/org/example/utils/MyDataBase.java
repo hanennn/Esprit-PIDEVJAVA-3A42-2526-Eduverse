@@ -14,13 +14,13 @@ public class MyDataBase {
 
     private MyDataBase(){
         try {
-            connection= DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            connection= DriverManager.getConnection(URL,USERNAME,PASSWORD); //ouvre conx
             System.out.println("Connected to database successfully");
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
-
+//pattern singleton
     public static MyDataBase getInstance(){
         if(instance==null){
             instance=new MyDataBase();
