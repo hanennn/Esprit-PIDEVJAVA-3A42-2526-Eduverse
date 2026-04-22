@@ -77,8 +77,12 @@
             <!-- Contenu -->
             <VBox spacing="4">
                 <Label text="Contenu" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
-                <TextField fx:id="contenuChap" promptText="ex: intro.pdf"/>
-
+                <HBox spacing="8">
+                    <TextField fx:id="contenuChap" promptText="ex: intro.pdf" HBox.hgrow="ALWAYS"/>
+                    <Button text="Parcourir" onAction="#choisirFichier"
+                            style="-fx-background-color: #1a1a2e; -fx-text-fill: white;
+                       -fx-font-weight: bold; -fx-background-radius: 6;"/>
+                </HBox>
             </VBox>
 
             <!-- Boutons -->

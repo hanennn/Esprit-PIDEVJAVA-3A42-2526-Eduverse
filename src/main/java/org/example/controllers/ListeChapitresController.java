@@ -101,7 +101,7 @@ public class ListeChapitresController {
                 }
             });
 
-            // ✅ BOUTON VOIR + 🔒
+            // ✅ BOUTON VOIR
             // BOUTONS ÉDITER + SUPPRIMER (formateur)
             colActions.setCellFactory(col -> new TableCell<>() {
                 final Button btnEditer    = new Button("Éditer");

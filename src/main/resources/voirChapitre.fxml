@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.controllers.VoirChapitreController"
+      prefHeight="750.0" prefWidth="1150.0"
+      style="-fx-background-color: #f4f6f8;">
+
+    <!-- NAVBAR -->
+    <HBox minHeight="64">
+        <HBox alignment="CENTER_LEFT" minWidth="320"
+              style="-fx-background-color: #1a1a2e; -fx-padding: 0 0 0 30;">
+            <Label text="Edu"   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text="verse" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+        </HBox>
+        <HBox alignment="CENTER" HBox.hgrow="ALWAYS" spacing="28"
+              style="-fx-background-color: #f5a623; -fx-padding: 0 40;">
+            <Label text="ACCUEIL"    style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="COURS"      style="-fx-text-fill: #1a1a2e; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="FORUM"      style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+        </HBox>
+    </HBox>
+
+    <VBox VBox.vgrow="ALWAYS" spacing="12">
+        <padding><Insets top="16" right="60" bottom="20" left="60"/></padding>
+
+        <!-- Retour -->
+        <Label text="← Retour Au Cours" onMouseClicked="#retour"
+               style="-fx-text-fill: #555; -fx-font-size: 13px; -fx-cursor: hand;"/>
+
+        <!-- Infos chapitre -->
+        <Label fx:id="labelTitre" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+        <Label fx:id="labelDesc"  style="-fx-font-size: 13px; -fx-text-fill: #666;" wrapText="true"/>
+
+        <!-- Badges -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label fx:id="labelOrdre"  style="-fx-background-color:#17a2b8; -fx-text-fill:white; -fx-background-radius:20; -fx-padding:4 12; -fx-font-size:11px; -fx-font-weight:bold;"/>
+            <Label fx:id="labelDuree"  style="-fx-background-color:#1a1a2e; -fx-text-fill:white; -fx-background-radius:20; -fx-padding:4 12; -fx-font-size:11px; -fx-font-weight:bold;"/>
+            <Label fx:id="labelStatut" style="-fx-background-color:#28a745; -fx-text-fill:white; -fx-background-radius:20; -fx-padding:4 12; -fx-font-size:11px; -fx-font-weight:bold;"/>
+            <Label fx:id="labelType"   style="-fx-text-fill:#555; -fx-font-size:12px; -fx-font-weight:bold;"/>
+        </HBox>
+
+        <!-- Barre de navigation PDF -->
+        <HBox alignment="CENTER" spacing="12"
+              style="-fx-background-color:#323232; -fx-padding:8 16; -fx-background-radius:8;">
+            <Button fx:id="btnPrev" text="◀ Précédent" onAction="#pagePrecedente"
+                    style="-fx-background-color:#555; -fx-text-fill:white; -fx-background-radius:4;"/>
+            <Button fx:id="btnNext" text="Suivant ▶"   onAction="#pageSuivante"
+                    style="-fx-background-color:#555; -fx-text-fill:white; -fx-background-radius:4;"/>
+            <Label fx:id="labelPageInfo" text="Chargement..."
+                   style="-fx-text-fill:white; -fx-font-size:13px;" HBox.hgrow="ALWAYS"/>
+            <Button text="－" onAction="#zoomOut"
+                    style="-fx-background-color:#f5a623; -fx-text-fill:white; -fx-background-radius:4;"/>
+            <Button text="＋" onAction="#zoomIn"
+                    style="-fx-background-color:#f5a623; -fx-text-fill:white; -fx-background-radius:4;"/>
+        </HBox>
+
+        <!-- Affichage PDF -->
+        <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true"
+                    style="-fx-background-color:#404040; -fx-background:transparent;">
+            <VBox fx:id="pdfContainer" alignment="CENTER"
+                  style="-fx-background-color:#404040; -fx-padding:20;">
+                <ImageView fx:id="imageViewPdf" fitWidth="800" preserveRatio="true"/>
+            </VBox>
+        </ScrollPane>
+
+    </VBox>
+</VBox>

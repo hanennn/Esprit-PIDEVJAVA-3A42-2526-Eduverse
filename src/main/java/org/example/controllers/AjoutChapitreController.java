@@ -9,7 +9,6 @@ import org.example.entities.cours;
 import org.example.services.chapitresservices;
 import java.sql.SQLException;
 
-//fichier pdf
 import javafx.stage.FileChooser;
 import java.io.File;
 
@@ -34,15 +33,57 @@ public class AjoutChapitreController {
     @FXML
     public void initialize() {
         statutChap.getItems().addAll("OUVERT", "NON OUVERT");
-        statutChap.setValue("Non ouvert");
-        typeContenu.getItems().addAll("pdf", "video", "image", "texte");
-        typeContenu.setValue("texte");
+        statutChap.setValue("NON OUVERT");
+        typeContenu.getItems().addAll("pdf", "image");
+        typeContenu.setValue("pdf");
+
+        // Adapter le champ contenu selon le type sélectionné
+        typeContenu.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if ("texte".equals(newVal)) {
+                contenuChap.setPromptText("Saisissez le contenu texte...");
+                contenuChap.setEditable(true);
+                contenuChap.clear();
+            } else {
+                contenuChap.setPromptText("Cliquez sur 'Parcourir' pour choisir un fichier...");
+                contenuChap.setEditable(false);
+                contenuChap.clear();
+            }
+        });
+    }
+
+    @FXML
+    void choisirFichier() {
+        String type = typeContenu.getValue();
+
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir un fichier");
+
+        switch (type) {
+            case "pdf":
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
+                break;
+            case "video":
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("Fichiers Vidéo", "*.mp4", "*.avi", "*.mkv", "*.mov"));
+                break;
+            case "image":
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp"));
+                break;
+        }
+
+        File fichier = fileChooser.showOpenDialog(contenuChap.getScene().getWindow());
+        if (fichier != null) {
+            contenuChap.setText(fichier.getAbsolutePath());
+        }
     }
 
     @FXML
     void ajouterChapitre() throws SQLException {
 
-        // Contrôle de saisie amélioré
+        // Validation : titre
         if (titreChap.getText().trim().length() < 3) {
             showError("Le titre doit contenir au moins 3 caractères !");
             titreChap.setStyle("-fx-border-color: red;");
@@ -50,6 +91,7 @@ public class AjoutChapitreController {
             return;
         }
 
+        // Validation : description
         if (descChap.getText().trim().length() < 10) {
             showError("La description doit contenir au moins 10 caractères !");
             descChap.setStyle("-fx-border-color: red;");
@@ -57,13 +99,24 @@ public class AjoutChapitreController {
             return;
         }
 
-        if (Integer.parseInt(ordreChap.getText().trim()) < 0) {
-            showError("L'ordre doit être un entier !");
+        // Validation : ordre (doit être un entier positif)
+        int ordre;
+        try {
+            ordre = Integer.parseInt(ordreChap.getText().trim());
+            if (ordre < 0) {
+                showError("L'ordre doit être un entier positif !");
+                ordreChap.setStyle("-fx-border-color: red;");
+                ordreChap.requestFocus();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showError("L'ordre doit être un nombre entier valide !");
             ordreChap.setStyle("-fx-border-color: red;");
             ordreChap.requestFocus();
             return;
         }
 
+        // Validation : durée
         if (dureeChap.getText().trim().length() < 2) {
             showError("La durée doit contenir au moins 2 caractères !");
             dureeChap.setStyle("-fx-border-color: red;");
@@ -71,19 +124,40 @@ public class AjoutChapitreController {
             return;
         }
 
+        // Validation : contenu
+        if (contenuChap.getText().trim().isEmpty()) {
+            showError("Le contenu ne peut pas être vide !");
+            contenuChap.setStyle("-fx-border-color: red;");
+            contenuChap.requestFocus();
+            return;
+        }
+
+        // Validation : fichier PDF/video/image doit exister sur le disque
+        String type = typeContenu.getValue();
+        if (!"texte".equals(type)) {
+            File fichier = new File(contenuChap.getText().trim());
+            if (!fichier.exists() || !fichier.isFile()) {
+                showError("Le fichier sélectionné est introuvable. Veuillez choisir un fichier valide.");
+                contenuChap.setStyle("-fx-border-color: red;");
+                return;
+            }
+        }
+
+        // Réinitialiser les styles avant sauvegarde
+        resetStyles();
+
         chapitres ch = new chapitres(
-                titreChap.getText(),
-                descChap.getText(),
-                Integer.parseInt(ordreChap.getText()),
-                dureeChap.getText(),
+                titreChap.getText().trim(),
+                descChap.getText().trim(),
+                ordre,
+                dureeChap.getText().trim(),
                 statutChap.getValue(),
-                contenuChap.getText(),
+                contenuChap.getText().trim(),
                 typeContenu.getValue(),
                 ""
         );
-        ch.setCours_id(coursSelectionne.getId());//idcours
+        ch.setCours_id(coursSelectionne.getId());
 
-        // doublon
         try {
             new chapitresservices().ajouter(ch);
 
@@ -94,7 +168,7 @@ public class AjoutChapitreController {
 
             retour();
         } catch (SQLException e) {
-            showError(e.getMessage()); // affiche "Ce chapitre existe déjà dans ce cours !"
+            showError(e.getMessage());
             titreChap.setStyle("-fx-border-color: red;");
         }
     }
@@ -106,10 +180,7 @@ public class AjoutChapitreController {
         ordreChap.clear();
         dureeChap.clear();
         contenuChap.clear();
-        titreChap.setStyle("");
-        descChap.setStyle("");
-        ordreChap.setStyle("");
-        dureeChap.setStyle("");
+        resetStyles();
     }
 
     @FXML
@@ -125,7 +196,15 @@ public class AjoutChapitreController {
             System.err.println(e.getMessage());
         }
     }
-//alert error
+
+    private void resetStyles() {
+        titreChap.setStyle("");
+        descChap.setStyle("");
+        ordreChap.setStyle("");
+        dureeChap.setStyle("");
+        contenuChap.setStyle("");
+    }
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur de saisie");

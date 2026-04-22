@@ -14,9 +14,7 @@ import org.example.entities.cours;
 import org.example.services.chapitresservices;
 import org.example.services.coursservices;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
 
@@ -27,19 +25,22 @@ public class catalogueCoursController {
     @FXML private ComboBox<String> critereRecherche;
     @FXML private ComboBox<String> trierPar;
     @FXML private Button btnMesFavoris;
+    @FXML private HBox paginationBox; // à ajouter dans le FXML
 
-    // Persistance via Java Preferences (survit aux redémarrages)
     private final Preferences prefs = Preferences.userNodeForPackage(catalogueCoursController.class);
     private Set<Integer> favoris = new HashSet<>();
     private boolean afficherFavoris = false;
-
     private List<cours> tousLesCours;
+    private List<cours> coursFiltrés = new ArrayList<>();
+
+    // Pagination
+    private static final int PAR_PAGE = 2;
+    private int pageActuelle = 0;
 
     @FXML
     public void initialize() throws SQLException {
         tousLesCours = new coursservices().afficher();
 
-        // Charger favoris persistés
         String saved = prefs.get("favoris", "");
         if (!saved.isEmpty()) {
             for (String id : saved.split(",")) {
@@ -52,17 +53,16 @@ public class catalogueCoursController {
         critereRecherche.setValue("Titre");
         trierPar.getItems().addAll("Titre", "Niveau", "Langue", "Matière");
         trierPar.setValue("Titre");
-        afficherCours(tousLesCours);
+
+        filtrerCours();
         mettreAJourBtnFavoris();
     }
 
-    // Sauvegarde les favoris dans les préférences système
     private void sauvegarderFavoris() {
         String val = favoris.stream().map(String::valueOf).collect(Collectors.joining(","));
         prefs.put("favoris", val);
     }
 
-    // Met à jour le style du bouton "Mes Favoris" selon l'état actif/inactif
     private void mettreAJourBtnFavoris() {
         int nb = favoris.size();
         if (afficherFavoris) {
@@ -71,16 +71,14 @@ public class catalogueCoursController {
                     "-fx-background-color: #1a1a2e; -fx-text-fill: #f5a623;" +
                             "-fx-font-weight: bold; -fx-font-size: 11px;" +
                             "-fx-background-radius: 20; -fx-padding: 6 14;" +
-                            "-fx-border-color: #f5a623; -fx-border-radius: 20; -fx-border-width: 1.5;"
-            );
+                            "-fx-border-color: #f5a623; -fx-border-radius: 20; -fx-border-width: 1.5;");
         } else {
             btnMesFavoris.setText("★ Mes Favoris (" + nb + ")");
             btnMesFavoris.setStyle(
                     "-fx-background-color: transparent; -fx-text-fill: white;" +
                             "-fx-font-weight: bold; -fx-font-size: 11px;" +
                             "-fx-background-radius: 20; -fx-padding: 6 14;" +
-                            "-fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5;"
-            );
+                            "-fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5;");
         }
     }
 
@@ -97,9 +95,8 @@ public class catalogueCoursController {
         String critere = critereRecherche.getValue();
         String tri = trierPar.getValue();
 
-        List<cours> filtre = tousLesCours.stream()
+        coursFiltrés = tousLesCours.stream()
                 .filter(c -> {
-                    // Filtre favoris
                     if (afficherFavoris && !favoris.contains(c.getId())) return false;
                     if (recherche.isEmpty()) return true;
                     switch (critere) {
@@ -113,35 +110,98 @@ public class catalogueCoursController {
                                 c.getTitre_cours().toLowerCase().contains(recherche);
                     }
                 })
+                .sorted((a, b) -> {
+                    switch (tri) {
+                        case "Niveau":  return safe(a.getNiv_cours()).compareTo(safe(b.getNiv_cours()));
+                        case "Langue":  return safe(a.getLangue_cours()).compareTo(safe(b.getLangue_cours()));
+                        case "Matière": return safe(a.getMatiere_cours()).compareTo(safe(b.getMatiere_cours()));
+                        default:        return safe(a.getTitre_cours()).compareTo(safe(b.getTitre_cours()));
+                    }
+                })
                 .collect(Collectors.toList());
 
-        filtre.sort((a, b) -> {
-            switch (tri) {
-                case "Niveau":  return safe(a.getNiv_cours()).compareTo(safe(b.getNiv_cours()));
-                case "Langue":  return safe(a.getLangue_cours()).compareTo(safe(b.getLangue_cours()));
-                case "Matière": return safe(a.getMatiere_cours()).compareTo(safe(b.getMatiere_cours()));
-                default:        return safe(a.getTitre_cours()).compareTo(safe(b.getTitre_cours()));
-            }
-        });
+        pageActuelle = 0;
+        afficherPage();
+    }
 
-        afficherCours(filtre);
+    private void afficherPage() {
+        listContainer.getChildren().clear();
+
+        if (coursFiltrés.isEmpty() && afficherFavoris) {
+            Label vide = new Label("Aucun cours en favori pour l'instant ★");
+            vide.setStyle("-fx-font-size: 15px; -fx-text-fill: #aaa; -fx-padding: 40;");
+            listContainer.getChildren().add(vide);
+            mettreAJourPagination();
+            return;
+        }
+
+        int debut = pageActuelle * PAR_PAGE;
+        int fin   = Math.min(debut + PAR_PAGE, coursFiltrés.size());
+
+        for (int i = debut; i < fin; i++)
+            listContainer.getChildren().add(creerCarte(coursFiltrés.get(i)));
+
+        mettreAJourPagination();
+    }
+
+    private void mettreAJourPagination() {
+        paginationBox.getChildren().clear();
+
+        int totalPages = (int) Math.ceil((double) coursFiltrés.size() / PAR_PAGE);
+        if (totalPages <= 1) return;
+
+        // Bouton Précédent
+        Button prev = new Button("← Précédent");
+        prev.setDisable(pageActuelle == 0);
+        prev.setStyle(styleBtnPagination(false));
+        prev.setOnAction(e -> { pageActuelle--; afficherPage(); });
+
+        // Numéros de pages
+        HBox numeros = new HBox(6);
+        numeros.setAlignment(Pos.CENTER);
+        for (int i = 0; i < totalPages; i++) {
+            final int idx = i;
+            Button btn = new Button(String.valueOf(i + 1));
+            boolean actif = (i == pageActuelle);
+            btn.setStyle(actif ? styleBtnPageActif() : styleBtnPage());
+            btn.setOnAction(e -> { pageActuelle = idx; afficherPage(); });
+            numeros.getChildren().add(btn);
+        }
+
+        // Bouton Suivant
+        Button next = new Button("Suivant →");
+        next.setDisable(pageActuelle >= totalPages - 1);
+        next.setStyle(styleBtnPagination(false));
+        next.setOnAction(e -> { pageActuelle++; afficherPage(); });
+
+        // Info pages
+        Label info = new Label((pageActuelle + 1) + " / " + totalPages);
+        info.setStyle("-fx-font-size: 12px; -fx-text-fill: #888;");
+
+        paginationBox.getChildren().addAll(prev, numeros, next, info);
+    }
+
+    private String styleBtnPagination(boolean actif) {
+        return "-fx-background-color: " + (actif ? "#f5a623" : "#e0e0e0") + ";" +
+                "-fx-text-fill: " + (actif ? "white" : "#333") + ";" +
+                "-fx-background-radius: 6; -fx-font-size: 12px; -fx-padding: 6 14; -fx-cursor: hand;";
+    }
+
+    private String styleBtnPage() {
+        return "-fx-background-color: #e0e0e0; -fx-text-fill: #333;" +
+                "-fx-background-radius: 20; -fx-font-size: 12px;" +
+                "-fx-min-width: 32; -fx-min-height: 32; -fx-cursor: hand;";
+    }
+
+    private String styleBtnPageActif() {
+        return "-fx-background-color: #f5a623; -fx-text-fill: white;" +
+                "-fx-background-radius: 20; -fx-font-size: 12px; -fx-font-weight: bold;" +
+                "-fx-min-width: 32; -fx-min-height: 32; -fx-cursor: hand;";
     }
 
     private String safe(String s) { return s != null ? s : ""; }
 
-    private void afficherCours(List<cours> liste) {
-        listContainer.getChildren().clear();
-
-        if (liste.isEmpty() && afficherFavoris) {
-            Label vide = new Label("Aucun cours en favori pour l'instant ★");
-            vide.setStyle("-fx-font-size: 15px; -fx-text-fill: #aaa; -fx-padding: 40;");
-            listContainer.getChildren().add(vide);
-            return;
-        }
-
-        for (cours c : liste)
-            listContainer.getChildren().add(creerCarte(c));
-    }
+    // ============ FXML INCHANGÉ ============
 
     private VBox creerCarte(cours c) {
         VBox card = new VBox(0);
@@ -155,21 +215,14 @@ public class catalogueCoursController {
         btnFavori.setStyle(buildFavoriStyle(estFavori));
         btnFavori.setOnAction(e -> {
             boolean nowFavori;
-            if (favoris.contains(c.getId())) {
-                favoris.remove(c.getId());
-                nowFavori = false;
-            } else {
-                favoris.add(c.getId());
-                nowFavori = true;
-            }
+            if (favoris.contains(c.getId())) { favoris.remove(c.getId()); nowFavori = false; }
+            else                             { favoris.add(c.getId());    nowFavori = true;  }
             btnFavori.setText(nowFavori ? "♥" : "♡");
             btnFavori.setStyle(buildFavoriStyle(nowFavori));
             ScaleTransition st = new ScaleTransition(Duration.millis(150), btnFavori);
             st.setFromX(1.0); st.setFromY(1.0);
             st.setToX(1.4);   st.setToY(1.4);
-            st.setAutoReverse(true);
-            st.setCycleCount(2);
-            st.play();
+            st.setAutoReverse(true); st.setCycleCount(2); st.play();
             sauvegarderFavoris();
             mettreAJourBtnFavoris();
             if (afficherFavoris) filtrerCours();
@@ -182,13 +235,11 @@ public class catalogueCoursController {
 
         HBox header = new HBox(titre, btnFavori);
         header.setAlignment(Pos.CENTER_LEFT);
-        header.setStyle("-fx-background-color: #f5a623; " +
-                "-fx-background-radius: 10 10 0 0; -fx-padding: 12 16;");
+        header.setStyle("-fx-background-color: #f5a623; -fx-background-radius: 10 10 0 0; -fx-padding: 12 16;");
 
         VBox body = new VBox(8);
         body.setStyle("-fx-padding: 14 16;");
-        VBox.setVgrow(body, Priority.ALWAYS);  // ← LA SEULE LIGNE AJOUTÉE
-
+        VBox.setVgrow(body, Priority.ALWAYS);
         Label desc = new Label(c.getDescription());
         desc.setWrapText(true);
         desc.setStyle("-fx-font-size: 13px; -fx-text-fill: #555;");
@@ -207,11 +258,10 @@ public class catalogueCoursController {
 
         VBox footer = new VBox(btn);
         footer.setStyle("-fx-padding: 10 16 12 16;");
-
         card.getChildren().addAll(header, body, footer);
         return card;
     }
-    // Style dynamique du bouton favori
+
     private String buildFavoriStyle(boolean actif) {
         return actif
                 ? "-fx-background-color: #ff4d6d; -fx-text-fill: white;" +
@@ -225,16 +275,12 @@ public class catalogueCoursController {
 
     private void voirChapitres(cours c) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/catalogueChapitres.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/catalogueChapitres.fxml"));
             Parent root = loader.load();
             catalogueChapitresController controller = loader.getController();
             controller.setCours(c);
-            Stage stage = (Stage) listContainer.getScene().getWindow();
-            stage.getScene().setRoot(root);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            listContainer.getScene().setRoot(root);
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     private VBox chapitresBox(cours c) {
@@ -243,11 +289,9 @@ public class catalogueCoursController {
             List<chapitres> chaps = new chapitresservices().afficher()
                     .stream().filter(ch -> ch.getCours_id() == c.getId())
                     .collect(Collectors.toList());
-
             Label nbChap = new Label("Chapitres : " + chaps.size());
             nbChap.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             box.getChildren().add(nbChap);
-
             if (chaps.isEmpty()) {
                 Label noChap = new Label("Aucun chapitre disponible");
                 noChap.setStyle("-fx-font-style: italic; -fx-text-fill: #aaa; -fx-font-size: 13px;");
@@ -265,9 +309,7 @@ public class catalogueCoursController {
                     i++;
                 }
             }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
+        } catch (SQLException e) { System.err.println(e.getMessage()); }
         return box;
     }
 
@@ -289,8 +331,6 @@ public class catalogueCoursController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/listeCours.fxml"));
             listContainer.getScene().setRoot(root);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+        } catch (Exception e) { System.err.println(e.getMessage()); }
     }
 }

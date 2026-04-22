@@ -70,7 +70,16 @@ public class catalogueChapitresController {
                             "-fx-background-radius: 6; -fx-font-size: 11px; -fx-cursor: hand;");
                     btnVoir.setOnAction(e -> {
                         chapitres ch = getTableView().getItems().get(getIndex());
-                        System.out.println("Voir chapitre: " + ch.getContenu_chap());
+                        try {
+                            FXMLLoader loader = new FXMLLoader(
+                                    getClass().getResource("/voirChapitre.fxml"));
+                            Parent root = loader.load();
+                            VoirChapitreController ctrl = loader.getController();
+                            ctrl.setChapitre(ch, coursObj); // passe le chapitre ET le cours pour le retour
+                            tableChapitres.getScene().setRoot(root);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     });
                 }
 

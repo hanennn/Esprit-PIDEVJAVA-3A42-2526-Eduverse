@@ -85,11 +85,7 @@
                           -fx-border-width: 1;">
 
             <columns>
-                <TableColumn text="Id" prefWidth="60">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="id"/>
-                    </cellValueFactory>
-                </TableColumn>
+
                 <TableColumn fx:id="colTitre"  text="Titre"       prefWidth="170"/>
                 <TableColumn fx:id="colDesc"   text="Description" prefWidth="290"/>
                 <TableColumn fx:id="colOrdre"  text="Ordre"       prefWidth="70"/>

@@ -3,6 +3,7 @@ package org.example.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.entities.cours;
+import org.example.services.EmailService;
 import org.example.services.coursservices;
 import java.sql.SQLException;
 
@@ -103,6 +104,8 @@ public class AjoutCoursController {
             showError(e.getMessage()); // affiche "Ce cours existe déjà !"
             titreCours.setStyle("-fx-border-color: red;");
         }
+
+        new Thread(() -> EmailService.envoyerNouveauCours(c.getTitre_cours())).start();
     }
     @FXML
     void annuler() {
