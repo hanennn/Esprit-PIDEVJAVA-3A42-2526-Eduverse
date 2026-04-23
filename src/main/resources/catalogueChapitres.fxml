@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -30,16 +29,15 @@
     </HBox>
 
     <VBox VBox.vgrow="ALWAYS" spacing="20" style="-fx-background-color: #f4f6f8;">
-        <padding><Insets top="16" right="60" bottom="40" left="60"/></padding>
+        <padding><Insets top="20" right="60" bottom="40" left="60"/></padding>
 
         <!-- Retour -->
-        <Label text="Retour Au Catalogue"
-               onMouseClicked="#retour"
+        <Label text="← Retour Au Catalogue" onMouseClicked="#retour"
                style="-fx-text-fill: #555; -fx-font-size: 13px; -fx-cursor: hand;"/>
 
-        <!-- TITRE SECTION -->
+        <!-- TITRE -->
         <Label text="Contenu du cours"
-               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
 
         <!-- TABLE -->
         <VBox VBox.vgrow="ALWAYS"
@@ -48,25 +46,29 @@
                      -fx-border-color: #e8e8e8;
                      -fx-border-radius: 12;
                      -fx-border-width: 1;
-                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);">
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3);">
 
             <TableView fx:id="tableChapitres"
                        VBox.vgrow="ALWAYS"
-                       style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                       style="-fx-background-color: transparent;
+                              -fx-border-color: transparent;">
                 <columns>
                     <TableColumn fx:id="colNumero"  text="#"           prefWidth="50"/>
-                    <TableColumn fx:id="colTitre"   text="Titre"       prefWidth="180"/>
-                    <TableColumn fx:id="colDesc"    text="Description" prefWidth="280"/>
+                    <TableColumn fx:id="colTitre"   text="Titre"       prefWidth="200"/>
+                    <TableColumn fx:id="colDesc"    text="Description" prefWidth="300"/>
                     <TableColumn fx:id="colOrdre"   text="Ordre"       prefWidth="70"/>
-                    <TableColumn fx:id="colDuree"   text="Durée"       prefWidth="100"/>
+                    <TableColumn fx:id="colDuree"   text="Durée"       prefWidth="90"/>
                     <TableColumn fx:id="colStatut"  text="Statut"      prefWidth="120"/>
                     <TableColumn fx:id="colType"    text="Type"        prefWidth="80"/>
-                    <TableColumn fx:id="colActions" text="Voir"        prefWidth="120"/>
+                    <TableColumn fx:id="colActions" text="Action"      prefWidth="120"/>
                 </columns>
 
                 <placeholder>
-                    <Label text="Aucun chapitre disponible."
-                           style="-fx-text-fill: #aaa; -fx-font-size: 13px;"/>
+                    <VBox alignment="CENTER" spacing="8">
+                        <Label text="📚" style="-fx-font-size: 36px;"/>
+                        <Label text="Aucun chapitre disponible."
+                               style="-fx-text-fill: #aaa; -fx-font-size: 14px;"/>
+                    </VBox>
                 </placeholder>
 
                 <columnResizePolicy>
@@ -74,7 +76,5 @@
                 </columnResizePolicy>
             </TableView>
         </VBox>
-
     </VBox>
-
 </VBox>

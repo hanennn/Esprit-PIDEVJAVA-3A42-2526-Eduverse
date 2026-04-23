@@ -68,5 +68,13 @@
             </VBox>
         </ScrollPane>
 
+
+        <!-- Bouton Résumé -->
+        <Button fx:id="btnResume" text="✨ Générer le résumé IA" onAction="#genererResume"
+                style="-fx-background-color: #a569bd; -fx-text-fill: white;
+       -fx-font-weight: bold; -fx-background-radius: 6;
+       -fx-padding: 8 16; -fx-cursor: hand;"></Button>
+
+
     </VBox>
 </VBox>
