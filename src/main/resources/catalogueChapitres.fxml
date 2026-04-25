@@ -31,22 +31,19 @@
     <VBox VBox.vgrow="ALWAYS" spacing="20" style="-fx-background-color: #f4f6f8;">
         <padding><Insets top="20" right="60" bottom="40" left="60"/></padding>
 
-        <!-- Retour -->
         <Label text="← Retour Au Catalogue" onMouseClicked="#retour"
                style="-fx-text-fill: #555; -fx-font-size: 13px; -fx-cursor: hand;"/>
 
-        <!-- TITRE -->
         <Label text="Contenu du cours"
                style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
 
-        <!-- TABLE -->
         <VBox VBox.vgrow="ALWAYS"
               style="-fx-background-color: white;
                      -fx-background-radius: 12;
                      -fx-border-color: #e8e8e8;
                      -fx-border-radius: 12;
                      -fx-border-width: 1;
-                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3);">
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);">
 
             <TableView fx:id="tableChapitres"
                        VBox.vgrow="ALWAYS"
@@ -60,7 +57,7 @@
                     <TableColumn fx:id="colDuree"   text="Durée"       prefWidth="90"/>
                     <TableColumn fx:id="colStatut"  text="Statut"      prefWidth="120"/>
                     <TableColumn fx:id="colType"    text="Type"        prefWidth="80"/>
-                    <TableColumn fx:id="colActions" text="Action"      prefWidth="120"/>
+                    <TableColumn fx:id="colActions" text="Voir"        prefWidth="120"/>
                 </columns>
 
                 <placeholder>
@@ -77,4 +74,5 @@
             </TableView>
         </VBox>
     </VBox>
+
 </VBox>

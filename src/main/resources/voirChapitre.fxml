@@ -11,7 +11,7 @@
       style="-fx-background-color: #f4f6f8;">
 
     <!-- NAVBAR -->
-    <HBox minHeight="64">
+    <HBox minHeight="64" spacing="0">
         <HBox alignment="CENTER_LEFT" minWidth="320"
               style="-fx-background-color: #1a1a2e; -fx-padding: 0 0 0 30;">
             <Label text="Edu"   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
@@ -19,62 +19,133 @@
         </HBox>
         <HBox alignment="CENTER" HBox.hgrow="ALWAYS" spacing="28"
               style="-fx-background-color: #f5a623; -fx-padding: 0 40;">
-            <Label text="ACCUEIL"    style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
-            <Label text="COURS"      style="-fx-text-fill: #1a1a2e; -fx-font-size: 12px; -fx-font-weight: bold;"/>
-            <Label text="FORUM"      style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="ACCUEIL" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="COURS"   style="-fx-text-fill: #1a1a2e; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+            <Label text="FORUM"   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;"/>
         </HBox>
     </HBox>
 
     <VBox VBox.vgrow="ALWAYS" spacing="12">
-        <padding><Insets top="16" right="60" bottom="20" left="60"/></padding>
+        <padding><Insets top="16" right="40" bottom="16" left="40"/></padding>
 
         <!-- Retour -->
         <Label text="← Retour Au Cours" onMouseClicked="#retour"
-               style="-fx-text-fill: #555; -fx-font-size: 13px; -fx-cursor: hand;"/>
+               style="-fx-text-fill: #f5a623; -fx-font-size: 13px;
+                      -fx-cursor: hand; -fx-font-weight: bold;"/>
 
-        <!-- Infos chapitre -->
-        <Label fx:id="labelTitre" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
-        <Label fx:id="labelDesc"  style="-fx-font-size: 13px; -fx-text-fill: #666;" wrapText="true"/>
+        <!-- Carte infos + PDF côte à côte -->
+        <HBox spacing="16" VBox.vgrow="ALWAYS">
 
-        <!-- Badges -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label fx:id="labelOrdre"  style="-fx-background-color:#17a2b8; -fx-text-fill:white; -fx-background-radius:20; -fx-padding:4 12; -fx-font-size:11px; -fx-font-weight:bold;"/>
-            <Label fx:id="labelDuree"  style="-fx-background-color:#1a1a2e; -fx-text-fill:white; -fx-background-radius:20; -fx-padding:4 12; -fx-font-size:11px; -fx-font-weight:bold;"/>
-            <Label fx:id="labelStatut" style="-fx-background-color:#28a745; -fx-text-fill:white; -fx-background-radius:20; -fx-padding:4 12; -fx-font-size:11px; -fx-font-weight:bold;"/>
-            <Label fx:id="labelType"   style="-fx-text-fill:#555; -fx-font-size:12px; -fx-font-weight:bold;"/>
-        </HBox>
+            <!-- Gauche : PDF -->
+            <VBox HBox.hgrow="ALWAYS" spacing="10">
 
-        <!-- Barre de navigation PDF -->
-        <HBox alignment="CENTER" spacing="12"
-              style="-fx-background-color:#323232; -fx-padding:8 16; -fx-background-radius:8;">
-            <Button fx:id="btnPrev" text="◀ Précédent" onAction="#pagePrecedente"
-                    style="-fx-background-color:#555; -fx-text-fill:white; -fx-background-radius:4;"/>
-            <Button fx:id="btnNext" text="Suivant ▶"   onAction="#pageSuivante"
-                    style="-fx-background-color:#555; -fx-text-fill:white; -fx-background-radius:4;"/>
-            <Label fx:id="labelPageInfo" text="Chargement..."
-                   style="-fx-text-fill:white; -fx-font-size:13px;" HBox.hgrow="ALWAYS"/>
-            <Button text="－" onAction="#zoomOut"
-                    style="-fx-background-color:#f5a623; -fx-text-fill:white; -fx-background-radius:4;"/>
-            <Button text="＋" onAction="#zoomIn"
-                    style="-fx-background-color:#f5a623; -fx-text-fill:white; -fx-background-radius:4;"/>
-        </HBox>
+                <!-- Barre navigation -->
+                <HBox alignment="CENTER_LEFT" spacing="8"
+                      style="-fx-background-color: #1a1a2e; -fx-padding: 10 16;
+                             -fx-background-radius: 10;">
+                    <Button fx:id="btnPrev" text="◀" onAction="#pagePrecedente"
+                            style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-background-radius: 20;
+                                   -fx-padding: 6 14; -fx-cursor: hand;"/>
+                    <Button fx:id="btnNext" text="▶" onAction="#pageSuivante"
+                            style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-background-radius: 20;
+                                   -fx-padding: 6 14; -fx-cursor: hand;"/>
+                    <Label fx:id="labelPageInfo" text="Chargement..."
+                           style="-fx-text-fill: white; -fx-font-size: 13px;"
+                           HBox.hgrow="ALWAYS"/>
+                    <Button text="－" onAction="#zoomOut"
+                            style="-fx-background-color: #555; -fx-text-fill: white;
+                                   -fx-background-radius: 20; -fx-padding: 6 12; -fx-cursor: hand;"/>
+                    <Button text="＋" onAction="#zoomIn"
+                            style="-fx-background-color: #555; -fx-text-fill: white;
+                                   -fx-background-radius: 20; -fx-padding: 6 12; -fx-cursor: hand;"/>
+                </HBox>
 
-        <!-- Affichage PDF -->
-        <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true"
-                    style="-fx-background-color:#404040; -fx-background:transparent;">
-            <VBox fx:id="pdfContainer" alignment="CENTER"
-                  style="-fx-background-color:#404040; -fx-padding:20;">
-                <ImageView fx:id="imageViewPdf" fitWidth="800" preserveRatio="true"/>
+                <!-- PDF -->
+                <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true"
+                            style="-fx-background-color: #2c2c2c; -fx-background: #2c2c2c;
+                                   -fx-background-radius: 10;">
+                    <VBox fx:id="pdfContainer" alignment="CENTER"
+                          style="-fx-background-color: #2c2c2c; -fx-padding: 16;">
+                        <ImageView fx:id="imageViewPdf" fitWidth="500" preserveRatio="true"/>
+                    </VBox>
+                </ScrollPane>
+
             </VBox>
-        </ScrollPane>
 
+            <!-- Droite : infos chapitre -->
+            <VBox spacing="12" prefWidth="280" minWidth="260">
 
-        <!-- Bouton Résumé -->
-        <Button fx:id="btnResume" text="✨ Générer le résumé IA" onAction="#genererResume"
-                style="-fx-background-color: #a569bd; -fx-text-fill: white;
-       -fx-font-weight: bold; -fx-background-radius: 6;
-       -fx-padding: 8 16; -fx-cursor: hand;"></Button>
+                <!-- Carte titre + badges -->
+                <VBox spacing="10"
+                      style="-fx-background-color: white; -fx-background-radius: 12;
+                             -fx-border-color: #e8e8e8; -fx-border-radius: 12;
+                             -fx-border-width: 1; -fx-padding: 16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
 
+                    <Label fx:id="labelTitre"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a1a2e;" wrapText="true"/>
+                    <Label fx:id="labelDesc"
+                           style="-fx-font-size: 12px; -fx-text-fill: #888;" wrapText="true"/>
 
+                    <HBox spacing="6" alignment="CENTER_LEFT">
+                        <Label fx:id="labelOrdre"
+                               style="-fx-background-color: #17a2b8; -fx-text-fill: white;
+                                      -fx-background-radius: 20; -fx-padding: 3 10;
+                                      -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <Label fx:id="labelDuree"
+                               style="-fx-background-color: #1a1a2e; -fx-text-fill: white;
+                                      -fx-background-radius: 20; -fx-padding: 3 10;
+                                      -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    </HBox>
+                    <HBox spacing="6" alignment="CENTER_LEFT">
+                        <Label fx:id="labelStatut"
+                               style="-fx-background-color: #28a745; -fx-text-fill: white;
+                                      -fx-background-radius: 20; -fx-padding: 3 10;
+                                      -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <Label fx:id="labelType"
+                               style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                      -fx-background-radius: 20; -fx-padding: 3 10;
+                                      -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Carte boutons IA -->
+                <VBox spacing="10"
+                      style="-fx-background-color: white; -fx-background-radius: 12;
+                             -fx-border-color: #e8e8e8; -fx-border-radius: 12;
+                             -fx-border-width: 1; -fx-padding: 16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+
+                    <Label text="🤖 Options"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+                    <Button fx:id="btnResume" text="✨ Générer le résumé" onAction="#genererResume"
+                            maxWidth="Infinity"
+                            style="-fx-background-color: #2980b9; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-background-radius: 30;
+                                   -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 12px;
+                                   -fx-effect: dropshadow(gaussian, rgba(41,128,185,0.3), 6, 0, 0, 2);"/>
+
+                    <Button fx:id="btnLire" text="🔊 Lire le résumé" onAction="#lireResume"
+                            maxWidth="Infinity"
+                            style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-background-radius: 30;
+                                   -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 12px;
+                                   -fx-effect: dropshadow(gaussian, rgba(245,166,35,0.3), 6, 0, 0, 2);"/>
+
+                    <Button fx:id="btnChatbot" text="💬 Poser votre question" onAction="#ouvrirChatbot"
+                            maxWidth="Infinity"
+                            style="-fx-background-color: white; -fx-text-fill: #1a1a2e;
+                                   -fx-font-weight: bold; -fx-background-radius: 30;
+                                   -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 12px;
+                                   -fx-border-color: #1a1a2e; -fx-border-radius: 30; -fx-border-width: 2;
+                                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 2);"/>
+                </VBox>
+
+            </VBox>
+        </HBox>
     </VBox>
 </VBox>

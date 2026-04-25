@@ -160,6 +160,17 @@ public class catalogueChapitresController {
                             "-fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 5 12;");
                     btnVoir.setOnAction(e -> {
                         chapitres ch = getTableView().getItems().get(getIndex());
+
+                        // Changer statut en OUVERT en base
+                        try {
+                            ch.setStatut_chap("OUVERT");
+                            new chapitresservices().modifier(ch.getId(), ch);
+                            loadChapitres(); // rafraîchir le tableau
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                        // Naviguer vers la vue
                         try {
                             FXMLLoader loader = new FXMLLoader(
                                     getClass().getResource("/voirChapitre.fxml"));
@@ -207,6 +218,14 @@ public class catalogueChapitresController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        javafx.application.Platform.runLater(() -> {
+            tableChapitres.lookupAll(".column-header").forEach(node ->
+                    node.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #e0e0e0;"));
+            tableChapitres.lookupAll(".column-header .label").forEach(node ->
+                    node.setStyle("-fx-text-fill: #333; -fx-font-weight: bold; -fx-font-size: 13px;"));
+            tableChapitres.lookupAll(".column-header-background").forEach(node ->
+                    node.setStyle("-fx-background-color: #f8f8f8;"));
+        });
     }
 
     @FXML

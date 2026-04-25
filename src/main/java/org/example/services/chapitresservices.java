@@ -52,17 +52,19 @@ public class chapitresservices implements ICrud<chapitres> {
 
     @Override
     public void modifier(int id, chapitres chapitre) throws SQLException {
-        String sql = "UPDATE chapitres SET titre_chap='" + chapitre.getTitre_chap()
-                + "', desc_chap='" + chapitre.getDesc_chap()
-                + "', ordre_chap=" + chapitre.getOrdre_chap()
-                + ", duree_chap='" + chapitre.getDuree_chap()
-                + "', statut_chap='" + chapitre.getStatut_chap()
-                + "', contenu_chap='" + chapitre.getContenu_chap()
-                + "', type_contenu='" + chapitre.getType_contenu()
-                + "', cours_id=" + chapitre.getCours_id()
-                + " WHERE id=" + id;
-        Statement statement = con.createStatement();
-        statement.executeUpdate(sql);
+        String sql = "UPDATE chapitres SET titre_chap=?, desc_chap=?, ordre_chap=?, " +
+                "duree_chap=?, statut_chap=?, contenu_chap=?, type_contenu=?, cours_id=? WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, chapitre.getTitre_chap());
+        ps.setString(2, chapitre.getDesc_chap());
+        ps.setInt(3, chapitre.getOrdre_chap());
+        ps.setString(4, chapitre.getDuree_chap());
+        ps.setString(5, chapitre.getStatut_chap());
+        ps.setString(6, chapitre.getContenu_chap());
+        ps.setString(7, chapitre.getType_contenu());
+        ps.setInt(8, chapitre.getCours_id());
+        ps.setInt(9, id);
+        ps.executeUpdate();
         System.out.println("Chapitre modifié avec succès !");
     }
 

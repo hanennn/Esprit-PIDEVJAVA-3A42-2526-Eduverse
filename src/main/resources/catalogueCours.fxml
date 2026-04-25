@@ -26,21 +26,12 @@
             <Label text="ÉVÉNEMENTS" style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
             <Label text="FORUM"      style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
             <Label text="CONTACT"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
-
-            <!-- ★ Bouton Mes Favoris dans la navbar -->
-            <Button fx:id="btnMesFavoris"
-                    text="★ Mes Favoris (0)"
-                    onAction="#toggleFavoris"
-                    style="-fx-background-color: transparent; -fx-text-fill: white;
-                           -fx-font-weight: bold; -fx-font-size: 11px;
-                           -fx-background-radius: 20; -fx-padding: 6 14;
-                           -fx-border-color: white; -fx-border-radius: 20;
-                           -fx-border-width: 1.5; -fx-cursor: hand;"/>
-
             <Button text="Vue Enseignant" onAction="#versEnseignant"
                     style="-fx-background-color: white; -fx-text-fill: #1a1a2e;
-                           -fx-border-color: #1a1a2e; -fx-border-radius: 4;
-                           -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                   -fx-border-color: #1a1a2e; -fx-border-radius: 4;
+                   -fx-font-size: 11px; -fx-font-weight: bold;"/>
+
+
         </HBox>
     </HBox>
 
@@ -49,11 +40,11 @@
            style="-fx-font-size: 28px; -fx-font-weight: bold;
                   -fx-text-fill: #1a1a2e; -fx-padding: 20 0 10 0;"/>
 
-    <!-- BARRE DE RECHERCHE -->
-    <HBox spacing="16" alignment="CENTER_LEFT"
+    <!-- BARRE DE RECHERCHE + FAVORIS -->
+    <HBox spacing="12" alignment="CENTER_LEFT"
           style="-fx-background-color: white; -fx-background-radius: 10;
-                 -fx-border-color: #e0e0e0; -fx-border-radius: 10;
-                 -fx-padding: 16 28 16 28;">
+             -fx-border-color: #e0e0e0; -fx-border-radius: 10;
+             -fx-padding: 12 20 12 20;">
         <Label text="Critère :" style="-fx-font-size: 13px; -fx-text-fill: #555;"/>
         <ComboBox fx:id="critereRecherche" prefWidth="120" onAction="#filtrerCours"/>
         <TextField fx:id="searchField"
@@ -62,10 +53,16 @@
                    onKeyReleased="#filtrerCours"/>
         <Label text="Trier par :" style="-fx-font-size: 13px; -fx-text-fill: #555;"/>
         <ComboBox fx:id="trierPar" prefWidth="120" onAction="#filtrerCours"/>
-        <Button text="🔍" onAction="#filtrerCours"
-                style="-fx-background-color: #f5a623; -fx-text-fill: white;
-                       -fx-background-radius: 6; -fx-font-size: 14px;
-                       -fx-padding: 8 16;"/>
+
+        <!-- Mes Favoris déplacé ici -->
+        <Button fx:id="btnMesFavoris"
+                text="★ Mes Favoris (0)"
+                onAction="#toggleFavoris"
+                style="-fx-background-color: #2980b9; -fx-text-fill: white;
+               -fx-font-weight: bold; -fx-font-size: 11px;
+               -fx-background-radius: 20; -fx-padding: 8 14;
+               -fx-border-color: #2980b9; -fx-border-radius: 20;
+               -fx-border-width: 1.5; -fx-cursor: hand;"/>
     </HBox>
 
     <!-- LISTE DES COURS EN GRILLE -->

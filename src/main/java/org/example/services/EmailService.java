@@ -11,14 +11,13 @@ public class EmailService {
     private static final String DESTINATAIRE = "hanen.bennaceur@esprit.tn";
 
     public static void envoyerNouveauCours(String titreCours) {
-        String json = """
-            {
-              "from": "%s",
-              "to": "%s",
-              "subject": "Nouveau cours disponible !",
-              "text": "Un nouveau cours vient d'être ajouté : %s"
-            }
-            """.formatted(EXPEDITEUR, DESTINATAIRE, titreCours);
+        String texte = "Chers etudiants,\\n\\nOn vous informe qu un nouveau cours vient d etre ajoute : "
+                + titreCours + "\\n\\nBonne revision !";
+
+        String json = "{\"from\":\"" + EXPEDITEUR + "\","
+                + "\"to\":\"" + DESTINATAIRE + "\","
+                + "\"subject\":\"Nouveau cours disponible !\","
+                + "\"text\":\"" + texte + "\"}";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.resend.com/emails"))
@@ -30,10 +29,10 @@ public class EmailService {
         try {
             HttpResponse<String> response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Status : " + response.statusCode());
-            System.out.println("Réponse : " + response.body());
+            System.out.println("Email Status : " + response.statusCode());
+            System.out.println("Email Réponse : " + response.body());
         } catch (Exception e) {
-            System.err.println("Erreur : " + e.getMessage());
+            System.err.println("Erreur email : " + e.getMessage());
         }
     }
 }
