@@ -4,13 +4,13 @@ import models.bourses;
 import org.junit.jupiter.api.*;
 import java.sql.Timestamp;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.testng.AssertJUnit.assertEquals;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BoursesServiceTest {
     static boursesService service = new boursesService();
     static int testId;
 
-    @Test @Order(1)
+    @Order(1)
     void testAdd() {
         bourses b = new bourses();
         b.setTitre("Bourse Test JUnit");
@@ -24,13 +24,13 @@ class BoursesServiceTest {
         assertEquals(before + 1, service.getAll().size());
     }
 
-    @Test @Order(2)
+    @Order(2)
     void testGetAll() {
         assertNotNull(service.getAll());
         assertFalse(service.getAll().isEmpty());
     }
 
-    @Test @Order(3)
+    @Order(3)
     void testUpdate() {
         bourses last = service.getAll().get(service.getAll().size() - 1);
         testId = last.getId();
@@ -39,7 +39,7 @@ class BoursesServiceTest {
         assertEquals(1234.56, service.getById(testId).getMontant());
     }
 
-    @Test @Order(4)
+    @Order(4)
     void testDelete() {
         service.delete(testId);
         assertNull(service.getById(testId));

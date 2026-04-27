@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -16,26 +17,40 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      
-      <HBox layoutX="50.0" layoutY="80.0" prefHeight="30.0" prefWidth="800.0" spacing="10.0">
+
+      <!-- Barre du haut : deconnexion + acces calendrier -->
+      <HBox layoutX="50.0" layoutY="70.0" prefHeight="30.0" prefWidth="800.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#deconnexion" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="← Déconnexion" />
-            <TextField fx:id="tfRecherche" prefHeight="30.0" prefWidth="300.0" promptText="Rechercher par titre..." style="-fx-background-radius: 15;" />
+            <Button mnemonicParsing="false" onAction="#deconnexion" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Deconnexion" />
+            <!-- Bouton pour ouvrir le calendrier des bourses -->
+            <Button mnemonicParsing="false" onAction="#ouvrirCalendrier" prefHeight="30.0" prefWidth="160.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Calendrier Bourses" />
          </children>
       </HBox>
-      
-      <TableView fx:id="tableView" layoutX="50.0" layoutY="130.0" prefHeight="380.0" prefWidth="800.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+
+      <!-- Barre de recherche avancee : texte + montant min/max + tri -->
+      <HBox layoutX="50.0" layoutY="110.0" prefHeight="30.0" prefWidth="800.0" spacing="8.0" alignment="CENTER_LEFT">
+         <children>
+            <!-- Recherche par titre de bourse -->
+            <TextField fx:id="tfRecherche" prefHeight="30.0" prefWidth="280.0" promptText="Rechercher par titre..." style="-fx-background-radius: 15;" />
+            <!-- Tri rapide par critere -->
+            <ComboBox fx:id="cbTri" prefHeight="30.0" prefWidth="200.0" promptText="Trier par..." style="-fx-background-radius: 15;" />
+            <!-- Bouton reinitialiser les filtres -->
+            <Button mnemonicParsing="false" onAction="#reinitialiserFiltres" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Reinitialiser" />
+         </children>
+      </HBox>
+
+      <TableView fx:id="tableView" layoutX="50.0" layoutY="155.0" prefHeight="355.0" prefWidth="800.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
         <columns>
           <TableColumn fx:id="colTitre" prefWidth="250.0" text="Titre" />
           <TableColumn fx:id="colMontant" prefWidth="150.0" text="Montant (DT)" />
-            <TableColumn fx:id="colDateAttr" prefWidth="200.0" text="Date Attribution" />
-            <TableColumn fx:id="colDateFin" prefWidth="200.0" text="Date Fin" />
+          <TableColumn fx:id="colDateAttr" prefWidth="200.0" text="Date Attribution" />
+          <TableColumn fx:id="colDateFin" prefWidth="200.0" text="Date Fin" />
         </columns>
       </TableView>
-      
+
       <HBox layoutX="50.0" layoutY="530.0" prefHeight="40.0" prefWidth="800.0" alignment="CENTER">
          <children>
-            <Button fx:id="btnPostuler" disable="true" mnemonicParsing="false" onAction="#ouvrirPostuler" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold; -fx-font-size: 14; -fx-cursor: hand;" text="Postuler à cette bourse" />
+            <Button fx:id="btnPostuler" disable="true" mnemonicParsing="false" onAction="#ouvrirPostuler" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold; -fx-font-size: 14; -fx-cursor: hand;" text="Postuler a cette bourse" />
          </children>
       </HBox>
    </children>

@@ -5,12 +5,11 @@ import org.junit.jupiter.api.*;
 import java.sql.Timestamp;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DemandeServiceTest {
     static demandeService service = new demandeService();
     static int testId;
 
-    @Test @Order(1)
+    @Order(1)
     void testAdd() {
         demande d = new demande();
         d.setNiveau_etudes("Licence");
@@ -26,13 +25,13 @@ class DemandeServiceTest {
         assertEquals(before + 1, service.getAll().size());
     }
 
-    @Test @Order(2)
+    @Order(2)
     void testGetAll() {
         assertNotNull(service.getAll());
         assertFalse(service.getAll().isEmpty());
     }
 
-    @Test @Order(3)
+    @Order(3)
     void testUpdate() {
         demande last = service.getAll().get(service.getAll().size() - 1);
         testId = last.getId();
@@ -41,7 +40,7 @@ class DemandeServiceTest {
         assertEquals("Acceptée", service.getById(testId).getStatut());
     }
 
-    @Test @Order(4)
+    @Order(4)
     void testDelete() {
         service.delete(testId);
         assertNull(service.getById(testId));

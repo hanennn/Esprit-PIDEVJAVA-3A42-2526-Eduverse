@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<!-- Dashboard statistiques admin : vue d'ensemble des bourses et demandes -->
+<AnchorPane prefHeight="650.0" prefWidth="950.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.bourses.StatistiquesController">
+   <children>
+
+      <!-- Titre de la page -->
+      <Label layoutX="350.0" layoutY="10.0" text="Dashboard Statistiques" textFill="#2c3e50">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+
+      <!-- Bouton retour vers la liste des bourses -->
+      <Button layoutX="30.0" layoutY="15.0" mnemonicParsing="false" onAction="#retourBourses" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Retour" />
+
+      <!-- Cartes de statistiques chiffrees en haut -->
+      <HBox layoutX="30.0" layoutY="55.0" prefWidth="890.0" spacing="15.0" alignment="CENTER">
+         <children>
+            <!-- Carte : nombre total de bourses -->
+            <VBox fx:id="cardBourses" alignment="CENTER" prefWidth="170.0" prefHeight="80.0" style="-fx-background-color: #3498db; -fx-background-radius: 12; -fx-padding: 10;">
+               <children>
+                  <Label fx:id="lblTotalBourses" text="0" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;" />
+                  <Label text="Bourses" style="-fx-text-fill: white; -fx-font-size: 12;" />
+               </children>
+            </VBox>
+            <!-- Carte : nombre total de demandes -->
+            <VBox alignment="CENTER" prefWidth="170.0" prefHeight="80.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 12; -fx-padding: 10;">
+               <children>
+                  <Label fx:id="lblTotalDemandes" text="0" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;" />
+                  <Label text="Demandes" style="-fx-text-fill: white; -fx-font-size: 12;" />
+               </children>
+            </VBox>
+            <!-- Carte : taux d'acceptation -->
+            <VBox alignment="CENTER" prefWidth="170.0" prefHeight="80.0" style="-fx-background-color: #e67e22; -fx-background-radius: 12; -fx-padding: 10;">
+               <children>
+                  <Label fx:id="lblTauxAcceptation" text="0%" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;" />
+                  <Label text="Taux acceptation" style="-fx-text-fill: white; -fx-font-size: 12;" />
+               </children>
+            </VBox>
+            <!-- Carte : montant moyen des bourses -->
+            <VBox alignment="CENTER" prefWidth="170.0" prefHeight="80.0" style="-fx-background-color: #9b59b6; -fx-background-radius: 12; -fx-padding: 10;">
+               <children>
+                  <Label fx:id="lblMontantMoyen" text="0 DT" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;" />
+                  <Label text="Montant moyen" style="-fx-text-fill: white; -fx-font-size: 12;" />
+               </children>
+            </VBox>
+            <!-- Carte : montant total des bourses -->
+            <VBox alignment="CENTER" prefWidth="170.0" prefHeight="80.0" style="-fx-background-color: #e74c3c; -fx-background-radius: 12; -fx-padding: 10;">
+               <children>
+                  <Label fx:id="lblMontantTotal" text="0 DT" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;" />
+                  <Label text="Montant total" style="-fx-text-fill: white; -fx-font-size: 12;" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+
+      <!-- Graphiques : PieChart a gauche, BarChart a droite -->
+      <HBox layoutX="30.0" layoutY="155.0" prefWidth="890.0" spacing="20.0">
+         <children>
+            <!-- PieChart : repartition des demandes par statut -->
+            <VBox alignment="CENTER" prefWidth="420.0" prefHeight="230.0" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+               <children>
+                  <Label text="Demandes par statut" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                  <PieChart fx:id="pieStatut" prefHeight="200.0" prefWidth="400.0" labelsVisible="true" legendVisible="true" />
+               </children>
+            </VBox>
+            <!-- BarChart : montants des bourses -->
+            <VBox alignment="CENTER" prefWidth="450.0" prefHeight="230.0" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+               <children>
+                  <Label text="Montants des bourses" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                  <BarChart fx:id="barMontants" prefHeight="200.0" prefWidth="430.0" legendVisible="false">
+                     <xAxis><CategoryAxis label="Bourse" /></xAxis>
+                     <yAxis><NumberAxis label="Montant (DT)" /></yAxis>
+                  </BarChart>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+
+      <!-- Deuxieme ligne de graphiques : PieChart niveau + BarChart demandes par bourse -->
+      <HBox layoutX="30.0" layoutY="405.0" prefWidth="890.0" spacing="20.0">
+         <children>
+            <!-- PieChart : repartition des demandes par niveau d'etudes -->
+            <VBox alignment="CENTER" prefWidth="420.0" prefHeight="230.0" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+               <children>
+                  <Label text="Demandes par niveau d'etudes" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                  <PieChart fx:id="pieNiveau" prefHeight="200.0" prefWidth="400.0" labelsVisible="true" legendVisible="true" />
+               </children>
+            </VBox>
+            <!-- BarChart : nombre de demandes par bourse -->
+            <VBox alignment="CENTER" prefWidth="450.0" prefHeight="230.0" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+               <children>
+                  <Label text="Demandes par bourse" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                  <BarChart fx:id="barDemandesParBourse" prefHeight="200.0" prefWidth="430.0" legendVisible="false">
+                     <xAxis><CategoryAxis label="Bourse" /></xAxis>
+                     <yAxis><NumberAxis label="Nb demandes" /></yAxis>
+                  </BarChart>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+
+   </children>
+</AnchorPane>

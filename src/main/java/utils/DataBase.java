@@ -17,18 +17,15 @@ public class DataBase {
 
     private DataBase() {
         try {
-            // 1. Création de la base de données si elle n'existe pas
             Connection tempConnection = DriverManager.getConnection(URL_SERVER, USERNAME, PASSWORD);
             Statement stmt = tempConnection.createStatement();
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + DB_NAME);
             stmt.close();
             tempConnection.close();
 
-            // 2. Connexion à la base de données gestionbourses
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("Connexion à la base de données établie avec succès !");
 
-            // 3. Création automatique des tables manquantes
             createTablesIfNotExist();
 
         } catch (SQLException e) {
@@ -40,7 +37,6 @@ public class DataBase {
         try {
             Statement stmt = connection.createStatement();
             
-            // Table bourses
             String createBourses = "CREATE TABLE IF NOT EXISTS bourses (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "titre VARCHAR(255) NOT NULL, " +
@@ -52,7 +48,6 @@ public class DataBase {
                     ")";
             stmt.executeUpdate(createBourses);
 
-            // Table demande
             String createDemandes = "CREATE TABLE IF NOT EXISTS demande (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "date_demande DATETIME, " +
@@ -65,6 +60,19 @@ public class DataBase {
                     "FOREIGN KEY (bourse_id) REFERENCES bourses(id) ON DELETE CASCADE" +
                     ")";
             stmt.executeUpdate(createDemandes);
+
+            String createUsers = "CREATE TABLE IF NOT EXISTS utilisateurs (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                    "nom VARCHAR(255), " +
+                    "prenom VARCHAR(255), " +
+                    "email VARCHAR(255)" +
+                    ")";
+            stmt.executeUpdate(createUsers);
+
+            // Insertion d'un utilisateur fictif pour les tests de notification
+            // C'est cet email qui recevra les notifications (Destinataire)
+            String insertDummyUser = "INSERT IGNORE INTO utilisateurs (id, nom, prenom, email) VALUES (1, 'Klibi', 'Fatma', 'fatma.klibi@esprit.tn')";
+            stmt.executeUpdate(insertDummyUser);
             
             stmt.close();
             System.out.println("Vérification des tables effectuée avec succès !");

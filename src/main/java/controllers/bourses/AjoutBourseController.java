@@ -43,7 +43,6 @@ public class AjoutBourseController {
         b.setImage("Pas d'image");
         b.setMontant(Double.parseDouble(tfMontant.getText().trim()));
         
-        // Convert dates
         b.setDate_attribution(Timestamp.valueOf(dpDateAttribution.getValue().atStartOfDay()));
         b.setDate_fin(Timestamp.valueOf(dpDateFin.getValue().atStartOfDay()));
 
@@ -58,10 +57,7 @@ public class AjoutBourseController {
         retourListe();
     }
 
-    /**
-     * Valide tous les champs du formulaire avant insertion en base.
-     * @return true si tous les champs sont valides, false sinon
-     */
+
     private boolean validerFormulaire() {
         StringBuilder errors = new StringBuilder();
         boolean isValid = true;

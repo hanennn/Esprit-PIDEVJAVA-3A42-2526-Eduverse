@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<!-- Vue calendrier : affiche les bourses sous forme de calendrier mensuel -->
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.etudiant.CalendrierBoursesController">
+   <children>
+      <Label layoutX="290.0" layoutY="14.0" text="Calendrier des Bourses" textFill="#2c3e50">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+
+      <!-- Barre de navigation : retour + mois precedent / suivant -->
+      <HBox layoutX="50.0" layoutY="55.0" prefHeight="35.0" prefWidth="800.0" spacing="10.0" alignment="CENTER_LEFT">
+         <children>
+            <!-- Retour a la liste des bourses -->
+            <Button mnemonicParsing="false" onAction="#retourBourses" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Retour" />
+            <!-- Bouton mois precedent -->
+            <Button mnemonicParsing="false" onAction="#moisPrecedent" prefHeight="30.0" prefWidth="40.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand; -fx-font-weight: bold;" text="&lt;" />
+            <!-- Label affichant le mois et l'annee courants -->
+            <Label fx:id="lblMoisAnnee" prefWidth="200.0" alignment="CENTER" textFill="#2c3e50" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+            <!-- Bouton mois suivant -->
+            <Button mnemonicParsing="false" onAction="#moisSuivant" prefHeight="30.0" prefWidth="40.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand; -fx-font-weight: bold;" text="&gt;" />
+         </children>
+      </HBox>
+
+      <!-- Legende des couleurs -->
+      <HBox layoutX="500.0" layoutY="60.0" spacing="15.0" alignment="CENTER_LEFT">
+         <children>
+            <Label text="Attribution" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 3 8; -fx-background-radius: 8; -fx-font-size: 11;" />
+            <Label text="Fin" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 3 8; -fx-background-radius: 8; -fx-font-size: 11;" />
+            <Label text="En cours" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 3 8; -fx-background-radius: 8; -fx-font-size: 11;" />
+         </children>
+      </HBox>
+
+      <!-- Zone scrollable contenant la grille du calendrier -->
+      <ScrollPane layoutX="50.0" layoutY="100.0" prefHeight="480.0" prefWidth="800.0" fitToWidth="true" style="-fx-background: #f4f4f4; -fx-background-color: transparent;">
+         <!-- Grille du calendrier : 7 colonnes (Lun-Dim) x 7 lignes (entete + 6 semaines max) -->
+         <GridPane fx:id="gridCalendrier" hgap="3.0" vgap="3.0" style="-fx-padding: 5;" />
+      </ScrollPane>
+   </children>
+</AnchorPane>

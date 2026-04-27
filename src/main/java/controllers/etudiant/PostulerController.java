@@ -5,9 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import models.User;
 import models.bourses;
 import models.demande;
 import services.demandeService;
+import services.userService;
+import utils.SmsService;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -25,6 +28,7 @@ public class PostulerController {
 
     private bourses bourseConcernee;
     private demandeService service = new demandeService();
+    private userService uService = new userService();
 
     public void setBourseSelected(bourses b) {
         this.bourseConcernee = b;
@@ -51,10 +55,25 @@ public class PostulerController {
 
         service.add(d);
 
+        // --- Envoi WhatsApp de confirmation via Twilio ---
+        // Le message est envoye dans un thread separe pour ne pas bloquer l'interface
+        User etudiant = uService.getById(d.getEtudiant_id());
+        if (etudiant != null) {
+            new Thread(() -> {
+                // Numero WhatsApp de l'etudiant (format international)
+                String numeroEtudiant = "+21698318463";
+                SmsService.envoyerConfirmationDemande(
+                        numeroEtudiant,
+                        etudiant.getPrenom(),
+                        bourseConcernee.getTitre()
+                );
+            }).start();
+        }
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Candidature envoyée");
+        alert.setTitle("Candidature envoyee");
         alert.setHeaderText(null);
-        alert.setContentText("Votre dossier a bien été soumis !");
+        alert.setContentText("Votre dossier a bien ete soumis ! Un SMS de confirmation vous sera envoye.");
         alert.showAndWait();
 
         retourListe();

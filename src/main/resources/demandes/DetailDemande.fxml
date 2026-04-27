@@ -32,12 +32,14 @@
             </children>
         </VBox>
 
-        <HBox layoutX="150.0" layoutY="520.0" prefHeight="35.0" prefWidth="600.0" spacing="20.0">
+        <HBox layoutX="100.0" layoutY="520.0" prefHeight="35.0" prefWidth="700.0" spacing="15.0">
             <children>
-                <Button fx:id="btnModifier" mnemonicParsing="false" onAction="#activerModification" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Modifier" />
-                <Button fx:id="btnSauvegarder" disable="true" mnemonicParsing="false" onAction="#sauvegarder" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Sauvegarder" />
-                <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#supprimer" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Supprimer" />
-                <Button mnemonicParsing="false" onAction="#retourListe" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Retour" />
+                <Button fx:id="btnModifier" mnemonicParsing="false" onAction="#activerModification" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Modifier" />
+                <Button fx:id="btnSauvegarder" disable="true" mnemonicParsing="false" onAction="#sauvegarder" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Sauvegarder" />
+                <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#supprimer" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Supprimer" />
+                <!-- Bouton pour generer l'attestation PDF de cette demande -->
+                <Button mnemonicParsing="false" onAction="#genererPDF" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Generer PDF" />
+                <Button mnemonicParsing="false" onAction="#retourListe" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Retour" />
             </children>
         </HBox>
     </children>

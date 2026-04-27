@@ -40,12 +40,6 @@ public class ListeBoursesController implements Initializable {
     @FXML
     private TextField tfRecherche;
     @FXML
-    private Label lblTotal;
-    @FXML
-    private Label lblMontantMoyen;
-    @FXML
-    private Label lblMontantMax;
-    @FXML
     private Button btnAjouter;
 
     private boursesService service = new boursesService();
@@ -72,42 +66,14 @@ public class ListeBoursesController implements Initializable {
         });
     }
 
-    /**
-     * Charge toutes les bourses depuis la BD et les affiche dans la TableView.
-     * Met à jour les statistiques (total, moyenne, max) en bas de l'écran.
-     */
+
     private void chargerBourses() {
         masterList.clear();
         List<bourses> list = service.getAll();
         masterList.addAll(list);
-        
-        calculerStatistiques();
     }
 
-    private void calculerStatistiques() {
-        int total = masterList.size();
-        double sum = 0;
-        double max = 0;
-        
-        for (bourses b : masterList) {
-            double current = b.getMontant();
-            sum += current;
-            if (current > max) {
-                max = current;
-            }
-        }
-        
-        double avg = total > 0 ? sum / total : 0;
-        
-        lblTotal.setText("Total bourses : " + total);
-        lblMontantMoyen.setText(String.format("Montant moyen : %.2f DT", avg));
-        lblMontantMax.setText(String.format("Bourse max : %.2f DT", max));
-    }
 
-    /**
-     * Filtre la liste en temps réel selon le texte saisi dans tfRecherche.
-     * Utilise FilteredList pour ne pas recharger la BD à chaque frappe.
-     */
     private void configurerRecherche() {
         FilteredList<bourses> filteredData = new FilteredList<>(masterList, b -> true);
         
@@ -140,6 +106,18 @@ public class ListeBoursesController implements Initializable {
             Parent root = loader.load();
             DetailBourseController ctrl = loader.getController();
             ctrl.setBourse(b);
+            tableView.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Ouvrir la page des statistiques (dashboard admin)
+    @FXML
+    private void ouvrirStatistiques(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/bourses/Statistiques.fxml"));
+            Parent root = loader.load();
             tableView.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();

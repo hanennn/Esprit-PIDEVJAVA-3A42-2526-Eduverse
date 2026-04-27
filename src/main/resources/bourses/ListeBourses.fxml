@@ -23,6 +23,8 @@
             <Button mnemonicParsing="false" onAction="#deconnexion" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="← Déconnexion" />
             <Button fx:id="btnDemandes" mnemonicParsing="false" onAction="#ouvrirDemandes" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Gérer les Demandes" />
             <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#ouvrirAjout" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="+ Ajouter Bourse" />
+            <!-- Bouton pour ouvrir le dashboard statistiques -->
+            <Button mnemonicParsing="false" onAction="#ouvrirStatistiques" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 15; -fx-cursor: hand;" text="Statistiques" />
          </children>
       </HBox>
       
@@ -35,24 +37,5 @@
         </columns>
       </TableView>
       
-      <HBox layoutX="50.0" layoutY="540.0" prefHeight="30.0" prefWidth="800.0" spacing="50.0">
-         <children>
-            <Label fx:id="lblTotal" text="Total bourses : 0" textFill="#34495e">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblMontantMoyen" text="Montant moyen : 0 DT" textFill="#34495e">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblMontantMax" text="Bourse max : 0 DT" textFill="#34495e">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
    </children>
 </AnchorPane>

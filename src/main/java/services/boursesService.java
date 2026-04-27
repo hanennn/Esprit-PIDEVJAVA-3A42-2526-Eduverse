@@ -39,12 +39,12 @@ public class boursesService extends AbstractService<bourses> {
             pstmt.setInt(7, b.getId());
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                System.out.println("⚠️ Aucune ligne mise à jour. ID introuvable : " + b.getId());
+                System.out.println(" Aucune ligne mise à jour. ID introuvable : " + b.getId());
             } else {
-                System.out.println("✅ Mise à jour réussie en base pour l'ID : " + b.getId());
+                System.out.println(" Mise à jour réussie en base pour l'ID : " + b.getId());
             }
         } catch (SQLException e) {
-            System.err.println("❌ Erreur lors de l'UPDATE : " + e.getMessage());
+            System.err.println(" Erreur lors de l'UPDATE : " + e.getMessage());
             e.printStackTrace();
         }
     }

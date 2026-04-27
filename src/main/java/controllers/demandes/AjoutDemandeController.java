@@ -73,8 +73,7 @@ public class AjoutDemandeController implements Initializable {
         d.setNote(tfNote.getText().trim());
         d.setBourse_id(cbBourse.getValue().getId());
         d.setDate_demande(new Timestamp(System.currentTimeMillis()));
-        // Etudiant ID placeholder for now
-        d.setEtudiant_id(1); 
+        d.setEtudiant_id(1);
 
         service.add(d);
 
