@@ -39,9 +39,8 @@ public class AjouterQuizController {
     @FXML private Label scoreError;
     @FXML private Label coursError;
 
-    // ── Table ──
+    // ── Table — sans colonne ID ──
     @FXML private TableView<Quiz>            quizTable;
-    @FXML private TableColumn<Quiz, Integer> idCol;
     @FXML private TableColumn<Quiz, String>  titreCol;
     @FXML private TableColumn<Quiz, String>  typeCol;
     @FXML private TableColumn<Quiz, Integer> dureeCol;
@@ -76,7 +75,7 @@ public class AjouterQuizController {
     public void initialize() {
         typeQuizBox.getItems().addAll("Intermédiaire", "Final");
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        // ← Pas d'idCol
         titreCol.setCellValueFactory(new PropertyValueFactory<>("titre"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("typeQuiz"));
         dureeCol.setCellValueFactory(new PropertyValueFactory<>("duree"));
@@ -86,6 +85,100 @@ public class AjouterQuizController {
                         service.getNomCours(cell.getValue().getCoursAssocieId())
                 )
         );
+
+        // Badge coloré Type
+        typeCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null); setText(null);
+                } else {
+                    Label badge = new Label(item);
+                    badge.setStyle(item.equals("Final")
+                            ? "-fx-background-color: #fff3e0; -fx-text-fill: #f5a623;" +
+                            "-fx-font-weight: bold; -fx-font-size: 11;" +
+                            "-fx-background-radius: 4; -fx-padding: 3 10;"
+                            : "-fx-background-color: #e3f2fd; -fx-text-fill: #1976d2;" +
+                            "-fx-font-weight: bold; -fx-font-size: 11;" +
+                            "-fx-background-radius: 4; -fx-padding: 3 10;"
+                    );
+                    setGraphic(badge);
+                    setText(null);
+                    setAlignment(Pos.CENTER);
+                    setStyle("-fx-background-color: transparent;");
+                }
+            }
+        });
+
+        // Score coloré
+        scoreCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(Float item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null); setStyle("");
+                } else {
+                    setText(String.format("%.1f%%", item));
+                    setStyle(
+                            "-fx-alignment: CENTER; -fx-font-weight: bold;" +
+                                    (item >= 70 ? "-fx-text-fill: #2ecc71;"
+                                            : "-fx-text-fill: #f5a623;")
+                    );
+                }
+            }
+        });
+
+        // Durée
+        dureeCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null); setStyle("");
+                } else {
+                    setText(item + " min");
+                    setStyle("-fx-alignment: CENTER; -fx-text-fill: #555;");
+                }
+            }
+        });
+
+        // Lignes alternées + hover + sélection
+        quizTable.setRowFactory(tv -> {
+            TableRow<Quiz> row = new TableRow<>() {
+                @Override
+                protected void updateItem(Quiz item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setStyle("-fx-background-color: transparent;");
+                    } else {
+                        setStyle(getIndex() % 2 == 0
+                                ? "-fx-background-color: white;"
+                                : "-fx-background-color: #fafafa;");
+                    }
+                }
+            };
+            row.setOnMouseEntered(e -> {
+                if (!row.isEmpty())
+                    row.setStyle("-fx-background-color: #fff8ee; -fx-cursor: hand;");
+            });
+            row.setOnMouseExited(e -> {
+                if (!row.isEmpty())
+                    row.setStyle(row.getIndex() % 2 == 0
+                            ? "-fx-background-color: white;"
+                            : "-fx-background-color: #fafafa;");
+            });
+            row.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (!row.isEmpty()) {
+                    row.setStyle(isSelected
+                            ? "-fx-background-color: #fff3e0;"
+                            : row.getIndex() % 2 == 0
+                            ? "-fx-background-color: white;"
+                            : "-fx-background-color: #fafafa;");
+                }
+            });
+            return row;
+        });
 
         sortBox.getItems().addAll(
                 "Titre A→Z", "Titre Z→A",
@@ -133,7 +226,7 @@ public class AjouterQuizController {
             }
             filterCoursBox.setValue("Tous");
         } catch (Exception e) {
-            showError("❌ Erreur chargement cours : " + e.getMessage());
+            showError("Erreur chargement cours : " + e.getMessage());
         }
     }
 
@@ -141,13 +234,13 @@ public class AjouterQuizController {
     @FXML
     public void chargerQuiz() {
         try {
-            masterList = FXCollections.observableArrayList(service.afficher());
+            masterList   = FXCollections.observableArrayList(service.afficher());
             filteredList = new FilteredList<>(masterList, p -> true);
             SortedList<Quiz> sortedList = new SortedList<>(filteredList);
             quizTable.setItems(sortedList);
             mettreAJourCompteur();
         } catch (Exception e) {
-            showError("❌ Erreur chargement : " + e.getMessage());
+            showError("Erreur chargement : " + e.getMessage());
         }
     }
 
@@ -463,7 +556,6 @@ public class AjouterQuizController {
         popup.setScene(new Scene(root));
         popup.show();
 
-        // Fermer auto après 2s
         javafx.animation.PauseTransition pause =
                 new javafx.animation.PauseTransition(
                         javafx.util.Duration.seconds(2));
@@ -501,7 +593,7 @@ public class AjouterQuizController {
                     e.getMessage().contains("existe déjà")) {
                 afficherPopupDoublon(e.getMessage());
             } else {
-                showError(" Erreur : " + e.getMessage());
+                showError("Erreur : " + e.getMessage());
             }
         }
     }
@@ -523,7 +615,7 @@ public class AjouterQuizController {
 
             Quiz inserted = trouverDernierQuizParTitre(titre);
             if (inserted == null) {
-                showError(" Impossible de récupérer le quiz !");
+                showError("Impossible de récupérer le quiz !");
                 return;
             }
             naviguerQuestions(inserted.getId(), inserted.getTitre());
@@ -532,7 +624,7 @@ public class AjouterQuizController {
                     e.getMessage().contains("existe déjà")) {
                 afficherPopupDoublon(e.getMessage());
             } else {
-                showError(" Erreur : " + e.getMessage());
+                showError("Erreur : " + e.getMessage());
             }
         }
     }
@@ -554,7 +646,7 @@ public class AjouterQuizController {
     private void modifierQuiz() {
         Quiz selected = quizTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showError(" Sélectionnez un quiz à modifier !");
+            showError("Sélectionnez un quiz à modifier !");
             return;
         }
         if (!validerChamps()) return;
@@ -585,7 +677,7 @@ public class AjouterQuizController {
     private void supprimerQuiz() {
         Quiz selected = quizTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showError(" Sélectionnez un quiz à supprimer !");
+            showError("Sélectionnez un quiz à supprimer !");
             return;
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -643,7 +735,7 @@ public class AjouterQuizController {
             AjouterQuestionController ctrl = loader.getController();
             ctrl.setQuiz(quizId, quizTitre);
         } catch (Exception e) {
-            showError(" Erreur navigation : " + e.getMessage());
+            showError("Erreur navigation : " + e.getMessage());
         }
     }
 
@@ -657,7 +749,7 @@ public class AjouterQuizController {
             stage.setScene(new Scene(loader.load(), 1200, 750));
             stage.setTitle("Formateur — Tableau de bord");
         } catch (Exception e) {
-            showError(" Erreur navigation : " + e.getMessage());
+            showError("Erreur navigation : " + e.getMessage());
         }
     }
 

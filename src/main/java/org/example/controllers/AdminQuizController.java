@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,11 +17,25 @@ import org.example.entities.CertificationFinale;
 import org.example.entities.Quiz;
 import org.example.services.CertificationFinaleService;
 import org.example.services.CertificationService;
+import org.example.services.EmailService;
 import org.example.services.QuizService;
+import org.example.services.UserService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.text.Font;
+import javafx.embed.swing.SwingFXUtils;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 public class AdminQuizController {
 
@@ -36,8 +49,8 @@ public class AdminQuizController {
     @FXML private VBox   certifContainer;
     @FXML private Label  messageQuiz;
 
+    // ← Sans idCol
     @FXML private TableView<Quiz>            quizTable;
-    @FXML private TableColumn<Quiz, Integer> idCol;
     @FXML private TableColumn<Quiz, String>  titreCol;
     @FXML private TableColumn<Quiz, String>  typeCol;
     @FXML private TableColumn<Quiz, Integer> dureeCol;
@@ -48,11 +61,11 @@ public class AdminQuizController {
     private final CertificationService       certifService       = new CertificationService();
     private final CertificationFinaleService certifFinaleService =
             new CertificationFinaleService();
+    private final UserService                userService         = new UserService();
 
     // ─────────── INIT ───────────
     @FXML
     public void initialize() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         titreCol.setCellValueFactory(new PropertyValueFactory<>("titre"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("typeQuiz"));
         dureeCol.setCellValueFactory(new PropertyValueFactory<>("duree"));
@@ -63,18 +76,13 @@ public class AdminQuizController {
                 )
         );
 
-        idCol.setStyle("-fx-alignment: CENTER;");
-        dureeCol.setStyle("-fx-alignment: CENTER;");
-
         // ── Badge coloré Type ──
         typeCol.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setGraphic(null);
-                    setText(null);
-                    setStyle("");
+                    setGraphic(null); setText(null); setStyle("");
                 } else {
                     Label badge = new Label(item);
                     badge.setStyle(item.equals("Final")
@@ -88,7 +96,6 @@ public class AdminQuizController {
                     setGraphic(badge);
                     setText(null);
                     setAlignment(Pos.CENTER);
-                    // ← FIX: pas de background sur la cellule
                     setStyle("-fx-background-color: transparent;");
                 }
             }
@@ -100,14 +107,12 @@ public class AdminQuizController {
             protected void updateItem(Float item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
+                    setText(null); setStyle("");
                 } else {
                     setText(String.format("%.1f%%", item));
                     setStyle(
                             "-fx-alignment: CENTER; -fx-font-weight: bold;" +
-                                    (item >= 70
-                                            ? "-fx-text-fill: #2ecc71;"
+                                    (item >= 70 ? "-fx-text-fill: #2ecc71;"
                                             : "-fx-text-fill: #f5a623;")
                     );
                 }
@@ -120,28 +125,10 @@ public class AdminQuizController {
             protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
+                    setText(null); setStyle("");
                 } else {
                     setText(item + " min");
                     setStyle("-fx-alignment: CENTER; -fx-text-fill: #555;");
-                }
-            }
-        });
-
-        // ── ID ──
-        idCol.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText(String.valueOf(item));
-                    setStyle(
-                            "-fx-alignment: CENTER; -fx-text-fill: #888;" +
-                                    "-fx-font-size: 11;");
                 }
             }
         });
@@ -152,8 +139,7 @@ public class AdminQuizController {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
+                    setText(null); setStyle("");
                 } else {
                     setText(item);
                     setStyle(
@@ -169,8 +155,7 @@ public class AdminQuizController {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
+                    setText(null); setStyle("");
                 } else {
                     Label badge = new Label(item);
                     badge.setStyle(
@@ -195,47 +180,35 @@ public class AdminQuizController {
                     if (empty || item == null) {
                         setStyle("-fx-background-color: transparent;");
                     } else {
-                        // Alterner couleurs
                         setStyle(getIndex() % 2 == 0
                                 ? "-fx-background-color: white;"
                                 : "-fx-background-color: #fafafa;");
                     }
                 }
             };
-
-            // Hover
             row.setOnMouseEntered(e -> {
-                if (!row.isEmpty()) {
+                if (!row.isEmpty())
                     row.setStyle(
                             "-fx-background-color: #fff8ee; -fx-cursor: hand;");
-                }
             });
             row.setOnMouseExited(e -> {
-                if (!row.isEmpty()) {
+                if (!row.isEmpty())
                     row.setStyle(row.getIndex() % 2 == 0
+                            ? "-fx-background-color: white;"
+                            : "-fx-background-color: #fafafa;");
+            });
+            row.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (!row.isEmpty()) {
+                    row.setStyle(isSelected
+                            ? "-fx-background-color: #fff3e0;"
+                            : row.getIndex() % 2 == 0
                             ? "-fx-background-color: white;"
                             : "-fx-background-color: #fafafa;");
                 }
             });
-
-            // Sélection
-            row.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
-                if (!row.isEmpty()) {
-                    if (isSelected) {
-                        row.setStyle(
-                                "-fx-background-color: #fff3e0;");
-                    } else {
-                        row.setStyle(row.getIndex() % 2 == 0
-                                ? "-fx-background-color: white;"
-                                : "-fx-background-color: #fafafa;");
-                    }
-                }
-            });
-
             return row;
         });
 
-        // ── Style TableView ──
         quizTable.setStyle(
                 "-fx-background-color: white;" +
                         "-fx-table-header-background: #f8f9fa;" +
@@ -286,7 +259,7 @@ public class AdminQuizController {
             }
             messageQuiz.setText("");
         } catch (Exception e) {
-            showMsg(" Erreur : " + e.getMessage(), false);
+            showMsg("Erreur : " + e.getMessage(), false);
         }
     }
 
@@ -294,7 +267,7 @@ public class AdminQuizController {
     private void supprimerQuiz() {
         Quiz selected = quizTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showMsg(" Sélectionnez un quiz à supprimer !", false);
+            showMsg("Sélectionnez un quiz à supprimer !", false);
             return;
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -307,10 +280,10 @@ public class AdminQuizController {
             if (response == ButtonType.OK) {
                 try {
                     quizService.supprimer(selected.getId());
-                    showMsg(" Quiz supprimé avec succès !", true);
+                    showMsg("Quiz supprimé avec succès !", true);
                     chargerQuiz();
                 } catch (Exception e) {
-                    showMsg(" Erreur : " + e.getMessage(), false);
+                    showMsg("Erreur : " + e.getMessage(), false);
                 }
             }
         });
@@ -336,7 +309,7 @@ public class AdminQuizController {
                 chargerCertifFinalesLiees(c.getId(), carteTentative);
             }
         } catch (Exception e) {
-            Label err = new Label(" Erreur : " + e.getMessage());
+            Label err = new Label("Erreur : " + e.getMessage());
             err.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 12;");
             certifContainer.getChildren().add(err);
         }
@@ -357,7 +330,7 @@ public class AdminQuizController {
     }
 
     // ─────────── CARTE TENTATIVE ───────────
-    private VBox creerCarteTentative(Certification c) {
+    private VBox creerCarteTentative(Certification c) {//verifier statut et cree carte si reussite ajouter bouton pour ajouter certif final
         VBox card = new VBox(10);
         card.setStyle(
                 "-fx-background-color: white; -fx-background-radius: 12;" +
@@ -472,18 +445,35 @@ public class AdminQuizController {
         cardFinale.getChildren().addAll(titre, infos);
         return cardFinale;
     }
+    private void sauvegarderSignature(WritableImage image, int certifId) {
+        try {                         //image de la sign dessiné par utilisateur   // id ceetif pour nommer le fichier
+            File dossier = new File("signatures"); //creer une ref vers dossier signature
+            if (!dossier.exists()) {
+                dossier.mkdirs();
+            }
 
-    // ─────────── POPUP CERTIFICATION FINALE ───────────
+            File file = new File(dossier, "certif_" + certifId + ".png");
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+
+            System.out.println("✅ Signature sauvegardée : " + file.getAbsolutePath());
+
+        } catch (Exception e) {
+            System.out.println("❌ Erreur sauvegarde signature : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // ─────────── POPUP CERTIFICATION FINALE + EMAIL ───────────
     private void afficherPopupCertifFinale(Certification certifOrigine,
                                            VBox card) {
         Stage popup = new Stage();
-        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.initModality(Modality.APPLICATION_MODAL);//bloque fentre principale jusqu'a fermeture
         popup.setTitle("Certification Finale");
         popup.setResizable(false);
 
         VBox root = new VBox(12);
         root.setStyle("-fx-background-color: #f4f6f9; -fx-padding: 30;");
-        root.setPrefWidth(430);
+        root.setPrefWidth(500);
 
         Label titre = new Label("🏆 Ajouter Certification Finale");
         titre.setStyle(
@@ -494,11 +484,12 @@ public class AdminQuizController {
         barre.setStyle(
                 "-fx-background-color: #f5a623; -fx-background-radius: 2;");
 
+        // Info tentative
         VBox infoBox = new VBox(4);
         infoBox.setStyle(
                 "-fx-background-color: #f0f4ff; -fx-background-radius: 8;" +
                         "-fx-padding: 10;");
-        Label infoTentative = new Label(
+        Label infoTentative = new Label( //les infos
                 "Tentative #" + certifOrigine.getId() +
                         "  |  User " + certifOrigine.getUserId() +
                         "  |  Score : " +
@@ -507,17 +498,97 @@ public class AdminQuizController {
                 "-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;");
         infoBox.getChildren().add(infoTentative);
 
+        // Info email
+        VBox emailInfoBox = new VBox(4);
+        emailInfoBox.setStyle(
+                "-fx-background-color: #e8f5e9; -fx-background-radius: 8;" +
+                        "-fx-padding: 10;");
+        Label emailIcon = new Label("📧 Un email sera envoyé automatiquement à l'étudiant");
+        emailIcon.setStyle(
+                "-fx-font-size: 11; -fx-text-fill: #2ecc71; -fx-font-weight: bold;");
+        emailInfoBox.getChildren().add(emailIcon);//ajout de la message dans boite
+
+        // Badge
         Label lblBadge = new Label("Badge :");
         lblBadge.setStyle("-fx-font-weight: bold; -fx-text-fill: #555;");
+
         ComboBox<String> badgeBox = new ComboBox<>();
         badgeBox.getItems().addAll("Or", "Argent", "Bronze");
         badgeBox.setValue(certifOrigine.getBadge() != null
                 && !certifOrigine.getBadge().isEmpty()
                 ? certifOrigine.getBadge() : "Or");
-        badgeBox.setPrefWidth(370);
+        badgeBox.setPrefWidth(440);
         badgeBox.setStyle(
                 "-fx-background-color: white; -fx-border-color: #dde1e7;" +
                         "-fx-border-radius: 8; -fx-background-radius: 8;");
+
+        // Signature admin
+        Label lblSig = new Label("✍️ Signature de l'admin :");
+        lblSig.setStyle("-fx-font-weight: bold; -fx-text-fill: #555;");
+
+        Canvas canvas = new Canvas(440, 160);//zone de dessin
+        GraphicsContext gc = canvas.getGraphicsContext2D();//l'outil qui permet de dessiner sur canvas
+
+        // Fond blanc
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, 440, 160);
+
+        // Ligne de signature
+        gc.setStroke(Color.web("#dde1e7"));
+        gc.setLineWidth(1);
+        gc.strokeLine(20, 130, 420, 130);
+        gc.setFill(Color.web("#aaa"));
+        gc.setFont(Font.font(10));
+        gc.fillText("Signez ici", 190, 148);
+
+        StackPane canvasWrapper = new StackPane(canvas);
+        canvasWrapper.setStyle(
+                "-fx-border-color: #1a1f3c; -fx-border-width: 2;" +
+                        "-fx-border-radius: 8; -fx-background-color: white;" +
+                        "-fx-background-radius: 8;");
+
+        // le style du trait de signature
+        gc.setStroke(Color.web("#1a1f3c"));
+        gc.setLineWidth(2.5);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.setLineJoin(StrokeLineJoin.ROUND);
+
+        final boolean[] enTrain = {false};//variable qui indique si l'utilisateur est en train de dessiner
+
+        canvas.setOnMousePressed(e -> {
+            enTrain[0] = true;
+            gc.beginPath();
+            gc.moveTo(e.getX(), e.getY());//commence le dessin à la position de la souris
+        });
+
+        canvas.setOnMouseDragged(e -> {
+            if (enTrain[0]) {
+                gc.setStroke(Color.web("#1a1f3c"));
+                gc.setLineWidth(2.5);
+                gc.lineTo(e.getX(), e.getY());
+                gc.stroke();
+                gc.beginPath();
+                gc.moveTo(e.getX(), e.getY());
+            }
+        });
+
+        canvas.setOnMouseReleased(e -> enTrain[0] = false);//relâcherr la souris, le dessin s’arrête
+
+        Button btnEffacer = new Button("🗑️ Effacer signature");
+        btnEffacer.setStyle(
+                "-fx-background-color: #e9ecef; -fx-text-fill: #555;" +
+                        "-fx-font-size: 11; -fx-background-radius: 6;" +
+                        "-fx-padding: 6 12; -fx-cursor: hand;");
+        btnEffacer.setOnAction(e -> { //on clique, on redessine le fond blanc + la ligne + “Signez ici”
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, 440, 160);
+            gc.setStroke(Color.web("#dde1e7"));
+            gc.setLineWidth(1);
+            gc.strokeLine(20, 130, 420, 130);
+            gc.setFill(Color.web("#aaa"));
+            gc.setFont(Font.font(10));
+            gc.fillText("Signez ici", 190, 148);
+        });
 
         Label msgLabel = new Label("");
         msgLabel.setStyle("-fx-font-size: 12; -fx-font-weight: bold;");
@@ -526,15 +597,15 @@ public class AdminQuizController {
         HBox btnBox = new HBox(10);
         btnBox.setAlignment(Pos.CENTER);
 
-        Button btnConfirmer = new Button(" Confirmer");
-        btnConfirmer.setPrefWidth(180);
+        Button btnConfirmer = new Button("✅  Confirmer et signer");
+        btnConfirmer.setPrefWidth(200);
         btnConfirmer.setStyle(
                 "-fx-background-color: #f5a623; -fx-text-fill: white;" +
                         "-fx-font-weight: bold; -fx-background-radius: 8;" +
                         "-fx-padding: 11; -fx-cursor: hand;");
 
-        Button btnAnnuler = new Button("Annuler");
-        btnAnnuler.setPrefWidth(180);
+        Button btnAnnuler = new Button("❌  Annuler");
+        btnAnnuler.setPrefWidth(160);
         btnAnnuler.setStyle(
                 "-fx-background-color: #e74c3c; -fx-text-fill: white;" +
                         "-fx-font-weight: bold; -fx-background-radius: 8;" +
@@ -551,6 +622,7 @@ public class AdminQuizController {
                     return;
                 }
 
+                // 1) Créer objet la certification finale
                 CertificationFinale certifFinale = new CertificationFinale(
                         Timestamp.valueOf(LocalDateTime.now()),
                         badge,
@@ -558,35 +630,102 @@ public class AdminQuizController {
                         certifOrigine.getQuizId(),
                         certifOrigine.getId()
                 );
-                certifFinaleService.ajouter(certifFinale);
+                certifFinaleService.ajouter(certifFinale);//Enregistre la certification finale dans la base
 
+                // 2) Retrouver la certif insérée
                 CertificationFinale inserted =
-                        trouverDerniereCertifFinale(certifOrigine.getId());
+                        trouverDerniereCertifFinale(certifOrigine.getId());//trouver dernier certif ajouter
 
-                if (inserted != null) {
-                    VBox carteFinale = creerCarteFinaleExistante(inserted);
-                    int index =
-                            certifContainer.getChildren().indexOf(card);
-                    if (index >= 0) {
-                        certifContainer.getChildren()
-                                .add(index + 1, carteFinale);
-                    } else {
-                        certifContainer.getChildren().add(carteFinale);
-                    }
+                if (inserted == null) {
+                    msgLabel.setText("❌ Impossible de récupérer la certification finale.");
+                    msgLabel.setStyle(
+                            "-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                    return;
                 }
 
-                msgLabel.setText(" Certification finale ajoutée !");
-                msgLabel.setStyle(
-                        "-fx-text-fill: #2ecc71; -fx-font-weight: bold;");
+                //  Capturer la signature
+                SnapshotParameters params = new SnapshotParameters();//Transforme le dessin du canvas en image JavaFX
+                params.setFill(Color.WHITE);
+                WritableImage snapshot = canvas.snapshot(params, null);
 
-                javafx.animation.PauseTransition pause =
-                        new javafx.animation.PauseTransition(
-                                javafx.util.Duration.seconds(2));
-                pause.setOnFinished(ev -> popup.close());
-                pause.play();
+                //  Sauvegarder la signature en PNG
+                sauvegarderSignature(snapshot, inserted.getId());//Enregistre l’image dans un fichier PNG
+
+                //  Afficher la carte finale sous la tentative
+                VBox carteFinale = creerCarteFinaleExistante(inserted);
+                int index = certifContainer.getChildren().indexOf(card);
+                if (index >= 0) {
+                    certifContainer.getChildren().add(index + 1, carteFinale);
+                } else {
+                    certifContainer.getChildren().add(carteFinale);
+                }
+
+                // 6) Désactiver bouton pendant envoi mail
+                btnConfirmer.setDisable(true);
+                msgLabel.setText("📧 Certif créée. Envoi de l'email en cours...");
+                msgLabel.setStyle(
+                        "-fx-text-fill: #f5a623; -fx-font-weight: bold;");
+
+                final CertificationFinale insertedFinal = inserted;
+                final String badgeFinal = badge;
+
+                new Thread(() -> {//lancer un thread pour l'envoi du mail
+                    try {
+                        String email = userService.getEmailParId( //recuperer email
+                                certifOrigine.getUserId());
+                        String nom = userService.getNomParId(  //recuperer nom
+                                certifOrigine.getUserId());
+
+                        if (email != null && !email.isEmpty()) {
+                            String dateStr = insertedFinal.getDateEmission() != null
+                                    ? insertedFinal.getDateEmission().toString().substring(0, 16)
+                                    : LocalDateTime.now().toString().substring(0, 16);
+
+                            EmailService.envoyerEmailCertification(  //envoyer mail
+                                    email,
+                                    nom,
+                                    badgeFinal,
+                                    insertedFinal.getId(),
+                                    dateStr,
+                                    certifOrigine.getQuizId()
+                            );
+
+                            javafx.application.Platform.runLater(() -> { //retourner au thread principale
+                                msgLabel.setText(
+                                        "✅ Certif signée ! Email envoyé à " + email);
+                                msgLabel.setStyle(
+                                        "-fx-text-fill: #2ecc71; -fx-font-weight: bold;");
+                            });
+                        } else {
+                            javafx.application.Platform.runLater(() -> {
+                                msgLabel.setText(
+                                        "✅ Certif signée ! Email introuvable.");
+                                msgLabel.setStyle(
+                                        "-fx-text-fill: #f39c12; -fx-font-weight: bold;");
+                            });
+                        }
+
+                    } catch (Exception ex) {
+                        javafx.application.Platform.runLater(() -> {
+                            msgLabel.setText(
+                                    "✅ Certif signée ! Erreur email : " + ex.getMessage());
+                            msgLabel.setStyle(
+                                    "-fx-text-fill: #f39c12; -fx-font-weight: bold;");
+                        });
+                        ex.printStackTrace();
+                    }
+
+                    javafx.application.Platform.runLater(() -> {
+                        javafx.animation.PauseTransition pause =
+                                new javafx.animation.PauseTransition(
+                                        javafx.util.Duration.seconds(3));
+                        pause.setOnFinished(ev -> popup.close());
+                        pause.play();
+                    });
+                }).start();
 
             } catch (Exception ex) {
-                msgLabel.setText(" Erreur : " + ex.getMessage());
+                msgLabel.setText("❌ Erreur : " + ex.getMessage());
                 msgLabel.setStyle(
                         "-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
                 ex.printStackTrace();
@@ -596,18 +735,17 @@ public class AdminQuizController {
         btnBox.getChildren().addAll(btnConfirmer, btnAnnuler);
 
         root.getChildren().addAll(
-                titre, barre, infoBox,
+                titre, barre, infoBox, emailInfoBox,
                 lblBadge, badgeBox,
+                lblSig, canvasWrapper, btnEffacer,
                 msgLabel, btnBox
         );
 
         popup.setScene(new Scene(root));
-        popup.showAndWait();
+        popup.showAndWait();//ouvre et bloque jusqu'a fermeture
     }
-
     // ─────────── HELPER ───────────
-    private CertificationFinale trouverDerniereCertifFinale(
-            int tentativeId) {
+    private CertificationFinale trouverDerniereCertifFinale(int tentativeId) {
         try {
             CertificationFinale derniere = null;
             for (CertificationFinale cf : certifFinaleService.afficher()) {
@@ -620,7 +758,6 @@ public class AdminQuizController {
         }
     }
 
-    // ─────────── RETOUR ───────────
     @FXML
     private void retourAccueil() {
         try {
@@ -631,7 +768,6 @@ public class AdminQuizController {
         }
     }
 
-    // ─────────── HELPERS ───────────
     private void showMsg(String msg, boolean success) {
         messageQuiz.setStyle(success
                 ? "-fx-text-fill: #2ecc71; -fx-font-weight: bold;"

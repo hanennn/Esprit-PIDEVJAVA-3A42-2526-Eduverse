@@ -110,11 +110,10 @@
                                style="-fx-background-color: transparent;
                                       -fx-background-radius: 12;
                                       -fx-border-color: transparent;">
+                        <!-- Remplace la partie <columns> du quizTable -->
                         <columns>
-                            <TableColumn fx:id="idCol"    text="ID"
-                                         prefWidth="60"  minWidth="60"/>
                             <TableColumn fx:id="titreCol" text="Titre"
-                                         prefWidth="220" minWidth="150"/>
+                                         prefWidth="250" minWidth="150"/>
                             <TableColumn fx:id="typeCol"  text="Type"
                                          prefWidth="130" minWidth="100"/>
                             <TableColumn fx:id="dureeCol" text="Durée (min)"
@@ -122,7 +121,7 @@
                             <TableColumn fx:id="scoreCol" text="Score Min"
                                          prefWidth="110" minWidth="90"/>
                             <TableColumn fx:id="coursCol" text="Cours"
-                                         prefWidth="160" minWidth="100"/>
+                                         prefWidth="180" minWidth="100"/>
                         </columns>
                         <placeholder>
                             <Label text="Aucun quiz disponible"
