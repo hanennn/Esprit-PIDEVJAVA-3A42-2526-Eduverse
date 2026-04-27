@@ -121,6 +121,7 @@ public class ProfessorService {
         return null;
     }
 
+
     public void updateDateLastConnexion(int id) throws SQLException {
         String sql = "UPDATE `user` SET `date_derniere_connexion` = NOW() WHERE `id` = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
