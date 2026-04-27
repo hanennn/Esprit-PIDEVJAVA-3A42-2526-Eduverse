@@ -2,8 +2,8 @@ package utils;
 
 public class GoogleOAuthConfig {
 
-    public static final String CLIENT_ID     = "1068811012999-gv2aid4cn7lr183m88k3c69m279ikmfi.apps.googleusercontent.com";
-    public static final String CLIENT_SECRET = "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";
+    public static final String CLIENT_ID     = "Client ID ";
+    public static final String CLIENT_SECRET = "Client Secret";
     public static final String REDIRECT_URI  = "http://localhost:8888/callback";
     public static final int    CALLBACK_PORT = 8888;
 
