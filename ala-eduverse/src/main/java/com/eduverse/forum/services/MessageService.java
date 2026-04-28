@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageService {
+public class xMessageService {
     private final UserService userService = new UserService();
     private final SujetService sujetService = new SujetService();
 
