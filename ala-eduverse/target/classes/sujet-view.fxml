@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.eduverse.forum.controllers.SujetController" spacing="16" styleClass="content-area">
+    <children>
+        <HBox spacing="12">
+            <TextField fx:id="searchField" promptText="Rechercher un sujet..." HBox.hgrow="ALWAYS" styleClass="search-field"/>
+            <ComboBox fx:id="sortComboBox" prefWidth="180"/>
+            <Button fx:id="newSujetButton" text="+ Nouveau Sujet" onAction="#handleNewSujet" styleClass="btn-primary"/>
+        </HBox>
+        <VBox fx:id="formPane" spacing="12" visible="false" managed="false" styleClass="card">
+            <Label fx:id="formTitle" text="Créer un nouveau sujet" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label fx:id="validationLabel" textFill="#C0392B"/>
+            <TextField fx:id="titreField" promptText="Titre *"/>
+            <TextArea fx:id="contenuField" promptText="Contenu *" prefRowCount="5"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="📷 Choisir Image" onAction="#handleChooseImage" styleClass="btn-secondary"/>
+                <Label fx:id="imageNameLabel" text="Aucune image sélectionnée" styleClass="text-muted"/>
+            </HBox>
+            <HBox spacing="10">
+                <Button text="Traduire le contenu 🌐" onAction="#handleTranslate" styleClass="btn-secondary"/>
+                <ProgressIndicator fx:id="translationIndicator" visible="false" prefWidth="20" prefHeight="20"/>
+            </HBox>
+            <TextArea fx:id="translatedField" editable="false" promptText="Résultat de la traduction" prefRowCount="4"/>
+            <HBox spacing="10">
+                <Button text="💾 Enregistrer" onAction="#handleSave" styleClass="btn-primary"/>
+                <Button text="Annuler" onAction="#handleCancel" styleClass="btn-secondary"/>
+            </HBox>
+        </VBox>
+        <VBox fx:id="listPane" spacing="14">
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox fx:id="subjectsBox" spacing="14"/>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </children>
+</VBox>

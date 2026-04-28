@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.eduverse.forum.controllers.AdminController" spacing="16" styleClass="content-area">
+    <children>
+        <Label text="Administration" styleClass="page-title"/>
+        <VBox spacing="10" styleClass="card">
+            <children>
+                <Label text="Gestion des sujets" styleClass="section-title"/>
+                <TableView fx:id="sujetsTable" prefHeight="280" styleClass="modern-table"/>
+            </children>
+        </VBox>
+        <VBox spacing="10" styleClass="card" VBox.vgrow="ALWAYS">
+            <children>
+                <Label text="Gestion des messages" styleClass="section-title"/>
+                <TableView fx:id="messagesTable" prefHeight="280" styleClass="modern-table" VBox.vgrow="ALWAYS"/>
+            </children>
+        </VBox>
+    </children>
+</VBox>

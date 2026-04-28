@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.eduverse.forum.controllers.BadwordController" spacing="16" styleClass="content-area">
+    <children>
+        <Label text="Gestion des Badwords" styleClass="page-title"/>
+        <VBox spacing="10" styleClass="card">
+            <Label text="Ajouter un mot interdit" styleClass="section-title"/>
+            <Label fx:id="validationLabel" textFill="#C0392B"/>
+            <HBox spacing="10">
+                <TextField fx:id="wordField" promptText="Mot à ajouter..." HBox.hgrow="ALWAYS" styleClass="search-field"/>
+                <ComboBox fx:id="actionCombo" prefWidth="100"/>
+                <Button text="Ajouter" onAction="#handleAdd" styleClass="btn-primary"/>
+            </HBox>
+        </VBox>
+        <VBox spacing="10" styleClass="card" VBox.vgrow="ALWAYS">
+            <children>
+                <Label text="Liste des mots interdits" styleClass="section-title"/>
+                <TableView fx:id="badwordsTable" prefHeight="400" styleClass="modern-table" VBox.vgrow="ALWAYS"/>
+            </children>
+        </VBox>
+    </children>
+</VBox>

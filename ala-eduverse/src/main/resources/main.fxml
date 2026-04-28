@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.eduverse.forum.controllers.MainController">
+    <left>
+        <VBox spacing="16" prefWidth="220" styleClass="sidebar" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="20" right="16" bottom="20" left="16"/>
+            </padding>
+            <Label text="📚 Eduverse Forum" style="-fx-text-fill: #E8820C; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="userComboBox" prefWidth="188" promptText="Choisir un user"/>
+            <Separator/>
+            <Button fx:id="subjectsButton" text="📋 Tous les Sujets" onAction="#handleSubjectsButton" styleClass="sidebar-item" maxWidth="Infinity"/>
+            <Button fx:id="newSujetButton" text="➕ Nouveau Sujet" onAction="#handleNewSujetButton" styleClass="sidebar-item" maxWidth="Infinity"/>
+            <Button fx:id="adminButton" text="👑 Administration" onAction="#handleAdminButton" styleClass="sidebar-item" maxWidth="Infinity"/>
+            <Button fx:id="statsButton" text="📊 Statistiques Forum" onAction="#handleStatsButton" styleClass="sidebar-item" maxWidth="Infinity"/>
+            <Button fx:id="badwordButton" text="🚫 Badwords" onAction="#handleBadwordButton" styleClass="sidebar-item" maxWidth="Infinity"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label fx:id="reputationLabel" text="Réputation: -" style="-fx-text-fill: white; -fx-font-size: 13px;"/>
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contentHolder" styleClass="content-area"/>
+    </center>
+</BorderPane>

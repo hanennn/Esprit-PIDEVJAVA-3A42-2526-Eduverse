@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.eduverse.forum.controllers.MessageController" spacing="16" styleClass="content-area">
+    <children>
+        <VBox fx:id="subjectCardContainer" spacing="12"/>
+        <HBox spacing="8">
+            <ProgressIndicator fx:id="translateIndicator" visible="false" prefWidth="20" prefHeight="20"/>
+            <Label fx:id="infoLabel" wrapText="true"/>
+        </HBox>
+        <Label fx:id="validationLabel" textFill="#C0392B" wrapText="true"/>
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <content>
+                <VBox fx:id="messagesBox" spacing="14"/>
+            </content>
+        </ScrollPane>
+        <VBox spacing="10" styleClass="card">
+            <Label text="Répondre" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <TextArea fx:id="replyArea" promptText="Votre réponse..." prefRowCount="4"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="🎬 Ajouter GIF" onAction="#handleShowGifPicker" styleClass="btn-secondary"/>
+                <Label fx:id="selectedGifLabel" text="Aucun GIF" styleClass="text-muted"/>
+                <Button fx:id="clearGifButton" text="✖" onAction="#handleClearGif" visible="false" styleClass="btn-danger-small"/>
+            </HBox>
+            <Button text="📤 Publier" onAction="#handlePublish" styleClass="btn-primary"/>
+        </VBox>
+    </children>
+</VBox>
