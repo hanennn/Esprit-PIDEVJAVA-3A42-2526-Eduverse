@@ -1,9 +1,9 @@
-#EduVerse — Plateforme de Gestion Pédagogique
+# EduVerse — Plateforme de Gestion Pédagogique
 
-EduVerse est une plateforme éducative desktop développée dans le cadre d'un projet académique à #Esprit School of Engineering – Tunisie, durant l'année universitaire 2025–2026.
+EduVerse est une plateforme éducative desktop développée dans le cadre d'un projet académique à # Esprit School of Engineering – Tunisie, durant l'année universitaire 2025–2026.
 Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plusieurs modules destinés aux étudiants, formateurs et administrateurs, tout en offrant une expérience interactive et structurée.
 
-#Fonctionnalités:
+# Fonctionnalités:
 
   Gestion des utilisateurs (étudiants, formateurs, administrateurs)
   
@@ -17,7 +17,7 @@ Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plu
   
   Forums de discussion et échanges entre utilisateurs
   
-#Technologies utilisées:
+# Technologies utilisées:
 
    Java 17+
    
@@ -31,13 +31,13 @@ Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plu
    
    FXML — définition des vues
 
-#Outils & Bibliothèques:
+# Outils & Bibliothèques:
 
    Maven — gestion des dépendances
    
    MySQL 8.0.33 — base de données relationnelle
 
-#Architecture:
+# Architecture:
 
  L'application est conçue selon l'architecture MVC (Model – View – Controller) :
    Model : entités Java (cours, chapitres, Quiz, Certification...) et services JDBC
@@ -45,7 +45,7 @@ Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plu
    Controller : logique métier et navigation entre vues (ListeCoursController, AdminQuizController...)
 
   
-#Installation et exécution:
+# Installation et exécution:
 
    Prérequis:
    
@@ -53,7 +53,7 @@ Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plu
    MySQL 8.0+
    JavaFX SDK 21
 
-#Equipe du projet:
+# Equipe du projet:
 
    Hanen Ben Naceur
    
@@ -67,7 +67,7 @@ Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plu
    
    Alaa Boujenoui
 
- #Contexte académique:
+ # Contexte académique:
  
     Établissement : Esprit School of Engineering – Tunisie
     
