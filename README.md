@@ -39,19 +39,6 @@ L'application est conçue selon l'architecture MVC (Model – View – Controlle
   View : interfaces utilisateur définies en FXML (listeCours.fxml, CoursDetailEtudiant.fxml...)
   Controller : logique métier et navigation entre vues (ListeCoursController, AdminQuizController...)
 
-Structure du projet:
-
-  src/
-  ├── main/
-  
-  │   ├── java/org/example/
-  │   │   ├── controllers/    
-  │   │   ├── entities/        
-  │   │   ├── services/      
-  │   │   └── utils/ 
-  
-  │   └── resources/
-  │       ├── *.fxml           
   
 Installation et exécution:
 
