@@ -1,6 +1,6 @@
 # EduVerse — Plateforme de Gestion Pédagogique
 
-EduVerse est une plateforme éducative desktop développée dans le cadre d'un projet académique à Esprit School of Engineering – Tunisie, durant l'année universitaire 2025–2026.
+EduVerse est une plateforme éducative desktop développée dans le cadre d'un projet académique à **Esprit School of Engineering** – Tunisie, durant l'année universitaire 2025–2026.
 Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plusieurs modules destinés aux étudiants, formateurs et administrateurs, tout en offrant une expérience interactive et structurée.
 
 # Fonctionnalités:
@@ -25,7 +25,7 @@ Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plu
    
    JDBC — connexion et persistance MySQL
 
-#Frontend / Interface:
+# Frontend / Interface:
  
    JavaFX 21 — interface graphique desktop 
    
