@@ -15,21 +15,17 @@ Fonctionnalités:
 Technologies utilisées:
 
   Java 17+
-  
   Architecture MVC
-  
   JDBC — connexion et persistance MySQL
 
 Frontend / Interface:
 
-  JavaFX 21 — interface graphique desktop
-  
+  JavaFX 21 — interface graphique desktop 
   FXML — définition des vues
 
 Outils & Bibliothèques:
 
   Maven — gestion des dépendances
-  
   MySQL 8.0.33 — base de données relationnelle
 
 Architecture:
