@@ -6,10 +6,15 @@ Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plu
 Fonctionnalités:
 
  Gestion des utilisateurs (étudiants, formateurs, administrateurs)
+ 
  Gestion des cours et des chapitres 
+
  Gestion des quiz et certifications
+ 
  Gestion des événements éducatifs
+ 
  Gestion des bourses et opportunités académiques
+ 
  Forums de discussion et échanges entre utilisateurs
  
 Technologies utilisées:
