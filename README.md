@@ -21,11 +21,13 @@ Technologies utilisées:
 Frontend / Interface:
 
   JavaFX 21 — interface graphique desktop 
+  
   FXML — définition des vues
 
 Outils & Bibliothèques:
 
   Maven — gestion des dépendances
+  
   MySQL 8.0.33 — base de données relationnelle
 
 Architecture:
