@@ -16,6 +16,7 @@ Technologies utilisées:
 
   Java 17+
   Architecture MVC
+  
   JDBC — connexion et persistance MySQL
 
 Frontend / Interface:
