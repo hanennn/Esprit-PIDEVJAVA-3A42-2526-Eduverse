@@ -4,6 +4,7 @@ EduVerse est une plateforme éducative desktop développée dans le cadre d'un p
 Elle vise à centraliser et digitaliser la gestion pédagogique en proposant plusieurs modules destinés aux étudiants, formateurs et administrateurs, tout en offrant une expérience interactive et structurée.
 
 Fonctionnalités:
+
  Gestion des utilisateurs (étudiants, formateurs, administrateurs)
  Gestion des cours et des chapitres 
  Gestion des quiz et certifications
@@ -12,19 +13,23 @@ Fonctionnalités:
  Forums de discussion et échanges entre utilisateurs
  
 Technologies utilisées:
+
   Java 17+
   Architecture MVC
   JDBC — connexion et persistance MySQL
 
 Frontend / Interface:
+
   JavaFX 21 — interface graphique desktop
   FXML — définition des vues
 
 Outils & Bibliothèques:
+
   Maven — gestion des dépendances
   MySQL 8.0.33 — base de données relationnelle
 
 Architecture:
+
 L'application est conçue selon l'architecture MVC (Model – View – Controller) :
   Model : entités Java (cours, chapitres, Quiz, Certification...) et services JDBC
   View : interfaces utilisateur définies en FXML (listeCours.fxml, CoursDetailEtudiant.fxml...)
@@ -43,12 +48,14 @@ Structure du projet:
   │       ├── *.fxml           
   
 Installation et exécution:
+
   Prérequis:
   Java 17+
   MySQL 8.0+
   JavaFX SDK 21
 
 Equipe du projet:
+
   Hanen Ben Naceur
   Asma Trabelsi
   Mohammed Yassine Aouadi
@@ -57,6 +64,7 @@ Equipe du projet:
   Alaa Boujenoui
 
  Contexte académique:
+ 
    Établissement : Esprit School of Engineering – Tunisie
    Cadre : Projet Intégré (PI / PIDEV)
    Année universitaire : 2025–2026
