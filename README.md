@@ -31,6 +31,7 @@ L'application est conçue selon l'architecture MVC (Model – View – Controlle
   Controller : logique métier et navigation entre vues (ListeCoursController, AdminQuizController...)
 
 Structure du projet:
+
   src/
   ├── main/
   │   ├── java/org/example/
