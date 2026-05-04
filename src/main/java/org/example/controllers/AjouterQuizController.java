@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class AjouterQuizController {
 
-    // ── Formulaire ──
+    //  Formulaire
     @FXML private TextField        titreField;
     @FXML private ComboBox<String> typeQuizBox;
     @FXML private TextField        dureeField;
@@ -39,7 +39,7 @@ public class AjouterQuizController {
     @FXML private Label scoreError;
     @FXML private Label coursError;
 
-    // ── Table — sans colonne ID ──
+
     @FXML private TableView<Quiz>            quizTable;
     @FXML private TableColumn<Quiz, String>  titreCol;
     @FXML private TableColumn<Quiz, String>  typeCol;
@@ -47,7 +47,7 @@ public class AjouterQuizController {
     @FXML private TableColumn<Quiz, Float>   scoreCol;
     @FXML private TableColumn<Quiz, String>  coursCol;
 
-    // ── Recherche & Tri ──
+    // Recherche & Tri
     @FXML private TextField        searchTitreField;
     @FXML private ComboBox<String> filterTypeBox;
     @FXML private ComboBox<String> filterCoursBox;
@@ -70,12 +70,12 @@ public class AjouterQuizController {
             "-fx-border-color: #e74c3c; -fx-border-radius: 8; " +
                     "-fx-background-color: #fff0f0; -fx-background-radius: 8; -fx-padding: 9;";
 
-    // ─────────── INIT ───────────
+    //  INIT
     @FXML
     public void initialize() {
         typeQuizBox.getItems().addAll("Intermédiaire", "Final");
 
-        // ← Pas d'idCol
+
         titreCol.setCellValueFactory(new PropertyValueFactory<>("titre"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("typeQuiz"));
         dureeCol.setCellValueFactory(new PropertyValueFactory<>("duree"));
@@ -210,7 +210,7 @@ public class AjouterQuizController {
         );
     }
 
-    // ─────────── CHARGER COURS ───────────
+    // CHARGER COURS
     private void chargerCours() {
         try {
             Connection cnx = MyConnection.getInstance().getCnx();
@@ -230,7 +230,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── CHARGER TABLE ───────────
+    // CHARGER TABLE
     @FXML
     public void chargerQuiz() {
         try {
@@ -244,7 +244,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── CONFIGURER FILTRES ───────────
+    //CONFIGURER FILTRES
     private void configurerFiltres() {
         searchTitreField.textProperty().addListener(
                 (obs, o, n) -> appliquerFiltres());
@@ -262,7 +262,7 @@ public class AjouterQuizController {
                 (obs, o, n) -> appliquerFiltres());
     }
 
-    // ─────────── APPLIQUER FILTRES ───────────
+    //  APPLIQUER FILTRES
     private void appliquerFiltres() {
         if (filteredList == null) return;
 
@@ -314,7 +314,7 @@ public class AjouterQuizController {
         mettreAJourCompteur();
     }
 
-    // ─────────── APPLIQUER TRI ───────────
+    // APPLIQUER TRI
     private void appliquerTri() {
         if (filteredList == null) return;
 
@@ -348,7 +348,7 @@ public class AjouterQuizController {
         quizTable.setItems(sorted);
     }
 
-    // ─────────── COMPTEUR ───────────
+    //  COMPTEUR
     private void mettreAJourCompteur() {
         if (filteredList == null) return;
         int total   = masterList.size();
@@ -365,7 +365,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── RÉINITIALISER FILTRES ───────────
+    //  RÉINITIALISER FILTRES
     @FXML
     private void reinitialiserFiltres() {
         searchTitreField.clear();
@@ -382,7 +382,7 @@ public class AjouterQuizController {
         mettreAJourCompteur();
     }
 
-    // ─────────── VALIDATION ───────────
+    //  VALIDATION
     private boolean validerChamps() {
         resetErrors();
         boolean ok = true;
@@ -439,7 +439,7 @@ public class AjouterQuizController {
         return ok;
     }
 
-    // ─────────── POPUP DOUBLON ───────────
+    //  POPUP DOUBLON
     private void afficherPopupDoublon(String message) {
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
@@ -507,7 +507,7 @@ public class AjouterQuizController {
         });
     }
 
-    // ─────────── POPUP SUCCÈS ───────────
+    //  POPUP SUCCÈS
     private void afficherPopupSucces(String message) {
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
@@ -571,7 +571,7 @@ public class AjouterQuizController {
         });
     }
 
-    // ─────────── AJOUTER ───────────
+    // AJOUTER
     @FXML
     private void ajouterQuiz() {
         if (!validerChamps()) return;
@@ -598,7 +598,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── AJOUTER + QUESTIONS ───────────
+    //  AJOUTER + QUESTIONS
     @FXML
     private void ajouterEtOuvrirQuestions() {
         if (!validerChamps()) return;
@@ -641,7 +641,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── MODIFIER ───────────
+    //MODIFIER
     @FXML
     private void modifierQuiz() {
         Quiz selected = quizTable.getSelectionModel().getSelectedItem();
@@ -672,7 +672,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── SUPPRIMER ───────────
+    // SUPPRIMER
     @FXML
     private void supprimerQuiz() {
         Quiz selected = quizTable.getSelectionModel().getSelectedItem();
@@ -701,7 +701,7 @@ public class AjouterQuizController {
         });
     }
 
-    // ─────────── ANNULER ───────────
+    // ANNULER
     @FXML
     private void annuler() {
         titreField.clear();
@@ -714,7 +714,7 @@ public class AjouterQuizController {
         quizTable.getSelectionModel().clearSelection();
     }
 
-    // ─────────── NAVIGATION QUESTIONS ───────────
+    //  NAVIGATION QUESTIONS
     @FXML
     private void goQuestions() {
         Quiz selected = quizTable.getSelectionModel().getSelectedItem();
@@ -739,7 +739,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── ACCUEIL ───────────
+    // ACCUEIL
     @FXML
     private void goAccueil() {
         try {
@@ -753,7 +753,7 @@ public class AjouterQuizController {
         }
     }
 
-    // ─────────── HELPERS ───────────
+    // HELPERS
     private void resetErrors() {
         titreField.setStyle(NORMAL);
         dureeField.setStyle(NORMAL);

@@ -53,7 +53,7 @@ public class CertificationsEtudiantController {
         construireCalendrier();    // le calendrier du mois courant
     }
 
-    // ─────────── CHARGER CERTIFS ───────────
+    // CHARGER CERTIFS
     @FXML
     public void chargerCertifications() {
         //vider affichage avant
@@ -100,7 +100,7 @@ public class CertificationsEtudiantController {
         }
     }
 
-    // ─────────── EN-TÊTE JOURS SEMAINE ───────────
+    //  EN-TÊTE JOURS SEMAINE
     private void construireEnTeteSemaine() {
         //vider l'ancien en-tete
         joursSemaine.getChildren().clear();
@@ -122,7 +122,7 @@ public class CertificationsEtudiantController {
         }
     }
 
-    // ─────────── CONSTRUIRE CALENDRIER ───────────
+    //  CONSTRUIRE CALENDRIER
     private void construireCalendrier() {
         // Vide l’ancien calendrier
         calendrierGrid.getChildren().clear();
@@ -182,7 +182,7 @@ public class CertificationsEtudiantController {
         }
     }
 
-    // ─────────── CRÉER CELLULE JOUR ───────────
+    //  CRÉER CELLULE JOUR
     private VBox creerCellule(int jour, LocalDate date,
                               List<CertificationFinale> certifs,
                               LocalDate aujourdhui) {
@@ -191,11 +191,11 @@ public class CertificationsEtudiantController {
         cell.setPadding(new Insets(4));
         cell.setMaxWidth(Double.MAX_VALUE);
         cell.setMaxHeight(Double.MAX_VALUE);
-
+       //si c'est date d'aujourd’hui
         boolean estAujourdhui = date.equals(aujourdhui);
-        // Vérifie s’il y a des certifications     
+        // Vérifie s’il y a des certifications
         boolean aCertif       = !certifs.isEmpty();
-
+  //couleur du fond
         String bgColor = estAujourdhui ? "#fff3e0"
                 : aCertif ? "#f0fff4" : "transparent";
 
@@ -208,8 +208,9 @@ public class CertificationsEtudiantController {
                         (estAujourdhui ? "2" : "0.5") + ";" +
                         "-fx-cursor: " + (aCertif ? "hand" : "default") + ";"
         );
-
+        // Label du numéro du jour
         Label numLabel = new Label(String.valueOf(jour));
+        // Style
         numLabel.setStyle(
                 "-fx-font-size: 12; -fx-font-weight: " +
                         (estAujourdhui ? "bold" : "normal") + ";" +
@@ -218,15 +219,19 @@ public class CertificationsEtudiantController {
                                 : date.getDayOfWeek().getValue() >= 6
                                 ? "#e74c3c" : "#333") + ";"
         );
+        // Ajoute le numéro dans la cellule
         cell.getChildren().add(numLabel);
-
+        // Si le jour contient au moins une certification
         if (aCertif) {
+            // Crée une ligne de petits points verts
             HBox points = new HBox(3);
             points.setAlignment(Pos.CENTER);
+            // Si plus de 3 certifications affiche nombre
             int max = Math.min(certifs.size(), 3);
             for (int i = 0; i < max; i++) {
                 Label pt = new Label("●");
                 pt.setStyle("-fx-text-fill: #2ecc71; -fx-font-size: 8;");
+                // Ajoute les points dans la cellule
                 points.getChildren().add(pt);
             }
             if (certifs.size() > 3) {
@@ -237,7 +242,7 @@ public class CertificationsEtudiantController {
                 points.getChildren().add(plus);
             }
             cell.getChildren().add(points);
-
+            // Label qui affiche le nombre de certifications
             Label countLabel = new Label(certifs.size() + " 🏆");
             countLabel.setStyle(
                     "-fx-background-color: #2ecc71; -fx-text-fill: white;" +
@@ -245,7 +250,7 @@ public class CertificationsEtudiantController {
                             "-fx-background-radius: 10; -fx-padding: 1 5;"
             );
             cell.getChildren().add(countLabel);
-
+            // Quand on clique sur la cellule, affiche les détails du jour
             cell.setOnMouseClicked(e -> afficherDetailJour(date, certifs));
             cell.setOnMouseEntered(ev -> cell.setStyle(
                     "-fx-background-color: #e8f5e9; -fx-background-radius: 8;" +
@@ -262,12 +267,13 @@ public class CertificationsEtudiantController {
         return cell;
     }
 
-    // ─────────── AFFICHER DÉTAIL JOUR ───────────
+    // AFFICHER DÉTAIL JOUR
     private void afficherDetailJour(LocalDate date,
                                     List<CertificationFinale> certifs) {
+        // Affiche la zone de détails
         detailJourBox.setVisible(true);
         detailJourBox.setManaged(true);
-
+        // Format de date en français
         DateTimeFormatter fmt =
                 DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH);
         detailJourTitre.setText(
@@ -283,7 +289,7 @@ public class CertificationsEtudiantController {
                             "-fx-padding: 8 12; -fx-border-color: #2ecc71;" +
                             "-fx-border-radius: 6; -fx-border-width: 1;"
             );
-
+// Icône trophée
             Label trophee = new Label("🏆");
             trophee.setStyle("-fx-font-size: 16;");
 
@@ -292,11 +298,13 @@ public class CertificationsEtudiantController {
             badgeL.setStyle(
                     "-fx-font-size: 12; -fx-font-weight: bold;" +
                             "-fx-text-fill: #f5a623;");
+            // id certif +id quiz
             Label idL = new Label(
                     "Certif #" + cf.getId() + " — Quiz ID : " + cf.getQuizId());
             idL.setStyle("-fx-font-size: 11; -fx-text-fill: #555;");
             String heure = cf.getDateEmission() != null
                     ? cf.getDateEmission().toString().substring(11, 16) : "—";
+            // Heure d’émission
             Label heureL = new Label("⏰ " + heure);
             heureL.setStyle("-fx-font-size: 10; -fx-text-fill: #888;");
             info.getChildren().addAll(badgeL, idL, heureL);
@@ -306,9 +314,10 @@ public class CertificationsEtudiantController {
         }
     }
 
-    // ─────────── NAVIGATION CALENDRIER ───────────
+    // NAVIGATION CALENDRIER
     @FXML
     private void moisPrecedent() {
+        // Passe au mois précédent
         moisCourant = moisCourant.minusMonths(1);
         detailJourBox.setVisible(false);
         detailJourBox.setManaged(false);
@@ -318,20 +327,26 @@ public class CertificationsEtudiantController {
     @FXML
     private void moisSuivant() {
         moisCourant = moisCourant.plusMonths(1);
+        // Cache les détails du jour
         detailJourBox.setVisible(false);
         detailJourBox.setManaged(false);
+        // Reconstruit le calendrier avec le nouveau mois
         construireCalendrier();
     }
 
     @FXML
     private void allerAujourdhui() {
+        // Revient au mois actuel
         moisCourant = YearMonth.now();
+        // Cache les détails
         detailJourBox.setVisible(false);
         detailJourBox.setManaged(false);
+        // Reconstruit le calendrier du mois actuel
         construireCalendrier();
     }
 
-    // ─────────── CARTE CERTIF FINALE ───────────
+    // CARTE CERTIF FINALE
+    //carte du certif ou ilya tout trophet id nom et tout les infos
     private VBox creerCarteCertifFinale(CertificationFinale cf) {
         VBox card = new VBox(12);
         card.setStyle(
@@ -427,35 +442,39 @@ public class CertificationsEtudiantController {
                         "-fx-font-weight: bold; -fx-font-size: 12;" +
                         "-fx-background-radius: 8; -fx-padding: 10 18; -fx-cursor: hand;"
         ));
+        // Au clic lance l’impression et PDF
         btnImprimer.setOnAction(e -> imprimerCertification(cf));
-
+        // Ajoute tous les éléments dans la carte finale
         card.getChildren().addAll(
                 bandeau, header, sep, infosBox, felicit, btnImprimer);
         return card;
     }
 
-    // ─────────── IMPRESSION PDF ───────────
+    //  IMPRESSION PDF
     private void imprimerCertification(CertificationFinale cf) {
-
+        // Crée le contenu graphique a imprimer
         VBox contenu = creerContenuImpression(cf);
+        //definit largeur et hauteur
         contenu.setPrefWidth(750);
         contenu.setPrefHeight(550);
 
-        // ← Forcer le rendu avant impression
+        //  Forcer le rendu avant impression
         new Scene(contenu, 750, 550);
         contenu.applyCss();
         contenu.layout();
 
         javafx.print.PrinterJob job =
                 javafx.print.PrinterJob.createPrinterJob();
+        // Si aucune imprimante virtuelle ou réelle n’est disponible
         if (job == null) {
             messageLabel.setText("❌ Aucune imprimante disponible.");
             messageLabel.setStyle(
                     "-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
             return;
         }
-
+        // Récupère l’imprimante choisie par défaut
         javafx.print.Printer printer = job.getPrinter();
+        // Crée une mise en page A4
         javafx.print.PageLayout pageLayout = printer.createPageLayout(
                 javafx.print.Paper.A4,
                 javafx.print.PageOrientation.LANDSCAPE,
@@ -464,11 +483,13 @@ public class CertificationsEtudiantController {
 
         boolean proceed = job.showPrintDialog(
                 certifContainer.getScene().getWindow());
-
+        // Si l’utilisateur valide l’impression
         if (proceed) {
+            //largeur
             double printableW = pageLayout.getPrintableWidth();
+            //hauteur
             double printableH = pageLayout.getPrintableHeight();
-
+//largeur et hauteur du contenu
             double contentW = contenu.prefWidth(-1);
             double contentH = contenu.prefHeight(-1);
 
@@ -480,8 +501,9 @@ public class CertificationsEtudiantController {
             contenu.setScaleY(scale);
             contenu.setTranslateX((printableW - contentW * scale) / 2);
             contenu.setTranslateY((printableH - contentH * scale) / 2);
-
+            // Imprime la page avec le contenu
             boolean printed = job.printPage(pageLayout, contenu);
+            // Si l’impression a réussi
             if (printed) {
                 job.endJob();
                 messageLabel.setText("✅ PDF généré avec succès !");
@@ -496,8 +518,11 @@ public class CertificationsEtudiantController {
     }
     private Image chargerSignature(int certifId) {
         try {
+            // Cherche le fichier signature
             File file = new File("signatures/certif_" + certifId + ".png");
+            // Si le fichier existe
             if (file.exists()) {
+                // Convertit le fichier en image JavaFX
                 return new Image(file.toURI().toString());
             }
         } catch (Exception e) {
@@ -506,7 +531,8 @@ public class CertificationsEtudiantController {
         return null;
     }
 
-    // ─────────── CONTENU IMPRESSION ───────────
+    // CONTENU IMPRESSION
+    //creeation du design du certif
     private VBox creerContenuImpression(CertificationFinale cf) {
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
@@ -619,10 +645,11 @@ public class CertificationsEtudiantController {
         // Droite : signature admin depuis PNG
         VBox sigBox = new VBox(5);
         sigBox.setAlignment(Pos.CENTER);
-
+        // Charge la signature sauvegardée en PNG
         Image signatureImage = chargerSignature(cf.getId());
-
+        // Si la signature existe
         if (signatureImage != null) {
+            // Crée une vue image
             ImageView sigView = new ImageView(signatureImage);
             sigView.setFitWidth(180);
             sigView.setFitHeight(70);
@@ -670,7 +697,7 @@ public class CertificationsEtudiantController {
 
         return root;
     }
-    // ─────────── RETOUR ───────────
+    //  RETOUR
     @FXML
     private void retourAccueil() {
         try {

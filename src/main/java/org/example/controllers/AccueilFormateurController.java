@@ -31,25 +31,24 @@ public class AccueilFormateurController {
     @FXML private ComboBox<String> filterCoursBox;
     @FXML private ComboBox<String> sortBox;
     @FXML private VBox             quizListContainer;
-    @FXML private VBox             sidebar;
-    @FXML private Button           burgerBtn;
 
-    @FXML private HBox                        statsBox;
-    @FXML private PieChart                    typeQuizChart;
-    @FXML private BarChart<String, Number>    questionsParQuizChart;
 
-    private boolean sidebarVisible = true;
+    @FXML private HBox                        statsBox;//carte stat
+    @FXML private PieChart                    typeQuizChart;//graph final et intermedaire
+    @FXML private BarChart<String, Number>    questionsParQuizChart;//graph question par quiz
+
+
 
     private final QuizService     quizService     = new QuizService();
     private final QuestionService questionService = new QuestionService();
 
-    private ObservableList<Quiz> masterList   = FXCollections.observableArrayList();
-    private FilteredList<Quiz>   filteredList;
-    private final Map<String, Integer> coursMap = new HashMap<>();
+    private ObservableList<Quiz> masterList   = FXCollections.observableArrayList();//liste du quiz
+    private FilteredList<Quiz>   filteredList;//liste filtree
+    private final Map<String, Integer> coursMap = new HashMap<>();//association du chaque nom du cours avec son id
 
-    // ═══════════════════════════════════════
+
     // INIT
-    // ═══════════════════════════════════════
+
     @FXML
     public void initialize() {
         filterTypeBox.getItems().addAll("Tous", "Intermédiaire", "Final");
@@ -64,9 +63,9 @@ public class AccueilFormateurController {
         configurerFiltres();
     }
 
-    // ═══════════════════════════════════════
+
     // CHARGER COURS
-    // ═══════════════════════════════════════
+
     private void chargerCours() {
         try {
             Connection cnx = MyConnection.getInstance().getCnx();
@@ -82,40 +81,50 @@ public class AccueilFormateurController {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    // ═══════════════════════════════════════
+
     // CHARGER DONNEES
-    // ═══════════════════════════════════════
+
     @FXML
     public void chargerDonnees() {
         try {
+            //recupere liste des quiz
             List<Quiz> tousQuiz = quizService.afficher();
             masterList   = FXCollections.observableArrayList(tousQuiz);
+            //affiche sous forme de carte
             filteredList = new FilteredList<>(masterList, p -> true);
             afficherQuiz(filteredList);
+            //mise a jour des stat
             chargerStatistiques();
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    // ═══════════════════════════════════════
+
     // STATISTIQUES
-    // ═══════════════════════════════════════
+
     private void chargerStatistiques() {
         try {
+            //recupere tous les quiz
             List<Quiz>     quizList     = quizService.afficher();
+            //tous les questions
             List<Question> questionList = questionService.afficher();
-
+            // Nombre total de quiz
             int    totalQuiz      = quizList.size();
+            // Nombre de quiz de type Final
             long   nbFinal        = quizList.stream()
                     .filter(q -> "Final".equals(q.getTypeQuiz())).count();
+            // Nombre de quiz de type Intermédiaire
             long   nbInter        = quizList.stream()
                     .filter(q -> "Intermédiaire".equals(q.getTypeQuiz())).count();
+            // Nombre total de questions
             int    totalQuestions = questionList.size();
+            // Durée moyenne des quiz
             double dureeMoy       = quizList.stream()
                     .mapToInt(Quiz::getDuree).average().orElse(0);
+            // Score minimum moyen
             double scoreMoy       = quizList.stream()
                     .mapToDouble(Quiz::getScoreMinimum).average().orElse(0);
-
-            // ── Stat Cards ──
+            // Vide les anciennes cartes
+            // Stat Cards
             statsBox.getChildren().clear();
             statsBox.getChildren().addAll(
                     creerStatCard("Total quiz",         String.valueOf(totalQuiz),
@@ -132,13 +141,15 @@ public class AccueilFormateurController {
                             "#e74c3c", "#fdecea", "#e74c3c")
             );
 
-            // ── PieChart ──
+            // PieChart
             typeQuizChart.setTitle("");
+            // Prépare les données du PieChart
             ObservableList<PieChart.Data> pieData =
                     FXCollections.observableArrayList(
                             new PieChart.Data("Final (" + nbFinal + ")", nbFinal),
                             new PieChart.Data("Intermediaire (" + nbInter + ")", nbInter)
                     );
+            // Affiche les données dans le PieChart
             typeQuizChart.setData(pieData);
             typeQuizChart.setLabelsVisible(true);
             typeQuizChart.setLegendVisible(true);
@@ -155,7 +166,7 @@ public class AccueilFormateurController {
                             "-fx-pie-color: #4361ee;");
             });
 
-            // ── BarChart ──
+            // BarChart
             questionsParQuizChart.setTitle("");
             questionsParQuizChart.getData().clear();
             questionsParQuizChart.setLegendVisible(false);
@@ -207,9 +218,9 @@ public class AccueilFormateurController {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    // ═══════════════════════════════════════
+
     // STAT CARD
-    // ═══════════════════════════════════════
+
     private VBox creerStatCard(String titre, String valeur,
                                String colorText, String colorBg,
                                String colorBorder) {
@@ -255,40 +266,12 @@ public class AccueilFormateurController {
         return card;
     }
 
-    // ═══════════════════════════════════════
-    // TOGGLE SIDEBAR
-    // ═══════════════════════════════════════
-    @FXML
-    private void toggleSidebar() {
-        javafx.animation.TranslateTransition slide =
-                new javafx.animation.TranslateTransition(
-                        javafx.util.Duration.millis(280), sidebar);
-        javafx.animation.FadeTransition fade =
-                new javafx.animation.FadeTransition(
-                        javafx.util.Duration.millis(280), sidebar);
 
-        if (sidebarVisible) {
-            slide.setFromX(0); slide.setToX(-230);
-            fade.setFromValue(1.0); fade.setToValue(0.0);
-            slide.setOnFinished(e -> {
-                sidebar.setManaged(false);
-                sidebar.setVisible(false);
-            });
-            if (burgerBtn != null) burgerBtn.setText("☰");
-        } else {
-            sidebar.setManaged(true); sidebar.setVisible(true);
-            slide.setFromX(-230); slide.setToX(0);
-            fade.setFromValue(0.0); fade.setToValue(1.0);
-            if (burgerBtn != null) burgerBtn.setText("x");
-        }
 
-        new javafx.animation.ParallelTransition(slide, fade).play();
-        sidebarVisible = !sidebarVisible;
-    }
 
-    // ═══════════════════════════════════════
+
     // AFFICHER QUIZ
-    // ═══════════════════════════════════════
+
     private void afficherQuiz(Iterable<Quiz> quizList) {
         quizListContainer.getChildren().clear();
         boolean hasQuiz = false;
@@ -309,9 +292,9 @@ public class AccueilFormateurController {
         }
     }
 
-    // ═══════════════════════════════════════
+
     // CARTE QUIZ
-    // ═══════════════════════════════════════
+
     private VBox creerCarteQuiz(Quiz quiz) {
         VBox card = new VBox(12);
         card.setStyle(
@@ -443,9 +426,9 @@ public class AccueilFormateurController {
         return box;
     }
 
-    // ═══════════════════════════════════════
+
     // FILTRES
-    // ═══════════════════════════════════════
+
     private void configurerFiltres() {
         searchTitreField.textProperty().addListener((obs, o, n) -> appliquerFiltres());
         filterTypeBox.valueProperty().addListener((obs, o, n) -> appliquerFiltres());
@@ -497,9 +480,9 @@ public class AccueilFormateurController {
         afficherQuiz(filteredList != null ? filteredList : masterList);
     }
 
-    // ═══════════════════════════════════════
+
     // NAVIGATION
-    // ═══════════════════════════════════════
+
     private void allerVersQuestionsQuiz(Quiz quiz) {
         try {
             FXMLLoader loader = new FXMLLoader(

@@ -26,7 +26,7 @@ import java.util.List;
 
 public class AjouterQuestionController {
 
-    // ── Formulaire
+    // Formulaire
     @FXML private Label    quizTitreLabel;
     @FXML private TextArea questionField;
     @FXML private TextField pointsField;
@@ -37,7 +37,7 @@ public class AjouterQuestionController {
     @FXML private ComboBox<String> bonneReponseBox;
     @FXML private Label messageLabel;
 
-    // ── Erreurs
+    // Erreurs
     @FXML private Label questionError;
     @FXML private Label pointsError;
     @FXML private Label reponseAError;
@@ -47,14 +47,14 @@ public class AjouterQuestionController {
     @FXML private Label reponsesError;
     @FXML private Label bonneReponseError;
 
-    // ── IA
+    // IA
     @FXML private TextField        aiThemeField;
     @FXML private ComboBox<String> aiNombreBox;
     @FXML private ComboBox<String> aiDifficulteBox;
     @FXML private Label            aiStatusLabel;
     @FXML private Button           aiGenererBtn;
 
-    // ── Table
+    // Table
     @FXML private TableView<Question>            questionTable;
     @FXML private TableColumn<Question, String>  questionCol;
     @FXML private TableColumn<Question, Integer> pointsCol;
@@ -68,7 +68,9 @@ public class AjouterQuestionController {
     private int    quizId    = 0;
     private String quizTitre = "—";
 
-   private static final String API_KEY = System.getenv("GROQ_API_KEY");
+    private static final String GROQ_API_KEY =
+            "REMOVED";
+
     private static final String NORMAL =
             "-fx-background-color: #f9fafb; -fx-border-color: #e5e7eb;" +
                     "-fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9;";
@@ -79,9 +81,9 @@ public class AjouterQuestionController {
             "-fx-border-color: #22c55e; -fx-border-radius: 8;" +
                     "-fx-background-color: #f0fdf4; -fx-background-radius: 8; -fx-padding: 9;";
 
-    // ═══════════════════════════════════════
+
     // INIT
-    // ═══════════════════════════════════════
+
     @FXML
     public void initialize() {
         // ComboBox
@@ -91,7 +93,7 @@ public class AjouterQuestionController {
         aiDifficulteBox.getItems().addAll("Facile", "Moyen", "Difficile");
         aiDifficulteBox.setValue("Moyen");
 
-        // ── TableView : juste les données, pas de style custom
+        // TableView : juste les données, pas de style custom
         questionCol.setCellValueFactory(new PropertyValueFactory<>("question"));
         pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
         reponseACol.setCellValueFactory(cell ->
@@ -112,7 +114,8 @@ public class AjouterQuestionController {
 
         // Listeners + sélection
         ajouterListeners();
-
+        // Quand on sélectionne une question dans le tableau,
+        // ses données remplissent automatiquement le formulaire
         questionTable.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldVal, newVal) -> {
                     if (newVal != null) {
@@ -129,210 +132,51 @@ public class AjouterQuestionController {
 
         chargerQuestions();
     }
-    // ═══════════════════════════════════════
-    // STYLE TABLEVIEW
-    // ═══════════════════════════════════════
-    private void styleTableView() {
 
-        // ── Lignes alternées + hover + sélection
-        questionTable.setRowFactory(tv -> {
-            TableRow<Question> row = new TableRow<>();
 
-            row.setOnMouseEntered(e -> {
-                if (!row.isSelected() && row.getItem() != null)
-                    row.setStyle("-fx-background-color: #fff8ee; -fx-cursor: hand;");
-            });
-            row.setOnMouseExited(e -> {
-                if (!row.isSelected() && row.getItem() != null)
-                    row.setStyle(row.getIndex() % 2 == 0
-                            ? "-fx-background-color: white;"
-                            : "-fx-background-color: #fafbfc;");
-            });
-            row.selectedProperty().addListener((obs, was, is) -> {
-                if (is) {
-                    row.setStyle(
-                            "-fx-background-color: #fff3e0;" +
-                                    "-fx-border-color: transparent transparent " +
-                                    "#f5a623 transparent; -fx-border-width: 0 0 2 0;");
-                } else if (row.getItem() != null) {
-                    row.setStyle(row.getIndex() % 2 == 0
-                            ? "-fx-background-color: white;"
-                            : "-fx-background-color: #fafbfc;");
-                }
-            });
-            return row;
-        });
 
-        // ── Colonne Question
-        questionCol.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setGraphic(null); setText(null);
-                } else {
-                    HBox box = new HBox(8);
-                    box.setAlignment(Pos.CENTER_LEFT);
 
-                    StackPane dot = new StackPane();
-                    dot.setStyle("-fx-background-color: #f5a623;" +
-                            "-fx-background-radius: 3;" +
-                            "-fx-min-width: 6; -fx-min-height: 6;");
-
-                    Label lbl = new Label(item);
-                    lbl.setStyle("-fx-font-size: 12; -fx-text-fill: #1a1f3c;" +
-                            "-fx-font-weight: bold;");
-                    lbl.setWrapText(false);
-                    HBox.setHgrow(lbl, Priority.ALWAYS);
-
-                    box.getChildren().addAll(dot, lbl);
-                    setGraphic(box);
-                    setText(null);
-                    setStyle("-fx-padding: 10 12;");
-                }
-            }
-        });
-
-        // ── Colonne Points
-        pointsCol.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setGraphic(null); setText(null);
-                } else {
-                    String bg = item >= 50 ? "#fff3e0" :
-                            item >= 20 ? "#eff6ff" : "#f0fdf4";
-                    String fg = item >= 50 ? "#f5a623" :
-                            item >= 20 ? "#3b82f6" : "#22c55e";
-
-                    StackPane badge = new StackPane();
-                    badge.setStyle("-fx-background-color: " + bg + ";" +
-                            "-fx-background-radius: 20; -fx-padding: 4 10;");
-
-                    Label lbl = new Label(item + " pt");
-                    lbl.setStyle("-fx-font-size: 11; -fx-font-weight: bold;" +
-                            "-fx-text-fill: " + fg + ";");
-
-                    badge.getChildren().add(lbl);
-                    setGraphic(badge);
-                    setText(null);
-                    setAlignment(Pos.CENTER);
-                    setStyle("-fx-padding: 8;");
-                }
-            }
-        });
-
-        // ── Colonnes Réponses A/B/C/D
-        String[][] cfg = {
-                {"#f0fdf4", "#22c55e", "A"},
-                {"#eff6ff", "#3b82f6", "B"},
-                {"#fff7ed", "#f97316", "C"},
-                {"#fdf4ff", "#a855f7", "D"}
-        };
-
-        @SuppressWarnings("unchecked")
-        TableColumn<Question, String>[] repCols =
-                new TableColumn[]{reponseACol, reponseBCol, reponseCCol, reponseDCol};
-
-        for (int i = 0; i < repCols.length; i++) {
-            final String bg  = cfg[i][0];
-            final String fg  = cfg[i][1];
-            final String let = cfg[i][2];
-
-            repCols[i].setCellFactory(col -> new TableCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null || item.isEmpty()) {
-                        setGraphic(null); setText(null);
-                    } else {
-                        VBox box = new VBox(2);
-                        box.setStyle("-fx-background-color: " + bg + ";" +
-                                "-fx-background-radius: 6; -fx-padding: 5 8;");
-
-                        Label letLbl = new Label(let);
-                        letLbl.setStyle("-fx-font-size: 9; -fx-font-weight: bold;" +
-                                "-fx-text-fill: " + fg + ";");
-
-                        Label txtLbl = new Label(item);
-                        txtLbl.setStyle("-fx-font-size: 11; -fx-text-fill: #374151;");
-                        txtLbl.setWrapText(false);
-
-                        box.getChildren().addAll(letLbl, txtLbl);
-                        setGraphic(box);
-                        setText(null);
-                        setStyle("-fx-padding: 4 6;");
-                    }
-                }
-            });
-        }
-
-        // ── Colonne Bonne réponse
-        correcteCol.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null || item.isEmpty()) {
-                    setGraphic(null); setText(null);
-                } else {
-                    HBox box = new HBox(5);
-                    box.setAlignment(Pos.CENTER);
-                    box.setStyle("-fx-background-color: #dcfce7;" +
-                            "-fx-background-radius: 20; -fx-padding: 5 12;");
-
-                    Label check = new Label("✅");
-                    check.setStyle("-fx-font-size: 11;");
-
-                    Label lbl = new Label(item);
-                    lbl.setStyle("-fx-font-size: 12; -fx-font-weight: bold;" +
-                            "-fx-text-fill: #16a34a;");
-
-                    box.getChildren().addAll(check, lbl);
-                    setGraphic(box);
-                    setText(null);
-                    setAlignment(Pos.CENTER);
-                    setStyle("-fx-padding: 6;");
-                }
-            }
-        });
-    }
-
-    // ═══════════════════════════════════════
     // GÉNÉRATION IA
-    // ═══════════════════════════════════════
+
     @FXML
     private void genererQuestionsIA() {
+        //recuperer theme
         String theme      = aiThemeField.getText().trim();
         String nombre     = aiNombreBox.getValue();
         String difficulte = aiDifficulteBox.getValue();
-
+        // Vérifie que le thème pas vide
         if (theme.isEmpty()) {
             setAiStatus("⚠ Entrez un thème !", "#e74c3c", false);
             return;
         }
+        // Vérifie qu’un quiz est sélectionné
         if (quizId == 0) {
             setAiStatus("⚠ Aucun quiz sélectionné !", "#e74c3c", false);
             return;
         }
-
+//messsage de chargement en cours
         aiGenererBtn.setDisable(true);
         setAiStatus("🤖 Génération en cours...", "#f5a623", false);
-
+        // Lance l’appel IA dans un thread séparé
         new Thread(() -> {
             try {
+                // Construit prompt envoyée à l’IA
                 String prompt    = construirePromptIA(theme, nombre, difficulte);
+                // Appelle l’API Groq
                 String reponseIA = appellerGroqAPI(prompt);
+                // Transforme la réponse IA en liste de questions Java
                 List<Question> questions = parserQuestionsIA(reponseIA);
-
+                // Revient au thread JavaFX
                 Platform.runLater(() -> {
                     int count = 0;
                     for (Question q : questions) {
                            try { service.ajouter(q); count++; }
                         catch (Exception e) { e.printStackTrace(); }
                     }
+                    // Affiche le nombre de questions générées
                     setAiStatus("✅ " + count + " question(s) générée(s) !",
                             "#22c55e", true);
+                    // Réactive le bouton IA
                     aiGenererBtn.setDisable(false);
                     chargerQuestions();
                     aiThemeField.clear();
@@ -348,7 +192,7 @@ public class AjouterQuestionController {
             }
         }).start();
     }
-
+    //  message d’état de l’IA
     private void setAiStatus(String msg, String color, boolean bold) {
         aiStatusLabel.setText(msg);
         aiStatusLabel.setStyle("-fx-text-fill: " + color +
@@ -357,6 +201,8 @@ public class AjouterQuestionController {
 
     private String construirePromptIA(String theme, String nombre,
                                       String difficulte) {
+        // On demande à l’IA de répondre uniquement en JSON
+        // pour que Java puisse lire facilement la réponse
         return "Génère exactement " + nombre
                 + " questions QCM sur le thème : " + theme
                 + ". Niveau : " + difficulte + ".\n\n"
@@ -377,7 +223,9 @@ public class AjouterQuestionController {
     }
 
     private String appellerGroqAPI(String prompt) throws Exception {
+        // Crée un client HTTP pour envoyer une requête à Internet
         HttpClient client = HttpClient.newHttpClient();
+        // Crée le corps JSON de la requête
         String requestBody = "{"
                 + "\"model\": \"llama-3.3-70b-versatile\","
                 + "\"messages\": [{\"role\": \"user\", \"content\": \""
@@ -387,21 +235,21 @@ public class AjouterQuestionController {
                 .replace("\r", "\\r")
                 + "\"}],"
                 + "\"temperature\": 0.7, \"max_tokens\": 2048}";
-
+        // Prépare la requête HTTP vers Groq
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.groq.com/openai/v1/chat/completions"))
                 .header("Content-Type",  "application/json")
                 .header("Authorization", "Bearer " + GROQ_API_KEY)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
-
+        // Envoie la requête et récupère la réponse
         HttpResponse<String> response =
                 client.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200)
             throw new Exception("Groq " + response.statusCode()
                     + " — " + response.body());
-
+        // ObjectMapper lit le JSON
         ObjectMapper mapper = new ObjectMapper();//un objet Jackson pour lire le JSON
         JsonNode root = mapper.readTree(response.body());//Transforme la réponse JSON en arbre lisible
         return root.path("choices").get(0)
@@ -441,9 +289,9 @@ public class AjouterQuestionController {
         return questions;
     }
 
-    // ═══════════════════════════════════════
+
     // LISTENERS
-    // ═══════════════════════════════════════
+
     private void ajouterListeners() {
         questionField.textProperty().addListener((obs, old, nv) -> {
             if (!nv.trim().isEmpty()) {
@@ -486,9 +334,9 @@ public class AjouterQuestionController {
         });
     }
 
-    // ═══════════════════════════════════════
+
     // SET QUIZ
-    // ═══════════════════════════════════════
+
     public void setQuiz(int quizId, String quizTitre) {
         this.quizId    = quizId;
         this.quizTitre = quizTitre;
@@ -497,9 +345,9 @@ public class AjouterQuestionController {
         chargerQuestions();
     }
 
-    // ═══════════════════════════════════════
+
     // JSON HELPERS
-    // ═══════════════════════════════════════
+
     private String construireJson(String a, String b, String c,
                                   String d, String correcte) {
         return "[" +
@@ -535,9 +383,9 @@ public class AjouterQuestionController {
         return "";
     }
 
-    // ═══════════════════════════════════════
+
     // CRUD
-    // ═══════════════════════════════════════
+
     @FXML
     public void chargerQuestions() {
         try {
@@ -680,9 +528,9 @@ public class AjouterQuestionController {
         questionTable.getSelectionModel().clearSelection();
     }
 
-    // ═══════════════════════════════════════
+
     // NAVIGATION
-    // ═══════════════════════════════════════
+
     @FXML
     private void retourQuiz() {
         try {
@@ -706,9 +554,9 @@ public class AjouterQuestionController {
         } catch (Exception e) { showError("❌ " + e.getMessage()); }
     }
 
-    // ═══════════════════════════════════════
+
     // HELPERS
-    // ═══════════════════════════════════════
+
     private void resetErrors() {
         questionField.setStyle(NORMAL); pointsField.setStyle(NORMAL);
         reponseA.setStyle(NORMAL); reponseB.setStyle(NORMAL);

@@ -9,7 +9,7 @@ public class MyConnection {
     private static MyConnection instance;
     private Connection cnx;
 
-    private final String url = "jdbc:mysql://localhost:3306/eduverse_java?useSSL=false&serverTimezone=UTC";
+    private final String url = "jdbc:mysql://localhost:3306/workshop1_java?useSSL=false&serverTimezone=UTC";
     private final String user = "root"; // change si besoin
     private final String password = ""; // change si tu as un mot de passe
 

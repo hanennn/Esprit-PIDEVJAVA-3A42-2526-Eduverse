@@ -22,7 +22,7 @@ public class AccueilEtudiantController {
         chargerCours();
     }
 
-    // ─────────── CHARGER COURS ───────────
+    // CHARGER COURS
     private void chargerCours() {
         coursContainer.getChildren().clear();
         try {
@@ -59,7 +59,7 @@ public class AccueilEtudiantController {
         }
     }
 
-    // ─────────── CARTE COURS ───────────
+    // CARTE COURS
     private VBox creerCarteCoursCard(int id, String titre,
                                      String niveau, String matiere,
                                      String langue, String description) {
@@ -153,7 +153,7 @@ public class AccueilEtudiantController {
         return card;
     }
 
-    // ─────────── OUVRIR COURS ───────────
+    //OUVRIR COURS
     private void ouvrirCours(int coursId, String titre, String niveau,
                              String matiere, String langue,
                              String description) {
@@ -171,7 +171,7 @@ public class AccueilEtudiantController {
         }
     }
 
-    // ─────────── CERTIFICATIONS ───────────
+    //  CERTIFICATIONS
     @FXML
     private void ouvrirCertifications() {
         try {
@@ -186,7 +186,7 @@ public class AccueilEtudiantController {
         }
     }
 
-    // ─────────── RETOUR ───────────
+    // RETOUR
     @FXML
     private void retourChoixEspace() {
         try {

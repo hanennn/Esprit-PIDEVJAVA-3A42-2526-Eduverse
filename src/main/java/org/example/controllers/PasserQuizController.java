@@ -60,9 +60,9 @@ public class PasserQuizController {
 
     private static final int USER_ID = 1;
 
-    // ═══════════════════════════════════════
+
     // SET QUIZ
-    // ═══════════════════════════════════════
+
     //quand on click sur passer quiz les infos se chargent
     public void setQuiz(Quiz quiz, int coursId, String coursTitre,
                         String coursNiveau, String coursMatiere,
@@ -80,9 +80,9 @@ public class PasserQuizController {
         demarrerTimer();
     }
 
-    // ═══════════════════════════════════════
+
     // CHARGER QUESTIONS
-    // ═══════════════════════════════════════
+
     private void chargerQuestions() {
         //vider tout
         questionsContainer.getChildren().clear();
@@ -110,9 +110,9 @@ public class PasserQuizController {
                     creerBlocQuestion(i + 1, questions.get(i)));
     }
 
-    // ═══════════════════════════════════════
+
     // TIMER
-    // ═══════════════════════════════════════
+
     private void demarrerTimer() {
         //convertir duree du min en sec
         secondesRestantes = quiz.getDuree() * 60;

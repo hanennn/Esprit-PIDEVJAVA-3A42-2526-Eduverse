@@ -63,7 +63,7 @@ public class AdminQuizController {
             new CertificationFinaleService();
     private final UserService                userService         = new UserService();
 
-    // ─────────── INIT ───────────
+    // INIT
     @FXML
     public void initialize() {
         titreCol.setCellValueFactory(new PropertyValueFactory<>("titre"));
@@ -76,7 +76,7 @@ public class AdminQuizController {
                 )
         );
 
-        // ── Badge coloré Type ──
+        // Badge coloré Type
         typeCol.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -101,7 +101,7 @@ public class AdminQuizController {
             }
         });
 
-        // ── Score coloré ──
+        // Score coloré
         scoreCol.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(Float item, boolean empty) {
@@ -119,7 +119,7 @@ public class AdminQuizController {
             }
         });
 
-        // ── Durée ──
+        // Durée
         dureeCol.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -133,7 +133,7 @@ public class AdminQuizController {
             }
         });
 
-        // ── Titre ──
+        // Titre
         titreCol.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -149,7 +149,7 @@ public class AdminQuizController {
             }
         });
 
-        // ── Cours ──
+        // Cours
         coursCol.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -171,7 +171,7 @@ public class AdminQuizController {
             }
         });
 
-        // ── Style lignes ──
+        //Style lignes
         quizTable.setRowFactory(tv -> {
             TableRow<Quiz> row = new TableRow<>() {
                 @Override
@@ -218,7 +218,7 @@ public class AdminQuizController {
         chargerQuiz();
     }
 
-    // ─────────── SIDEBAR ───────────
+    // SIDEBAR
     @FXML
     public void afficherQuiz() {
         titreSection.setText("📝 Gestion des Quiz");
@@ -247,7 +247,7 @@ public class AdminQuizController {
         chargerCertifications();
     }
 
-    // ─────────── QUIZ ───────────
+    //  QUIZ
     @FXML
     public void chargerQuiz() {
         try {
@@ -289,7 +289,7 @@ public class AdminQuizController {
         });
     }
 
-    // ─────────── CERTIFICATIONS ───────────
+    //  CERTIFICATIONS
     @FXML
     public void chargerCertifications() {
         certifContainer.getChildren().clear();
@@ -329,7 +329,7 @@ public class AdminQuizController {
         }
     }
 
-    // ─────────── CARTE TENTATIVE ───────────
+    // CARTE TENTATIVE
     private VBox creerCarteTentative(Certification c) {//verifier statut et cree carte si reussite ajouter bouton pour ajouter certif final
         VBox card = new VBox(10);
         card.setStyle(
@@ -416,7 +416,7 @@ public class AdminQuizController {
         return card;
     }
 
-    // ─────────── CARTE CERTIF FINALE ───────────
+    // CARTE CERTIF FINALE
     private VBox creerCarteFinaleExistante(CertificationFinale cf) {
         VBox cardFinale = new VBox(8);
         cardFinale.setStyle(
@@ -446,7 +446,7 @@ public class AdminQuizController {
         return cardFinale;
     }
     private void sauvegarderSignature(WritableImage image, int certifId) {
-        try {                         //image de la sign dessiné par utilisateur   // id ceetif pour nommer le fichier
+        try {           //image de la sign dessiné par utilisateur   // id ceetif pour nommer le fichier
             File dossier = new File("signatures"); //creer une ref vers dossier signature
             if (!dossier.exists()) {
                 dossier.mkdirs();
@@ -463,7 +463,7 @@ public class AdminQuizController {
         }
     }
 
-    // ─────────── POPUP CERTIFICATION FINALE + EMAIL ───────────
+    //  POPUP CERTIFICATION FINALE + EMAIL
     private void afficherPopupCertifFinale(Certification certifOrigine,
                                            VBox card) {
         Stage popup = new Stage();
@@ -744,7 +744,7 @@ public class AdminQuizController {
         popup.setScene(new Scene(root));
         popup.showAndWait();//ouvre et bloque jusqu'a fermeture
     }
-    // ─────────── HELPER ───────────
+    // HELPER
     private CertificationFinale trouverDerniereCertifFinale(int tentativeId) {
         try {
             CertificationFinale derniere = null;
