@@ -69,11 +69,35 @@ public class DataBase {
                     ")";
             stmt.executeUpdate(createUsers);
 
-            // Insertion d'un utilisateur fictif pour les tests de notification
-            // C'est cet email qui recevra les notifications (Destinataire)
             String insertDummyUser = "INSERT IGNORE INTO utilisateurs (id, nom, prenom, email) VALUES (1, 'Klibi', 'Fatma', 'fatma.klibi@esprit.tn')";
             stmt.executeUpdate(insertDummyUser);
             
+            String createAnalyseInterview = "CREATE TABLE IF NOT EXISTS analyse_interview (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                    "demande_id INT NOT NULL, " +
+                    "transcription TEXT, " +
+                    "scores_emotions TEXT, " +
+                    "features_audio TEXT, " +
+                    "profil_global TEXT, " +
+                    "recommandation TEXT, " +
+                    "date_analyse DATETIME, " +
+                    "FOREIGN KEY (demande_id) REFERENCES demande(id) ON DELETE CASCADE" +
+                    ")";
+            stmt.executeUpdate(createAnalyseInterview);
+
+            String createNotification = "CREATE TABLE IF NOT EXISTS notification (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                    "demande_id INT NOT NULL, " +
+                    "message TEXT, " +
+                    "lu BOOLEAN DEFAULT FALSE, " +
+                    "date_creation DATETIME, " +
+                    "FOREIGN KEY (demande_id) REFERENCES demande(id) ON DELETE CASCADE" +
+                    ")";
+            stmt.executeUpdate(createNotification);
+
+            try { stmt.executeUpdate("ALTER TABLE demande ADD COLUMN cv_analyse TEXT"); } catch (SQLException ignored) {}
+            try { stmt.executeUpdate("ALTER TABLE demande ADD COLUMN cv_path VARCHAR(500)"); } catch (SQLException ignored) {}
+
             stmt.close();
             System.out.println("Vérification des tables effectuée avec succès !");
         } catch (SQLException e) {

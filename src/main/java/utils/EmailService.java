@@ -10,27 +10,28 @@ import java.util.Properties;
 
 public class EmailService {
 
-    // --- CONFIGURATION SMTP ---
-    // Gmail: host="smtp.gmail.com", port="587"
-    // Office 365 / Outlook: host="smtp.office365.com", port="587"
-    private static final String SMTP_HOST = "smtp.gmail.com"; 
-    private static final String SMTP_PORT = "587";
-    
+    // Config SMTP Gmail
+    private static final String SMTP_HOST = "smtp.gmail.com";
+    private static final String SMTP_PORT = "465";
+
     private static final String MY_EMAIL = "eduversee2026@gmail.com";
-    private static final String MY_PASSWORD = "bxay woqk zbpf ouda"; 
-    // ---------------------------
+    private static final String MY_PASSWORD = "bxay woqk zbpf ouda";
 
     public static void sendStatusUpdateEmail(User student, bourses bourse, String status, String note) {
         if (MY_PASSWORD.equals("VOTRE_MOT_DE_PASSE_D_APPLICATION")) {
-            System.err.println("⚠️ EmailService : Veuillez configurer votre mot de passe d'application Gmail dans EmailService.java");
+            System.err.println("[WARN] EmailService : Veuillez configurer votre mot de passe Gmail");
             return;
         }
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.host", SMTP_HOST);
         props.put("mail.smtp.port", SMTP_PORT);
+        props.put("mail.smtp.socketFactory.port", SMTP_PORT);
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.connectiontimeout", "10000");
+        props.put("mail.smtp.timeout", "10000");
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -49,22 +50,24 @@ public class EmailService {
             message.setContent(htmlTemplate, "text/html; charset=utf-8");
 
             Transport.send(message);
-            System.out.println("✅ Email envoyé avec succès à " + student.getEmail());
+            System.out.println("[OK] Email envoye a " + student.getEmail());
 
         } catch (MessagingException e) {
-            System.err.println("❌ Erreur lors de l'envoi de l'email : " + e.getMessage());
+            System.err.println("[ERREUR] Envoi email echoue : " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private static String getHtmlTemplate(User student, bourses bourse, String status, String note) {
         String statusLabel = status;
-        String statusClass = status.equalsIgnoreCase("Acceptée") ? "status-Accepted" : "status-Refused";
-        
+        boolean isAccepted = status.toLowerCase().contains("accept");
+        boolean isRefused = status.toLowerCase().contains("refus");
+        String statusClass = isAccepted ? "status-Accepted" : "status-Refused";
+
         String resultText = "";
-        if (status.equalsIgnoreCase("Acceptée")) {
-            resultText = "Félicitations ! Votre demande a été acceptée. Notre équipe vous contactera prochainement pour les étapes suivantes.";
-        } else if (status.equalsIgnoreCase("Refusée")) {
+        if (isAccepted) {
+            resultText = "Félicitations ! Votre demande a été acceptée. Vous pouvez maintenant passer votre interview IA sur la plateforme EduVerse.";
+        } else if (isRefused) {
             resultText = "Nous regrettons de vous informer que votre demande n'a pas été retenue pour cette bourse. Nous vous encourageons à postuler à d'autres opportunités sur Eduverse.";
         }
 

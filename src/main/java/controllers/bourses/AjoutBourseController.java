@@ -137,8 +137,21 @@ public class AjoutBourseController {
     }
 
     private void retourListe() {
+        naviguerVers("/bourses/ListeBourses.fxml");
+    }
+
+    @FXML
+    private void allerDemandes(ActionEvent event) { naviguerVers("/demandes/ListeDemandes.fxml"); }
+    @FXML
+    private void allerStatistiques(ActionEvent event) { naviguerVers("/bourses/Statistiques.fxml"); }
+    @FXML
+    private void allerInterviewIA(ActionEvent event) { naviguerVers("/demandes/ListeInterviews.fxml"); }
+    @FXML
+    private void allerAccueil(ActionEvent event) { naviguerVers("/accueil/Accueil.fxml"); }
+
+    private void naviguerVers(String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/bourses/ListeBourses.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             tfTitre.getScene().setRoot(root);
         } catch (IOException e) {

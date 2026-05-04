@@ -12,7 +12,7 @@ public class demandeService extends AbstractService<demande> {
 
     @Override
     public void add(demande d) {
-        String query = "INSERT INTO demande (date_demande, niveau_etudes, statut, lettre_motivation, note, etudiant_id, bourse_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO demande (date_demande, niveau_etudes, statut, lettre_motivation, note, etudiant_id, bourse_id, cv_analyse, cv_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setTimestamp(1, d.getDate_demande());
             pstmt.setString(2, d.getNiveau_etudes());
@@ -21,6 +21,8 @@ public class demandeService extends AbstractService<demande> {
             pstmt.setString(5, d.getNote());
             pstmt.setInt(6, d.getEtudiant_id());
             pstmt.setInt(7, d.getBourse_id());
+            pstmt.setString(8, d.getCvAnalyse());
+            pstmt.setString(9, d.getCvPath());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -29,7 +31,7 @@ public class demandeService extends AbstractService<demande> {
 
     @Override
     public void update(demande d) {
-        String query = "UPDATE demande SET date_demande=?, niveau_etudes=?, statut=?, lettre_motivation=?, note=?, etudiant_id=?, bourse_id=? WHERE id=?";
+        String query = "UPDATE demande SET date_demande=?, niveau_etudes=?, statut=?, lettre_motivation=?, note=?, etudiant_id=?, bourse_id=?, cv_analyse=?, cv_path=? WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setTimestamp(1, d.getDate_demande());
             pstmt.setString(2, d.getNiveau_etudes());
@@ -38,7 +40,9 @@ public class demandeService extends AbstractService<demande> {
             pstmt.setString(5, d.getNote());
             pstmt.setInt(6, d.getEtudiant_id());
             pstmt.setInt(7, d.getBourse_id());
-            pstmt.setInt(8, d.getId());
+            pstmt.setString(8, d.getCvAnalyse());
+            pstmt.setString(9, d.getCvPath());
+            pstmt.setInt(10, d.getId());
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 System.out.println("⚠️ Aucune demande mise à jour. ID introuvable : " + d.getId());
@@ -79,6 +83,8 @@ public class demandeService extends AbstractService<demande> {
                     d.setNote(rs.getString("note"));
                     d.setEtudiant_id(rs.getInt("etudiant_id"));
                     d.setBourse_id(rs.getInt("bourse_id"));
+                    d.setCvAnalyse(rs.getString("cv_analyse"));
+                    d.setCvPath(rs.getString("cv_path"));
                 }
             }
         } catch (SQLException e) {

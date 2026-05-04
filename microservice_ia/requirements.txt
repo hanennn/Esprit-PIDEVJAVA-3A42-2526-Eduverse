@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+openai-whisper
+transformers
+torch
+librosa
+python-multipart
+numpy
+setuptools

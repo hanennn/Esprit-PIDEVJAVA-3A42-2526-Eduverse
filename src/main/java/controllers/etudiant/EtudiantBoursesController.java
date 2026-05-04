@@ -11,7 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import models.Notification;
 import models.bourses;
+import services.NotificationService;
 import services.boursesService;
 
 import java.io.IOException;
@@ -23,56 +25,40 @@ import java.util.ResourceBundle;
 
 public class EtudiantBoursesController implements Initializable {
 
-    @FXML
-    private TableView<bourses> tableView;
-    @FXML
-    private TableColumn<bourses, String> colTitre;
-    @FXML
-    private TableColumn<bourses, Double> colMontant;
-    @FXML
-    private TableColumn<bourses, Timestamp> colDateAttr;
-    @FXML
-    private TableColumn<bourses, Timestamp> colDateFin;
+    @FXML private TableView<bourses> tableView;
+    @FXML private TableColumn<bourses, String> colTitre;
+    @FXML private TableColumn<bourses, Double> colMontant;
+    @FXML private TableColumn<bourses, Timestamp> colDateAttr;
+    @FXML private TableColumn<bourses, Timestamp> colDateFin;
 
-    // --- Composants de recherche avancee ---
-    @FXML
-    private TextField tfRecherche;     // Recherche par titre
-    @FXML
-    private ComboBox<String> cbTri;    // Tri rapide par critere
-
-    @FXML
-    private Button btnPostuler;
+    @FXML private TextField tfRecherche;
+    @FXML private ComboBox<String> cbTri;
+    @FXML private Button btnPostuler;
+    @FXML private Label lblNotifBadge;
 
     private boursesService service = new boursesService();
+    private NotificationService notifService = new NotificationService();
     private ObservableList<bourses> masterList = FXCollections.observableArrayList();
-
-    // Liste filtree pour la recherche multicriteres en temps reel
     private FilteredList<bourses> filteredList;
-    // Liste triee qui enveloppe la liste filtree
     private SortedList<bourses> sortedList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // --- Configuration des colonnes ---
         colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
         colMontant.setCellValueFactory(new PropertyValueFactory<>("montant"));
         colDateAttr.setCellValueFactory(new PropertyValueFactory<>("date_attribution"));
         colDateFin.setCellValueFactory(new PropertyValueFactory<>("date_fin"));
 
-        // --- Initialisation du ComboBox de tri ---
         initialiserTri();
-
-        // --- Chargement des bourses et activation des filtres ---
         chargerBourses();
         configurerRechercheAvancee();
+        afficherNotifications();
 
-        // Activer le bouton Postuler seulement quand une bourse est selectionnee
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             btnPostuler.setDisable(newSelection == null);
         });
     }
 
-    // Remplir le ComboBox avec les options de tri disponibles
     private void initialiserTri() {
         cbTri.setItems(FXCollections.observableArrayList(
                 "Par defaut",
@@ -84,23 +70,17 @@ public class EtudiantBoursesController implements Initializable {
         cbTri.setValue("Par defaut");
     }
 
-    // Configuration de la recherche : texte par titre + tri rapide via ComboBox
     private void configurerRechercheAvancee() {
         filteredList = new FilteredList<>(masterList, b -> true);
 
-        // Ecouter les changements sur le champ de recherche texte
         tfRecherche.textProperty().addListener((obs, oldVal, newVal) -> appliquerFiltres());
-
-        // Ecouter le changement de tri dans le ComboBox
         cbTri.valueProperty().addListener((obs, oldVal, newVal) -> appliquerTri());
 
-        // Encapsuler la liste filtree dans une SortedList pour le tri
         sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedList);
     }
 
-    // Filtre par titre de bourse uniquement
     private void appliquerFiltres() {
         filteredList.setPredicate(b -> {
             String texte = tfRecherche.getText();
@@ -113,18 +93,15 @@ public class EtudiantBoursesController implements Initializable {
         });
     }
 
-    // Appliquer le tri selectionne dans le ComboBox
     private void appliquerTri() {
         String tri = cbTri.getValue();
         if (tri == null || tri.equals("Par defaut")) {
-            // Tri par defaut : delier le comparateur pour laisser l'ordre naturel
             sortedList.comparatorProperty().unbind();
             sortedList.setComparator(null);
             sortedList.comparatorProperty().bind(tableView.comparatorProperty());
             return;
         }
 
-        // Delier le comparateur du tableau pour appliquer le tri personnalise
         sortedList.comparatorProperty().unbind();
 
         switch (tri) {
@@ -145,7 +122,6 @@ public class EtudiantBoursesController implements Initializable {
         }
     }
 
-    // Reinitialiser la recherche et le tri
     @FXML
     private void reinitialiserFiltres(ActionEvent event) {
         tfRecherche.clear();
@@ -176,11 +152,49 @@ public class EtudiantBoursesController implements Initializable {
         }
     }
 
-    // Ouvrir la vue calendrier des bourses
     @FXML
     private void ouvrirCalendrier(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/etudiant/CalendrierBourses.fxml"));
+            Parent root = loader.load();
+            tableView.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void afficherNotifications() {
+        int count = notifService.compterNonLues();
+        if (lblNotifBadge != null) {
+            if (count > 0) {
+                lblNotifBadge.setText(count + " nouvelle(s) notification(s)");
+                lblNotifBadge.setVisible(true);
+
+                java.util.List<Notification> notifs = notifService.getNonLues();
+                StringBuilder sb = new StringBuilder();
+                for (Notification n : notifs) {
+                    sb.append("- ").append(n.getMessage()).append("\n\n");
+                }
+
+                javafx.application.Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Notifications");
+                    alert.setHeaderText(count + " nouvelle(s) notification(s)");
+                    alert.setContentText(sb.toString());
+                    alert.showAndWait();
+                    notifService.marquerToutesLues();
+                    lblNotifBadge.setVisible(false);
+                });
+            } else {
+                lblNotifBadge.setVisible(false);
+            }
+        }
+    }
+
+    @FXML
+    private void allerInterviewIA(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/etudiant/InterviewEtudiant.fxml"));
             Parent root = loader.load();
             tableView.getScene().setRoot(root);
         } catch (IOException e) {

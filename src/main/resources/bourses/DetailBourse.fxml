@@ -1,47 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.bourses.DetailBourseController">
-    <children>
-        <Label layoutX="320.0" layoutY="30.0" text="Détail de la Bourse" textFill="#2c3e50">
-            <font>
-                <Font name="System Bold" size="26.0" />
-            </font>
-        </Label>
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.bourses.DetailBourseController"
+      prefHeight="780.0" prefWidth="1280.0"
+      spacing="0" style="-fx-background-color: #f4f6f8;">
 
-        <VBox layoutX="250.0" layoutY="100.0" prefHeight="380.0" prefWidth="400.0" spacing="15.0">
-            <children>
-                <TextField fx:id="tfTitre" disable="true" promptText="Titre de la bourse" style="-fx-background-radius: 5; -fx-opacity: 1;" />
-                <TextArea fx:id="taDescription" disable="true" prefHeight="80.0" prefWidth="400.0" promptText="Description" style="-fx-background-radius: 5; -fx-opacity: 1;" />
-                <TextField fx:id="tfMontant" disable="true" promptText="Montant (DT)" style="-fx-background-radius: 5; -fx-opacity: 1;" />
-                <DatePicker fx:id="dpDateAttribution" disable="true" prefWidth="400.0" promptText="Date d'attribution" style="-fx-opacity: 1;" />
-                <DatePicker fx:id="dpDateFin" disable="true" prefWidth="400.0" promptText="Date de fin" style="-fx-opacity: 1;" />
-
-                <!-- Label d'erreur caché par défaut -->
-                <Label fx:id="lblErreur" text="Message d'erreur" textFill="RED" visible="false">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-            </children>
+    <!-- ══════ SIDEBAR ══════ -->
+    <VBox minWidth="230" maxWidth="230"
+          style="-fx-background-color: #1a1a2e; -fx-min-height: 780;">
+        <VBox alignment="CENTER" prefHeight="80"
+              style="-fx-border-color: rgba(255,255,255,0.08); -fx-border-width: 0 0 1 0; -fx-padding: 0 20;">
+            <HBox alignment="CENTER" spacing="0">
+                <Label text="Edu"   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label text="verse" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+            </HBox>
+            <Label text="Espace Admin" style="-fx-font-size: 11px; -fx-text-fill: rgba(255,255,255,0.35);"/>
         </VBox>
+        <Label text="NAVIGATION" style="-fx-font-size: 10px; -fx-text-fill: rgba(255,255,255,0.25); -fx-font-weight: bold; -fx-padding: 22 20 8 20;"/>
+        <VBox spacing="2" style="-fx-padding: 0 10;" VBox.vgrow="ALWAYS">
+            <Button text="📊  Tableau de Bord" maxWidth="Infinity" mnemonicParsing="false"
+                    style="-fx-background-color: transparent; -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 11 14; -fx-alignment: CENTER_LEFT;"/>
+            <Button text="👥  Utilisateurs" maxWidth="Infinity" mnemonicParsing="false"
+                    style="-fx-background-color: transparent; -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 11 14; -fx-alignment: CENTER_LEFT;"/>
+            <Button text="📚  Cours" maxWidth="Infinity" mnemonicParsing="false"
+                    style="-fx-background-color: transparent; -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 11 14; -fx-alignment: CENTER_LEFT;"/>
+            <Button text="🎯  Quiz" maxWidth="Infinity" mnemonicParsing="false"
+                    style="-fx-background-color: transparent; -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 11 14; -fx-alignment: CENTER_LEFT;"/>
+            <Label text="GESTION DES BOURSES" style="-fx-font-size: 9px; -fx-text-fill: rgba(255,255,255,0.2); -fx-font-weight: bold; -fx-padding: 14 14 4 14;"/>
+            <Button text="🎓  Bourses" maxWidth="Infinity" mnemonicParsing="false" onAction="#retourListe"
+                    style="-fx-background-color: #f5a623; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 11 14; -fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+            <Button text="📋  Demandes" maxWidth="Infinity" mnemonicParsing="false" onAction="#allerDemandes"
+                    style="-fx-background-color: rgba(255,255,255,0.05); -fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 12px; -fx-background-radius: 8; -fx-padding: 9 14 9 28; -fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+            <Button text="📈  Statistiques" maxWidth="Infinity" mnemonicParsing="false" onAction="#allerStatistiques"
+                    style="-fx-background-color: rgba(255,255,255,0.05); -fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 12px; -fx-background-radius: 8; -fx-padding: 9 14 9 28; -fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+            <Button text="🤖  Interview IA" maxWidth="Infinity" mnemonicParsing="false" onAction="#allerInterviewIA"
+                    style="-fx-background-color: rgba(255,255,255,0.05); -fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 12px; -fx-background-radius: 8; -fx-padding: 9 14 9 28; -fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+            <Label text="" style="-fx-padding: 6 0 0 0;"/>
+            <Button text="📅  Evenements" maxWidth="Infinity" mnemonicParsing="false"
+                    style="-fx-background-color: transparent; -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 11 14; -fx-alignment: CENTER_LEFT;"/>
+            <Button text="💬  Forum" maxWidth="Infinity" mnemonicParsing="false"
+                    style="-fx-background-color: transparent; -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 11 14; -fx-alignment: CENTER_LEFT;"/>
+        </VBox>
+        <Label text="COMPTE" style="-fx-font-size: 10px; -fx-text-fill: rgba(255,255,255,0.25); -fx-font-weight: bold; -fx-padding: 10 20 8 20;"/>
+        <VBox style="-fx-padding: 0 10 20 10;">
+            <Button text="⏻  Deconnexion" onAction="#allerAccueil" maxWidth="Infinity" prefHeight="38" mnemonicParsing="false"
+                    style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-border-color: rgba(231,76,60,0.3); -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 12px; -fx-cursor: hand;"/>
+        </VBox>
+    </VBox>
 
-        <HBox layoutX="150.0" layoutY="520.0" prefHeight="35.0" prefWidth="600.0" spacing="20.0">
-            <children>
-                <Button fx:id="btnModifier" mnemonicParsing="false" onAction="#activerModification" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Modifier" />
-                <Button fx:id="btnSauvegarder" disable="true" mnemonicParsing="false" onAction="#sauvegarder" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Sauvegarder" />
-                <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#supprimer" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Supprimer" />
-                <Button mnemonicParsing="false" onAction="#retourListe" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold; -fx-cursor: hand;" text="Retour" />
-            </children>
+    <!-- ══════ MAIN CONTENT ══════ -->
+    <VBox HBox.hgrow="ALWAYS" spacing="0">
+        <HBox style="-fx-background-color: linear-gradient(to right, #f5a623, #f7b731); -fx-padding: 10 36;"
+              alignment="CENTER_LEFT" spacing="10">
+            <Label text="🏠 Accueil  ›  Bourses  ›  Detail"
+                   style="-fx-text-fill: #1a1a2e; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Button text="⬅ Retour a la liste" onAction="#retourListe" mnemonicParsing="false"
+                    style="-fx-background-color: #1a1a2e; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 8; -fx-padding: 6 16; -fx-cursor: hand; -fx-font-size: 11px;"/>
         </HBox>
-    </children>
-</AnchorPane>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    style="-fx-background-color: #f4f6f8; -fx-background: #f4f6f8; -fx-border-color: transparent;">
+            <VBox spacing="22" style="-fx-background-color: #f4f6f8;">
+                <padding><Insets top="28" right="36" bottom="36" left="36"/></padding>
+
+                <Label text="Detail de la Bourse"
+                       style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+                <VBox spacing="16"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 28;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+
+                    <Label text="Titre" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <TextField fx:id="tfTitre" disable="true" promptText="Titre" prefHeight="40"
+                               style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                      -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 10 14; -fx-opacity: 1; -fx-font-size: 13px;"/>
+
+                    <Label text="Description" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <TextArea fx:id="taDescription" disable="true" prefHeight="90" promptText="Description"
+                              style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                     -fx-border-radius: 10; -fx-background-radius: 10; -fx-opacity: 1; -fx-font-size: 13px;"/>
+
+                    <Label text="Montant (DT)" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <TextField fx:id="tfMontant" disable="true" promptText="Montant (DT)" prefHeight="40"
+                               style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                      -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 10 14; -fx-opacity: 1; -fx-font-size: 13px;"/>
+
+                    <HBox spacing="20">
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="Date d'attribution" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                            <DatePicker fx:id="dpDateAttribution" disable="true" maxWidth="Infinity" style="-fx-opacity: 1;"/>
+                        </VBox>
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="Date de fin" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                            <DatePicker fx:id="dpDateFin" disable="true" maxWidth="Infinity" style="-fx-opacity: 1;"/>
+                        </VBox>
+                    </HBox>
+
+                    <Label fx:id="lblErreur" text="" textFill="RED" visible="false">
+                        <font><Font name="System Bold" size="12.0"/></font>
+                    </Label>
+                </VBox>
+
+                <HBox spacing="12">
+                    <Button fx:id="btnModifier" mnemonicParsing="false" onAction="#activerModification" text="Modifier"
+                            style="-fx-background-color: linear-gradient(to right, #f5a623, #f7b731); -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                    <Button fx:id="btnSauvegarder" disable="true" mnemonicParsing="false" onAction="#sauvegarder" text="Sauvegarder"
+                            style="-fx-background-color: #2ecc71; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                    <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#supprimer" text="Supprimer"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                    <Button mnemonicParsing="false" onAction="#retourListe" text="Retour"
+                            style="-fx-background-color: #1a1a2e; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</HBox>

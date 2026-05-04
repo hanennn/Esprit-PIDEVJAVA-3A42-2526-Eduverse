@@ -11,6 +11,8 @@ public class demande {
     private String note;
     private int etudiant_id;
     private int bourse_id;
+    private String cvAnalyse;
+    private String cvPath;
 
     public demande() {
     }
@@ -89,6 +91,12 @@ public class demande {
     public void setBourse_id(int bourse_id) {
         this.bourse_id = bourse_id;
     }
+
+    public String getCvAnalyse() { return cvAnalyse; }
+    public void setCvAnalyse(String cvAnalyse) { this.cvAnalyse = cvAnalyse; }
+
+    public String getCvPath() { return cvPath; }
+    public void setCvPath(String cvPath) { this.cvPath = cvPath; }
 
     @Override
     public String toString() {

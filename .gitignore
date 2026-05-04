@@ -38,5 +38,14 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### Fichier de configuration sensible (cles API Twilio, etc.) ###
 config.properties
+uploads/
+.claude/
+
+### Microservice IA ###
+microservice_ia/ffmpeg.exe
+microservice_ia/ffprobe.exe
+microservice_ia/__pycache__/
+microservice_ia/*.wav
+microservice_ia/test_*.pdf
+microservice_ia/mon_modele_bourse/model.safetensors

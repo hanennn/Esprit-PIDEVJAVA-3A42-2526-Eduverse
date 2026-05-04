@@ -55,7 +55,6 @@ public class ListeBoursesController implements Initializable {
         chargerBourses();
         configurerRecherche();
 
-        // Double-clic sur une ligne → ouvrir DetailBourse.fxml
         tableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
                 bourses selected = tableView.getSelectionModel().getSelectedItem();
@@ -112,7 +111,17 @@ public class ListeBoursesController implements Initializable {
         }
     }
 
-    // Ouvrir la page des statistiques (dashboard admin)
+    @FXML
+    private void allerInterviewIA(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/demandes/ListeInterviews.fxml"));
+            Parent root = loader.load();
+            tableView.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void ouvrirStatistiques(ActionEvent event) {
         try {

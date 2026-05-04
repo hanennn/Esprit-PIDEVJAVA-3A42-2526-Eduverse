@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
 import models.User;
 import models.bourses;
@@ -14,6 +15,7 @@ import models.demande;
 import services.boursesService;
 import services.demandeService;
 import services.userService;
+import services.NotificationService;
 import utils.EmailService;
 import utils.PdfService;
 
@@ -27,23 +29,19 @@ import java.util.ResourceBundle;
 
 public class DetailDemandeController implements Initializable {
 
-    @FXML
-    private TextField tfNiveauEtudes;
-    @FXML
-    private ComboBox<String> cbStatut;
-    @FXML
-    private TextArea taLettreMotivation;
-    @FXML
-    private Label lblErreur;
-
-    @FXML
-    private Button btnModifier;
-    @FXML
-    private Button btnSauvegarder;
+    @FXML private TextField tfNiveauEtudes;
+    @FXML private ComboBox<String> cbStatut;
+    @FXML private TextArea taLettreMotivation;
+    @FXML private Label lblErreur;
+    @FXML private Button btnModifier;
+    @FXML private Button btnSauvegarder;
+    @FXML private javafx.scene.layout.VBox vboxCvAnalyse;
+    @FXML private Label lblCvAnalyse;
 
     private demandeService service = new demandeService();
     private boursesService bService = new boursesService();
     private userService uService = new userService();
+    private NotificationService notifService = new NotificationService();
     private demande currentDemande;
 
     @Override
@@ -61,8 +59,24 @@ public class DetailDemandeController implements Initializable {
             tfNiveauEtudes.setText(currentDemande.getNiveau_etudes());
             cbStatut.setValue(currentDemande.getStatut());
             taLettreMotivation.setText(currentDemande.getLettre_motivation());
+
+            if (currentDemande.getCvAnalyse() != null && !currentDemande.getCvAnalyse().isEmpty()) {
+                try {
+                    com.google.gson.JsonObject cvJson = com.google.gson.JsonParser.parseString(currentDemande.getCvAnalyse()).getAsJsonObject();
+                    String profil = cvJson.has("profil") ? cvJson.get("profil").getAsString() : "";
+                    int score = cvJson.has("score_pertinence") ? cvJson.get("score_pertinence").getAsInt() : 0;
+                    lblCvAnalyse.setText("Profil : " + profil + "\nScore de pertinence : " + score + "/100");
+                } catch (Exception e) {
+                    lblCvAnalyse.setText(currentDemande.getCvAnalyse());
+                }
+                if (vboxCvAnalyse != null) {
+                    vboxCvAnalyse.setVisible(true);
+                    vboxCvAnalyse.setManaged(true);
+                }
+            }
         }
     }
+
 
     @FXML
     private void activerModification(ActionEvent event) {
@@ -74,7 +88,7 @@ public class DetailDemandeController implements Initializable {
     @FXML
     private void sauvegarder(ActionEvent event) {
         resetStyles();
-        
+
         if (!validerFormulaire()) {
             return;
         }
@@ -85,16 +99,31 @@ public class DetailDemandeController implements Initializable {
 
         service.update(currentDemande);
 
-        // Envoi de l'email si le statut a changé vers Accepté ou Refusé
-        if (!newStatus.equals(oldStatus) && (newStatus.equals("Acceptée") || newStatus.equals("Refusée"))) {
+        // Envoyer un email et une notif si le statut a change
+        if (!newStatus.equals(oldStatus)) {
             User student = uService.getById(currentDemande.getEtudiant_id());
             bourses bourse = bService.getById(currentDemande.getBourse_id());
-            
+
             if (student != null && bourse != null) {
-                // Exécuter dans un nouveau thread pour ne pas bloquer l'UI
                 new Thread(() -> {
-                    EmailService.sendStatusUpdateEmail(student, bourse, newStatus, currentDemande.getNote());
+                    try {
+                        EmailService.sendStatusUpdateEmail(student, bourse, newStatus, currentDemande.getNote());
+                        System.out.println("Email envoye avec succes");
+                    } catch (Exception e) {
+                        System.err.println("Erreur envoi email: " + e.getMessage());
+                    }
                 }).start();
+
+                String notifMsg;
+                if (newStatus.toLowerCase().contains("accept")) {
+                    notifMsg = "Votre demande pour la bourse \"" + bourse.getTitre() + "\" a ete ACCEPTEE ! Vous pouvez passer l'interview IA.";
+                } else if (newStatus.toLowerCase().contains("refus")) {
+                    notifMsg = "Votre demande pour la bourse \"" + bourse.getTitre() + "\" a ete refusee.";
+                } else {
+                    notifMsg = "Le statut de votre demande pour \"" + bourse.getTitre() + "\" a ete mis a jour : " + newStatus;
+                }
+                notifService.creer(currentDemande.getId(), notifMsg);
+                System.out.println("Notification creee");
             }
         }
 
@@ -109,13 +138,10 @@ public class DetailDemandeController implements Initializable {
         btnModifier.setDisable(false);
     }
 
-    // Generer un PDF d'attestation pour cette demande
-    // Le fichier est sauvegarde sur le bureau de l'utilisateur
     @FXML
     private void genererPDF(ActionEvent event) {
         if (currentDemande == null) return;
 
-        // Recuperer les informations de l'etudiant et de la bourse
         User etudiant = uService.getById(currentDemande.getEtudiant_id());
         bourses bourse = bService.getById(currentDemande.getBourse_id());
 
@@ -128,16 +154,14 @@ public class DetailDemandeController implements Initializable {
             return;
         }
 
-        // Construire le chemin du fichier PDF sur le bureau
+        // Sauvegarde du PDF sur le bureau
         String bureau = System.getProperty("user.home") + File.separator + "Desktop";
         String nomFichier = "Attestation_Demande_" + currentDemande.getId() + ".pdf";
         String cheminComplet = bureau + File.separator + nomFichier;
 
         try {
-            // Appeler le service de generation PDF
             PdfService.genererAttestationDemande(currentDemande, bourse, etudiant, cheminComplet);
 
-            // Confirmer a l'utilisateur que le PDF a ete genere
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("PDF Genere");
             alert.setHeaderText(null);
@@ -145,7 +169,6 @@ public class DetailDemandeController implements Initializable {
             alert.showAndWait();
 
         } catch (IOException e) {
-            // Afficher une erreur si la generation echoue
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setHeaderText(null);
@@ -196,7 +219,7 @@ public class DetailDemandeController implements Initializable {
         lblErreur.setText(message);
         lblErreur.setVisible(true);
     }
-    
+
     private void resetStyles() {
         lblErreur.setVisible(false);
         tfNiveauEtudes.setStyle("");
@@ -204,9 +227,64 @@ public class DetailDemandeController implements Initializable {
     }
 
     @FXML
-    private void retourListe(ActionEvent event) {
+    private void telechargerCV(ActionEvent event) {
+        if (currentDemande == null || currentDemande.getCvPath() == null || currentDemande.getCvPath().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("CV indisponible");
+            alert.setHeaderText(null);
+            alert.setContentText("Aucun CV n'a ete joint a cette demande.");
+            alert.showAndWait();
+            return;
+        }
+
+        java.io.File cvFile = new java.io.File(currentDemande.getCvPath());
+        if (!cvFile.exists()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fichier introuvable");
+            alert.setHeaderText(null);
+            alert.setContentText("Le fichier CV n'existe plus sur le disque.");
+            alert.showAndWait();
+            return;
+        }
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/demandes/ListeDemandes.fxml"));
+            java.awt.Desktop.getDesktop().open(cvFile);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Impossible d'ouvrir le CV : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void ouvrirInterviewIA(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/demandes/InterviewIA.fxml"));
+            Parent root = loader.load();
+            InterviewIAController ctrl = loader.getController();
+            ctrl.setDemande(currentDemande);
+            tfNiveauEtudes.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void retourListe(ActionEvent event) { naviguerVers("/demandes/ListeDemandes.fxml"); }
+    @FXML
+    private void allerBourses(ActionEvent event) { naviguerVers("/bourses/ListeBourses.fxml"); }
+    @FXML
+    private void allerStatistiques(ActionEvent event) { naviguerVers("/bourses/Statistiques.fxml"); }
+    @FXML
+    private void allerInterviewIA(ActionEvent event) { naviguerVers("/demandes/ListeInterviews.fxml"); }
+    @FXML
+    private void allerAccueil(ActionEvent event) { naviguerVers("/accueil/Accueil.fxml"); }
+
+    private void naviguerVers(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             tfNiveauEtudes.getScene().setRoot(root);
         } catch (IOException e) {
