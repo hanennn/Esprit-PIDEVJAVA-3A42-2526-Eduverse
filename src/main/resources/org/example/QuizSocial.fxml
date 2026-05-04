@@ -1,0 +1,21 @@
+<VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.QuizSocialController">
+
+    <Label fx:id="quizTitreLabel" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <Button fx:id="btnLike" text="👍" onAction="#likerQuiz"/>
+        <Label fx:id="likesCount"/>
+
+        <Button fx:id="btnDislike" text="👎" onAction="#dislikerQuiz"/>
+        <Label fx:id="dislikesCount"/>
+    </HBox>
+
+    <VBox fx:id="commentairesBox" spacing="8"/>
+
+    <TextArea fx:id="commentaireField" promptText="Écrire un commentaire..."/>
+    <Button text="Poster" onAction="#posterCommentaire"/>
+
+    <Label fx:id="messageLabel"/>
+</VBox>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.AjoutChapitreController"
+      prefWidth="1200" prefHeight="750"
+      style="-fx-background-color: #f4f6f9;">
+
+    <!-- NAVBAR PLEINE LARGEUR -->
+    <HBox alignment="CENTER_LEFT" spacing="0"
+          style="-fx-background-color: #1a1f3c; -fx-min-height: 62;">
+        <VBox style="-fx-background-color: #f5a623;
+                     -fx-min-width: 4; -fx-min-height: 62;"/>
+        <HBox alignment="CENTER_LEFT" spacing="10"
+              style="-fx-padding: 0 20;" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER"
+                  style="-fx-background-color: rgba(245,166,35,0.12);
+                         -fx-background-radius: 10; -fx-padding: 7 11;">
+                <Label text="📚" style="-fx-font-size: 20;"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="0">
+                <Label text="edu"
+                       style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label text="verse"
+                       style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+            </HBox>
+            <Label text=" — Gestion des Chapitres"
+                   style="-fx-font-size: 12; -fx-text-fill: #6c7a9c; -fx-font-style: italic;"/>
+        </HBox>
+    </HBox>
+
+    <!-- BREADCRUMB PLEINE LARGEUR -->
+    <HBox style="-fx-background-color: #f5a623; -fx-padding: 7 25;"
+          alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="titreCours" text="🏠 Accueil  ›  Cours  ›  Chapitres  ›  Ajouter"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold; -fx-font-size: 11;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="⬅️ Retour" onAction="#retour"
+                style="-fx-background-color: #1a1f3c; -fx-text-fill: white;
+                       -fx-background-radius: 8; -fx-padding: 5 15;
+                       -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 11;"/>
+    </HBox>
+
+    <!-- CONTENU PRINCIPAL -->
+    <HBox VBox.vgrow="ALWAYS" spacing="0">
+
+        <!-- ══ FORMULAIRE GAUCHE ══ -->
+        <ScrollPane prefWidth="520" minWidth="520"
+                    style="-fx-background-color: transparent;
+                           -fx-background: #f4f6f9;
+                           -fx-border-color: transparent;">
+            <content>
+                <VBox spacing="16" style="-fx-padding: 25; -fx-background-color: #f4f6f9;">
+
+                    <!-- Titre formulaire -->
+                    <VBox spacing="6">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Label text="+"
+                                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+                            <Label text="Nouveau Chapitre"
+                                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+                        </HBox>
+                        <HBox style="-fx-background-color: #f5a623;
+                                     -fx-min-height: 3; -fx-pref-width: 220;"/>
+                    </VBox>
+
+                    <!-- Carte formulaire -->
+                    <VBox spacing="14"
+                          style="-fx-background-color: white;
+                                 -fx-background-radius: 14; -fx-padding: 22;
+                                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.07),14,0,0,4);
+                                 -fx-border-color: #f0f0f0; -fx-border-radius: 14;
+                                 -fx-border-width: 1;">
+
+                        <!-- Titre -->
+                        <VBox spacing="5">
+                            <Label text="Titre :"
+                                   style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                            <TextField fx:id="titreChap"
+                                       promptText="Titre du chapitre"
+                                       style="-fx-background-color: #f8f9fc;
+                                              -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                              -fx-background-radius: 8; -fx-padding: 10 14;
+                                              -fx-font-size: 13;"/>
+                        </VBox>
+
+                        <!-- Description -->
+                        <VBox spacing="5">
+                            <Label text="Description :"
+                                   style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                            <TextArea fx:id="descChap"
+                                      promptText="Description du chapitre..."
+                                      prefHeight="90" wrapText="true"
+                                      style="-fx-background-color: #f8f9fc;
+                                             -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                             -fx-background-radius: 8; -fx-padding: 10 14;
+                                             -fx-font-size: 13;"/>
+                        </VBox>
+
+                        <!-- Ordre + Durée -->
+                        <HBox spacing="15">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Ordre :"
+                                       style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                                <TextField fx:id="ordreChap"
+                                           promptText="ex: 1"
+                                           style="-fx-background-color: #f8f9fc;
+                                                  -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                                  -fx-background-radius: 8; -fx-padding: 10 14;
+                                                  -fx-font-size: 13;"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Durée :"
+                                       style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                                <TextField fx:id="dureeChap"
+                                           promptText="ex: 1h30"
+                                           style="-fx-background-color: #f8f9fc;
+                                                  -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                                  -fx-background-radius: 8; -fx-padding: 10 14;
+                                                  -fx-font-size: 13;"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Statut + Type -->
+                        <HBox spacing="15">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Statut :"
+                                       style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                                <ComboBox fx:id="statutChap" maxWidth="Infinity"
+                                          style="-fx-background-color: #f8f9fc;
+                                                 -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                                 -fx-background-radius: 8; -fx-font-size: 13;"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Type de contenu :"
+                                       style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                                <ComboBox fx:id="typeContenu" maxWidth="Infinity"
+                                          style="-fx-background-color: #f8f9fc;
+                                                 -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                                 -fx-background-radius: 8; -fx-font-size: 13;"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Contenu fichier -->
+                        <VBox spacing="5">
+                            <Label text="Contenu :"
+                                   style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                            <HBox spacing="8">
+                                <TextField fx:id="contenuChap"
+                                           promptText="Cliquez sur Parcourir..."
+                                           HBox.hgrow="ALWAYS"
+                                           style="-fx-background-color: #f8f9fc;
+                                                  -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                                  -fx-background-radius: 8; -fx-padding: 10 14;
+                                                  -fx-font-size: 13;"/>
+                                <Button text="📁 Parcourir" onAction="#choisirFichier"
+                                        style="-fx-background-color: #1a1f3c; -fx-text-fill: white;
+                                               -fx-font-weight: bold; -fx-background-radius: 8;
+                                               -fx-padding: 10 14; -fx-cursor: hand; -fx-font-size: 12;"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Boutons -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="Annuler" onAction="#annuler"
+                                    prefWidth="130"
+                                    style="-fx-background-color: #f8f9fc;
+                                           -fx-text-fill: #333; -fx-font-weight: bold;
+                                           -fx-background-radius: 8;
+                                           -fx-border-color: #dde1e7; -fx-border-radius: 8;
+                                           -fx-border-width: 1; -fx-padding: 10;
+                                           -fx-cursor: hand; -fx-font-size: 13;"/>
+                            <Button text="Ajouter le Chapitre" onAction="#ajouterChapitre"
+                                    prefWidth="220"
+                                    style="-fx-background-color: #f5a623;
+                                           -fx-text-fill: white; -fx-font-weight: bold;
+                                           -fx-background-radius: 8; -fx-padding: 10;
+                                           -fx-cursor: hand; -fx-font-size: 13;
+                                           -fx-effect: dropshadow(gaussian,rgba(245,166,35,0.4),8,0,0,2);"/>
+                        </HBox>
+
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <!-- SEPARATEUR -->
+        <VBox style="-fx-background-color: #e0e0e0; -fx-min-width: 1;"/>
+
+        <!-- ══ INFO DROITE ══ -->
+        <VBox HBox.hgrow="ALWAYS" spacing="20"
+              style="-fx-background-color: #f4f6f9; -fx-padding: 25;">
+
+            <!-- Titre section -->
+            <Label text="📋 Informations"
+                   style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+
+            <!-- Carte conseils -->
+            <VBox spacing="12"
+                  style="-fx-background-color: white; -fx-background-radius: 14;
+                         -fx-padding: 22;
+                         -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.07),14,0,0,4);
+                         -fx-border-color: #f0f0f0; -fx-border-radius: 14;
+                         -fx-border-width: 1;">
+
+                <Label text="💡 Conseils"
+                       style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+
+                <HBox style="-fx-background-color: #f5f5f5; -fx-min-height: 1;"/>
+
+                <VBox spacing="8">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="📌"  style="-fx-font-size: 14;"/>
+                        <Label text="Le titre doit avoir au moins 3 caractères."
+                               style="-fx-font-size: 12; -fx-text-fill: #555;"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="📝" style="-fx-font-size: 14;"/>
+                        <Label text="La description doit avoir au moins 10 caractères."
+                               style="-fx-font-size: 12; -fx-text-fill: #555;"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="🔢" style="-fx-font-size: 14;"/>
+                        <Label text="L'ordre doit être un entier positif."
+                               style="-fx-font-size: 12; -fx-text-fill: #555;"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="📁" style="-fx-font-size: 14;"/>
+                        <Label text="Utilisez Parcourir pour choisir un fichier PDF."
+                               style="-fx-font-size: 12; -fx-text-fill: #555;"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="✅" style="-fx-font-size: 14;"/>
+                        <Label text="Choisissez le statut OUVERT pour rendre visible."
+                               style="-fx-font-size: 12; -fx-text-fill: #555;"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Carte types de contenu -->
+            <VBox spacing="12"
+                  style="-fx-background-color: white; -fx-background-radius: 14;
+                         -fx-padding: 22;
+                         -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.07),14,0,0,4);
+                         -fx-border-color: #f0f0f0; -fx-border-radius: 14;
+                         -fx-border-width: 1;">
+
+                <Label text="📂 Types de contenu acceptés"
+                       style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+
+                <HBox style="-fx-background-color: #f5f5f5; -fx-min-height: 1;"/>
+
+                <HBox spacing="10">
+                    <VBox alignment="CENTER" spacing="4"
+                          style="-fx-background-color: #fff3e0; -fx-background-radius: 10;
+                                 -fx-padding: 14; -fx-border-color: #f5a623;
+                                 -fx-border-radius: 10; -fx-border-width: 1;">
+                        <Label text="📄" style="-fx-font-size: 22;"/>
+                        <Label text="PDF"
+                               style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                    </VBox>
+
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </HBox>
+</VBox>

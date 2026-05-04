@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Leaflet Map</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+    // Initialize map
+    var map = L.map('map').setView([36.8065, 10.1815], 13); // Default to Tunis
+
+    // Setup map tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker = null;
+
+    // Fonction appelée par Java
+    function updateMap(lat, lng) {
+        var latlng = L.latLng(lat, lng);
+        map.setView(latlng, 15);
+        if (marker) {
+            marker.setLatLng(latlng);
+        } else {
+            marker = L.marker(latlng).addTo(map);
+        }
+    }
+
+    // Capture des clics sur la carte
+    map.on('click', function(e) {
+        if (marker) {
+            marker.setLatLng(e.latlng);
+        } else {
+            marker = L.marker(e.latlng).addTo(map);
+        }
+        // Appel au pont Java s'il existe
+        if (window.javaConnector && typeof window.javaConnector.setCoordinates === 'function') {
+            window.javaConnector.setCoordinates(e.latlng.lat, e.latlng.lng);
+        }
+    });
+
+    // Fix map rendering issues when container sizes change
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 500);
+
+</script>
+</body>
+</html>

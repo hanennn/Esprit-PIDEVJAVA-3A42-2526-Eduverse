@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.AccueilEtudiantController"
+      spacing="0" prefWidth="1280" prefHeight="800"
+      style="-fx-background-color: #f0f2f8;">
+
+    <!-- ══ NAVBAR ══ -->
+    <HBox alignment="CENTER_LEFT" spacing="0"
+          style="-fx-background-color: #1a1f3c;
+                 -fx-min-height: 62;
+                 -fx-border-color: transparent transparent #f5a623 transparent;
+                 -fx-border-width: 0 0 3 0;">
+        <HBox alignment="CENTER_LEFT" spacing="14"
+              style="-fx-padding: 0 28;" HBox.hgrow="ALWAYS">
+
+            <HBox alignment="CENTER"
+                  style="-fx-background-color: rgba(245,166,35,0.15);
+                         -fx-background-radius: 10; -fx-padding: 7 11;">
+                <Label text="📚" style="-fx-font-size: 18;"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="0">
+                <Label text="edu"
+                       style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label text="center"
+                       style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+            </HBox>
+
+            <VBox style="-fx-background-color: #2d3561; -fx-min-width: 1; -fx-min-height: 24;"/>
+            <Label text="Espace Étudiant"
+                   style="-fx-font-size: 11; -fx-text-fill: #6c7a9c; -fx-font-style: italic;"/>
+
+            <HBox HBox.hgrow="ALWAYS"/>
+
+            <HBox spacing="4" alignment="CENTER">
+                <Label text="ACCUEIL" onMouseClicked="#retourChoixEspace"
+                       style="-fx-text-fill: #8892b0; -fx-font-size: 11;
+                              -fx-font-weight: bold; -fx-cursor: hand;
+                              -fx-padding: 7 14; -fx-background-radius: 8;"/>
+                <Label text="COURS"
+                       style="-fx-background-color: rgba(245,166,35,0.12);
+                              -fx-text-fill: #f5a623; -fx-font-size: 11;
+                              -fx-font-weight: bold; -fx-background-radius: 8;
+                              -fx-padding: 7 14;"/>
+                <Label text="CERTIFICATIONS" onMouseClicked="#ouvrirCertifications"
+                       style="-fx-text-fill: #8892b0; -fx-font-size: 11;
+                              -fx-font-weight: bold; -fx-cursor: hand;
+                              -fx-padding: 7 14; -fx-background-radius: 8;"/>
+                <Label text="ÉVÉNEMENTS" onMouseClicked="#navigateToEvents"
+                       style="-fx-text-fill: #8892b0; -fx-font-size: 11;
+                              -fx-font-weight: bold; -fx-cursor: hand;
+                              -fx-padding: 7 14; -fx-background-radius: 8;"/>
+                <Button fx:id="forumButton" text="Forum" onAction="#handleForumButton"
+                        style="-fx-background-color: white; -fx-text-fill: #1a1f3c;
+                               -fx-font-weight: bold; -fx-font-size: 12px;
+                               -fx-background-radius: 50; -fx-padding: 11 22;
+                               -fx-cursor: hand;
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 4);"/>
+                <Label text="PROFILE" onMouseClicked="#navigateToProfile"
+                       style="-fx-text-fill: #8892b0; -fx-font-size: 11;
+                              -fx-font-weight: bold; -fx-cursor: hand;
+                              -fx-padding: 7 14; -fx-background-radius: 8;"/>
+            </HBox>
+        </HBox>
+    </HBox>
+
+    <!-- ══ HERO ══ -->
+    <HBox alignment="CENTER_LEFT" spacing="0"
+          style="-fx-background-color: #f5a623;
+                 -fx-min-height: 88; -fx-padding: 0 32;">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Catalogue des Cours"
+                   style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+            <Label text="Découvrez et accédez à tous vos cours disponibles"
+                   style="-fx-font-size: 13; -fx-text-fill: rgba(26,31,60,0.65);"/>
+        </VBox>
+
+        <Button fx:id="btnMesFavoris"
+                text="★  Mes Favoris (0)"
+                onAction="#toggleFavoris"
+                style="-fx-background-color: white; -fx-text-fill: #1a1f3c;
+                       -fx-font-weight: bold; -fx-font-size: 12px;
+                       -fx-background-radius: 50; -fx-padding: 11 22;
+                       -fx-cursor: hand;
+                       -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 4);"/>
+    </HBox>
+
+    <!-- ══ CONTENU PRINCIPAL ══ -->
+    <VBox VBox.vgrow="ALWAYS" style="-fx-background-color: #f0f2f8;">
+
+        <!-- BARRE RECHERCHE -->
+        <HBox fx:id="searchBarContainer"
+              style="-fx-background-color: white; -fx-padding: 14 28;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0, 0, 3);
+                     -fx-border-color: transparent transparent #e4e8f0 transparent;
+                     -fx-border-width: 0 0 1 0;"/>
+
+        <!-- CARTES COURS -->
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    style="-fx-background-color: transparent;
+                           -fx-background: transparent;
+                           -fx-border-color: transparent;">
+            <content>
+                <FlowPane fx:id="coursContainer"
+                          hgap="22" vgap="22"
+                          style="-fx-padding: 24 28; -fx-background-color: #f0f2f8;"/>
+            </content>
+        </ScrollPane>
+
+        <!-- PAGINATION -->
+        <HBox fx:id="paginationBox" alignment="CENTER" spacing="10"
+              style="-fx-padding: 16 28 20 28;
+                     -fx-background-color: white;
+                     -fx-border-color: #e4e8f0 transparent transparent transparent;
+                     -fx-border-width: 1 0 0 0;
+                     -fx-min-height: 62;"/>
+    </VBox>
+
+</VBox>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.controllers.ProfessorController"
+            style="-fx-background-color: #f8f9fa;">
+
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+            <VBox spacing="0">
+
+                <!-- ── HERO BANNER ── -->
+                <VBox minHeight="160" prefHeight="160"
+                      alignment="CENTER_LEFT"
+                      style="-fx-background-color: #1a2035; -fx-padding: 0 60 0 60;">
+                    <VBox spacing="6">
+                        <Label fx:id="heroNameLabel"
+                               text="Professeur"
+                               style="-fx-font-family: 'Georgia'; -fx-font-size: 32px; -fx-font-weight: bold;
+                                      -fx-text-fill: #f5a623;"/>
+                        <Label fx:id="heroSpecialtyLabel"
+                               text=""
+                               style="-fx-font-size: 14px; -fx-text-fill: rgba(255,255,255,0.75);"/>
+                        <Label text="Bienvenue ! Gérez vos cours et suivez les performances de vos étudiants."
+                               style="-fx-font-size: 13px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                    </VBox>
+                </VBox>
+
+                <!-- ── PAGE BODY ── -->
+                <HBox spacing="30" style="-fx-padding: 40 60 40 60; -fx-background-color: #f8f9fa;"
+                      alignment="TOP_LEFT">
+
+                    <!-- ════════════════════════════════
+                         LEFT COLUMN
+                    ════════════════════════════════ -->
+                    <VBox spacing="30" HBox.hgrow="ALWAYS">
+
+                        <!-- ── Informations Personnelles ── -->
+                        <VBox spacing="14">
+                            <Label text="Informations Personnelles"
+                                   style="-fx-font-family: 'Georgia'; -fx-font-size: 22px;
+                                          -fx-font-weight: bold; -fx-text-fill: #1a2035;
+                                          -fx-border-color: transparent transparent #f5a623 transparent;
+                                          -fx-border-width: 0 0 3 0; -fx-padding: 0 0 8 0;"/>
+
+                            <VBox style="-fx-background-color: white;
+                                         -fx-border-color: #dee8ff; -fx-border-width: 0 0 0 4;
+                                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 20, 0, 0, 4);">
+                                <VBox style="-fx-padding: 28;">
+                                    <GridPane hgap="20" vgap="0">
+                                        <columnConstraints>
+                                            <ColumnConstraints percentWidth="50"/>
+                                            <ColumnConstraints percentWidth="50"/>
+                                        </columnConstraints>
+
+                                        <!-- Nom Complet -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 18 0;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                            <Label text="Nom Complet"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <HBox style="-fx-border-color: #eef0f5; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 8 0;">
+                                                <Label fx:id="fullNameLabel" text="—"
+                                                       style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- Email -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 18 0;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <Label text="Adresse Email"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <HBox style="-fx-border-color: #eef0f5; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 8 0;">
+                                                <Label fx:id="emailLabel" text="—"
+                                                       style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- Username -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 18 0;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                            <Label text="Nom d'utilisateur"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <HBox style="-fx-border-color: #eef0f5; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 8 0;">
+                                                <Label fx:id="usernameLabel" text="—"
+                                                       style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- Spécialité -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 18 0;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <Label text="Spécialité"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <HBox style="-fx-border-color: #eef0f5; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 8 0;">
+                                                <Label fx:id="specialtyLabel" text="—"
+                                                       style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- Expérience -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 18 0;" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                            <Label text="Expérience"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <HBox style="-fx-border-color: #eef0f5; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 8 0;">
+                                                <Label fx:id="experienceLabel" text="—"
+                                                       style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- Mot de passe -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 18 0;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                            <Label text="Mot de passe"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <HBox style="-fx-border-color: #eef0f5; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 8 0;">
+                                                <Label text="••••••••"
+                                                       style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- Membre depuis -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 6 0;" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                            <Label text="Membre depuis"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <Label fx:id="inscriptionLabel" text="—"
+                                                   style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                        </VBox>
+
+                                        <!-- Dernière connexion -->
+                                        <VBox spacing="4" style="-fx-padding: 0 0 6 0;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                            <Label text="Dernière connexion"
+                                                   style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5; -fx-font-weight: bold;"/>
+                                            <Label fx:id="lastLoginLabel" text="—"
+                                                   style="-fx-font-size: 15px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                                        </VBox>
+
+                                    </GridPane>
+
+                                    <!-- Déconnexion -->
+                                    <Button fx:id="logoutBtn"
+                                            text="⏻  Déconnexion"
+                                            onAction="#logout"
+                                            prefHeight="42"
+                                            maxWidth="Infinity"
+                                            style="-fx-background-color: transparent;
+                                                   -fx-border-color: #dc3545; -fx-border-width: 1.5;
+                                                   -fx-text-fill: #dc3545; -fx-font-weight: bold;
+                                                   -fx-font-size: 13px; -fx-background-radius: 0;
+                                                   -fx-border-radius: 0; -fx-cursor: hand;"/>
+                                </VBox>
+                            </VBox>
+                        </VBox>
+
+                        <!-- ── Mes Cours Créés ── -->
+                        <VBox spacing="14">
+                            <Label text="Mes Cours Créés"
+                                   style="-fx-font-family: 'Georgia'; -fx-font-size: 22px;
+                                          -fx-font-weight: bold; -fx-text-fill: #1a2035;
+                                          -fx-border-color: transparent transparent #f5a623 transparent;
+                                          -fx-border-width: 0 0 3 0; -fx-padding: 0 0 8 0;"/>
+                            <VBox style="-fx-background-color: white;
+                                         -fx-border-color: #dee8ff; -fx-border-width: 0 0 0 4;
+                                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 20, 0, 0, 4);
+                                         -fx-padding: 24;">
+                                <HBox spacing="0">
+                                    <VBox HBox.hgrow="ALWAYS" alignment="CENTER"
+                                          style="-fx-background-color: #f7f9ff; -fx-padding: 20;
+                                                 -fx-border-color: #dee8ff; -fx-border-width: 0 1 0 0;">
+                                        <Label fx:id="totalCoursLabel" text="0"
+                                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Total Cours"
+                                               style="-fx-font-size: 12px; -fx-text-fill: #8a9bb5; -fx-padding: 4 0 0 0;"/>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS" alignment="CENTER"
+                                          style="-fx-background-color: #f7f9ff; -fx-padding: 20;
+                                                 -fx-border-color: #dee8ff; -fx-border-width: 0 1 0 0;">
+                                        <Label fx:id="coursPubliesLabel" text="0"
+                                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Cours Publiés"
+                                               style="-fx-font-size: 12px; -fx-text-fill: #8a9bb5; -fx-padding: 4 0 0 0;"/>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS" alignment="CENTER"
+                                          style="-fx-background-color: #f7f9ff; -fx-padding: 20;">
+                                        <Label fx:id="etudiantsInscritsLabel" text="0"
+                                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Étudiants Inscrits"
+                                               style="-fx-font-size: 12px; -fx-text-fill: #8a9bb5; -fx-padding: 4 0 0 0;"/>
+                                    </VBox>
+                                </HBox>
+                                <Label text="Aucun cours créé pour le moment."
+                                       alignment="CENTER" maxWidth="Infinity"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #8a9bb5; -fx-padding: 18 0 8 0;"/>
+                                <HBox alignment="CENTER_LEFT" style="-fx-padding: 8 0 0 0;">
+                                    <Button text="+ Créer un Nouveau Cours"
+                                            style="-fx-background-color: #1a2035;
+                                                   -fx-text-fill: white; -fx-font-weight: bold;
+                                                   -fx-font-size: 13px; -fx-background-radius: 0;
+                                                   -fx-padding: 10 24 10 24; -fx-cursor: hand;"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                        <!-- ── Mes Quiz Créés ── -->
+                        <VBox spacing="14">
+                            <Label text="Mes Quiz Créés"
+                                   style="-fx-font-family: 'Georgia'; -fx-font-size: 22px;
+                                          -fx-font-weight: bold; -fx-text-fill: #1a2035;
+                                          -fx-border-color: transparent transparent #f5a623 transparent;
+                                          -fx-border-width: 0 0 3 0; -fx-padding: 0 0 8 0;"/>
+                            <VBox style="-fx-background-color: white;
+                                         -fx-border-color: #dee8ff; -fx-border-width: 0 0 0 4;
+                                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 20, 0, 0, 4);
+                                         -fx-padding: 24;">
+                                <HBox spacing="0">
+                                    <VBox HBox.hgrow="ALWAYS" alignment="CENTER"
+                                          style="-fx-background-color: #f7f9ff; -fx-padding: 20;
+                                                 -fx-border-color: #dee8ff; -fx-border-width: 0 1 0 0;">
+                                        <Label fx:id="totalQuizLabel" text="0"
+                                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Total Quiz"
+                                               style="-fx-font-size: 12px; -fx-text-fill: #8a9bb5; -fx-padding: 4 0 0 0;"/>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS" alignment="CENTER"
+                                          style="-fx-background-color: #f7f9ff; -fx-padding: 20;
+                                                 -fx-border-color: #dee8ff; -fx-border-width: 0 1 0 0;">
+                                        <Label fx:id="quizActifsLabel" text="0"
+                                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Quiz Actifs"
+                                               style="-fx-font-size: 12px; -fx-text-fill: #8a9bb5; -fx-padding: 4 0 0 0;"/>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS" alignment="CENTER"
+                                          style="-fx-background-color: #f7f9ff; -fx-padding: 20;">
+                                        <Label fx:id="tentativesTotalesLabel" text="0"
+                                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Tentatives Totales"
+                                               style="-fx-font-size: 12px; -fx-text-fill: #8a9bb5; -fx-padding: 4 0 0 0;"/>
+                                    </VBox>
+                                </HBox>
+                                <Label text="Aucun quiz créé pour le moment."
+                                       alignment="CENTER" maxWidth="Infinity"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #8a9bb5; -fx-padding: 18 0 8 0;"/>
+                                <HBox alignment="CENTER_LEFT" style="-fx-padding: 8 0 0 0;">
+                                    <Button text="+ Créer un Nouveau Quiz"
+                                            style="-fx-background-color: #1a2035;
+                                                   -fx-text-fill: white; -fx-font-weight: bold;
+                                                   -fx-font-size: 13px; -fx-background-radius: 0;
+                                                   -fx-padding: 10 24 10 24; -fx-cursor: hand;"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                        <!-- ── Danger Zone ── -->
+                        <VBox style="-fx-background-color: #fff5f5;
+                                     -fx-border-color: #ffcccc; -fx-border-width: 1;
+                                     -fx-padding: 24;
+                                     -fx-effect: dropshadow(gaussian, rgba(220,53,69,0.1), 16, 0, 0, 3);">
+                            <Label text="⚠  Zone Dangereuse"
+                                   style="-fx-font-size: 16px; -fx-font-weight: bold;
+                                          -fx-text-fill: #dc3545; -fx-padding: 0 0 8 0;"/>
+                            <Label text="La suppression de votre compte est permanente et irréversible. Tous vos cours, quiz et données seront définitivement supprimés."
+                                   wrapText="true"
+                                   style="-fx-font-size: 13px; -fx-text-fill: #555; -fx-padding: 0 0 16 0;"/>
+                            <Button text="🗑  Supprimer Mon Compte"
+                                    onAction="#deleteAccount"
+                                    style="-fx-background-color: #dc3545;
+                                           -fx-text-fill: white; -fx-font-weight: bold;
+                                           -fx-font-size: 13px; -fx-background-radius: 0;
+                                           -fx-padding: 10 20 10 20; -fx-cursor: hand;"/>
+                        </VBox>
+
+                    </VBox>
+                    <!-- end left column -->
+
+                    <!-- ════════════════════════════════
+                         RIGHT COLUMN (sidebar)
+                    ════════════════════════════════ -->
+                    <VBox spacing="20" prefWidth="280" minWidth="260">
+
+                        <!-- Avatar Card -->
+                        <VBox alignment="CENTER" spacing="10"
+                              style="-fx-background-color: white;
+                                     -fx-border-color: #dee8ff; -fx-border-width: 0 0 0 4;
+                                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 20, 0, 0, 4);
+                                     -fx-padding: 30 20 30 20;">
+                            <StackPane prefWidth="88" prefHeight="88" maxWidth="88" maxHeight="88">
+                                <Region prefWidth="88" prefHeight="88"
+                                        style="-fx-background-color: #2d3a5e; -fx-background-radius: 44;"/>
+                                <Label fx:id="avatarInitialsLabel" text="PR"
+                                       style="-fx-font-family: 'Georgia'; -fx-font-size: 26px;
+                                              -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                            </StackPane>
+                            <Label fx:id="sidebarNameLabel" text="Professeur"
+                                   style="-fx-font-weight: bold; -fx-font-size: 16px;
+                                          -fx-text-fill: #1a2035; -fx-padding: 6 0 0 0;"/>
+                            <Label fx:id="sidebarEmailLabel" text=""
+                                   style="-fx-font-size: 12px; -fx-text-fill: #8a9bb5;"/>
+                            <Label fx:id="sidebarSpecialtyLabel" text=""
+                                   style="-fx-font-size: 12px; -fx-text-fill: #f5a623; -fx-font-weight: bold;"/>
+                            <HBox alignment="CENTER"
+                                  style="-fx-background-color: #e8f0ff; -fx-padding: 4 12 4 12;">
+                                <Label text="● Professeur"
+                                       style="-fx-font-size: 11px; -fx-text-fill: #1a2035; -fx-font-weight: bold;"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Statistiques Rapides -->
+                        <VBox style="-fx-background-color: white;
+                                     -fx-border-color: #dee8ff; -fx-border-width: 0 0 0 4;
+                                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 20, 0, 0, 4);
+                                     -fx-padding: 24;">
+                            <Label text="Statistiques Rapides"
+                                   style="-fx-font-size: 15px; -fx-font-weight: bold;
+                                          -fx-text-fill: #1a2035; -fx-padding: 0 0 16 0;"/>
+                            <VBox spacing="10">
+                                <HBox style="-fx-background-color: #f7f9ff; -fx-padding: 14 16 14 16;"
+                                      alignment="CENTER_LEFT" spacing="12">
+                                    <Label text="📚" style="-fx-font-size: 18px;"/>
+                                    <VBox>
+                                        <Label fx:id="statCoursLabel" text="0"
+                                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Cours Créés"
+                                               style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5;"/>
+                                    </VBox>
+                                </HBox>
+                                <HBox style="-fx-background-color: #f7f9ff; -fx-padding: 14 16 14 16;"
+                                      alignment="CENTER_LEFT" spacing="12">
+                                    <Label text="📝" style="-fx-font-size: 18px;"/>
+                                    <VBox>
+                                        <Label fx:id="statQuizLabel" text="0"
+                                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Quiz Créés"
+                                               style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5;"/>
+                                    </VBox>
+                                </HBox>
+                                <HBox style="-fx-background-color: #f7f9ff; -fx-padding: 14 16 14 16;"
+                                      alignment="CENTER_LEFT" spacing="12">
+                                    <Label text="👥" style="-fx-font-size: 18px;"/>
+                                    <VBox>
+                                        <Label fx:id="statEtudiantsLabel" text="0"
+                                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Étudiants Totaux"
+                                               style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5;"/>
+                                    </VBox>
+                                </HBox>
+                                <HBox style="-fx-background-color: #f7f9ff; -fx-padding: 14 16 14 16;"
+                                      alignment="CENTER_LEFT" spacing="12">
+                                    <Label text="⭐" style="-fx-font-size: 18px;"/>
+                                    <VBox>
+                                        <Label fx:id="statExperienceLabel" text="—"
+                                               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1a2035;"/>
+                                        <Label text="Expérience"
+                                               style="-fx-font-size: 11px; -fx-text-fill: #8a9bb5;"/>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                    </VBox>
+                    <!-- end right column -->
+
+                </HBox>
+
+                <!-- ── FOOTER ── -->
+                <VBox style="-fx-background-color: #1a2035; -fx-padding: 40 60 20 60;" spacing="24">
+                    <HBox spacing="60">
+                        <VBox spacing="10" HBox.hgrow="ALWAYS">
+                            <Label text="EduCenter"
+                                   style="-fx-font-family: 'Georgia'; -fx-font-size: 22px;
+                                          -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                            <Label text="23621 15 Mile Rd #C104, Clinton MI, 48035, Jandouba, Tunisie"
+                                   wrapText="true" maxWidth="200"
+                                   style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="+1 (2) 345 6789"
+                                   style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="contact@yourdomain.com"
+                                   style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                        </VBox>
+                        <VBox spacing="8">
+                            <Label text="ENTREPRISE"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 0 0 8 0;"/>
+                            <Label text="Nos Enseignants" style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="Forum"          style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="Donations"      style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                        </VBox>
+                        <VBox spacing="8">
+                            <Label text="LIENS"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 0 0 8 0;"/>
+                            <Label text="Cours"       style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="Événements"  style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="Galerie"     style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="FAQ"         style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                        </VBox>
+                        <VBox spacing="8">
+                            <Label text="SUPPORT"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 0 0 8 0;"/>
+                            <Label text="Politique de Confidentialité" style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="Conditions d'Utilisation"     style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                            <Label text="Contactez-nous"               style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.55);"/>
+                        </VBox>
+                    </HBox>
+                    <Separator style="-fx-background-color: rgba(255,255,255,0.1);"/>
+                    <HBox alignment="CENTER">
+                        <Label text="Copyright 2026 © EduCenter — Tous droits réservés."
+                               style="-fx-font-size: 11px; -fx-text-fill: rgba(255,255,255,0.4);"/>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

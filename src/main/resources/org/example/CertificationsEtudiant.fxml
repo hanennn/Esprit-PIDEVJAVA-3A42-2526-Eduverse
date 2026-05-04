@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.CertificationsEtudiantController"
+      spacing="0" prefWidth="1200" prefHeight="750"
+      style="-fx-background-color: #f4f6f9;">
+
+    <!-- HEADER -->
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: #1a1f3c; -fx-padding: 15 25;">
+
+        <Label text="📚" style="-fx-font-size: 24;"/>
+
+        <Label text="edu"
+               style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
+
+        <Label text="verse"
+               style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+
+        <Label text=" — Mes Certifications"
+               style="-fx-font-size: 16; -fx-text-fill: #a0a8c0;"/>
+    </HBox>
+
+    <!-- NAV BAR -->
+    <HBox style="-fx-background-color: #f5a623; -fx-padding: 7 25;"
+          alignment="CENTER_LEFT" spacing="10">
+
+        <Label text="🏠 Accueil  ›  Certifications"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold;"/>
+
+        <HBox HBox.hgrow="ALWAYS"/>
+
+        <Button text="⬅️ Retour"
+                onAction="#retourAccueil"
+                style="-fx-background-color: #1a1f3c;
+                       -fx-text-fill: white;
+                       -fx-background-radius: 8;
+                       -fx-padding: 5 15;
+                       -fx-cursor: hand;
+                       -fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- MAIN CONTENT -->
+    <HBox spacing="25" VBox.vgrow="ALWAYS"
+          style="-fx-padding: 20;">
+
+        <!-- CERTIFICATIONS -->
+        <VBox spacing="15" prefWidth="500">
+
+            <HBox alignment="CENTER_LEFT" spacing="15">
+
+                <Label text="🏆 Mes Certifications"
+                       style="-fx-font-size: 18;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #1a1f3c;"/>
+
+                <Button text="🔄 Rafraîchir"
+                        onAction="#chargerCertifications"
+                        style="-fx-background-color: #f5a623;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-background-radius: 8;
+                               -fx-padding: 6 14;
+                               -fx-cursor: hand;"/>
+            </HBox>
+
+            <Label fx:id="messageLabel"
+                   style="-fx-font-size: 13;
+                          -fx-text-fill: #1a1f3c;"/>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background: transparent;
+                               -fx-background-color: transparent;
+                               -fx-border-color: transparent;">
+
+                <content>
+                    <VBox fx:id="certifContainer"
+                          spacing="15"
+                          style="-fx-padding: 5;"/>
+                </content>
+
+            </ScrollPane>
+
+        </VBox>
+
+        <!-- CALENDAR -->
+        <VBox spacing="15" HBox.hgrow="ALWAYS">
+
+            <Label text="📅 Calendrier des Certifications"
+                   style="-fx-font-size: 18;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #1a1f3c;"/>
+
+            <!-- NAVIGATION MOIS -->
+            <HBox alignment="CENTER" spacing="15"
+                  style="-fx-background-color: white;
+                         -fx-padding: 12;
+                         -fx-background-radius: 10;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+
+                <Button text="◀"
+                        onAction="#moisPrecedent"
+                        style="-fx-background-color: #f5a623;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-background-radius: 6;
+                               -fx-padding: 6 12;
+                               -fx-cursor: hand;"/>
+
+                <Label fx:id="moisAnneeLabel"
+                       text="Avril 2026"
+                       style="-fx-font-size: 16;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #1a1f3c;
+                              -fx-min-width: 160;
+                              -fx-alignment: center;"/>
+
+                <Button text="▶"
+                        onAction="#moisSuivant"
+                        style="-fx-background-color: #f5a623;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-background-radius: 6;
+                               -fx-padding: 6 12;
+                               -fx-cursor: hand;"/>
+
+                <HBox HBox.hgrow="ALWAYS"/>
+
+                <Button text="Aujourd'hui"
+                        onAction="#allerAujourdhui"
+                        style="-fx-background-color: #1a1f3c;
+                               -fx-text-fill: white;
+                               -fx-font-size: 11;
+                               -fx-background-radius: 6;
+                               -fx-padding: 6 12;
+                               -fx-cursor: hand;"/>
+            </HBox>
+
+            <!-- CALENDAR BOX -->
+            <VBox spacing="0" VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 12;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+
+                <!-- DAYS HEADER FIXÉ -->
+                <GridPane fx:id="joursSemaine"
+                          hgap="10"
+                          style="-fx-background-color: #1a1f3c;
+                                 -fx-padding: 10;
+                                 -fx-background-radius: 12 12 0 0;">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                    </columnConstraints>
+
+                    <Label text="Lun" GridPane.columnIndex="0"
+                           style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+                    <Label text="Mar" GridPane.columnIndex="1"
+                           style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+                    <Label text="Mer" GridPane.columnIndex="2"
+                           style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+                    <Label text="Jeu" GridPane.columnIndex="3"
+                           style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+                    <Label text="Ven" GridPane.columnIndex="4"
+                           style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+                    <Label text="Sam" GridPane.columnIndex="5"
+                           style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+                    <Label text="Dim" GridPane.columnIndex="6"
+                           style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                </GridPane>
+
+                <!-- GRID CALENDAR -->
+                <GridPane fx:id="calendrierGrid"
+                          VBox.vgrow="ALWAYS"
+                          hgap="10" vgap="10"
+                          style="-fx-padding: 10;">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                    </columnConstraints>
+
+                </GridPane>
+
+            </VBox>
+
+            <!-- DETAIL JOUR -->
+            <VBox fx:id="detailJourBox"
+                  spacing="8"
+                  visible="false"
+                  managed="false"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 10;
+                         -fx-padding: 15;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+
+                <Label fx:id="detailJourTitre"
+                       style="-fx-font-size: 14;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #1a1f3c;"/>
+
+                <VBox fx:id="detailJourContenu" spacing="6"/>
+            </VBox>
+
+        </VBox>
+
+    </HBox>
+
+</VBox>

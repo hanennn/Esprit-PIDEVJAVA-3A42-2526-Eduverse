@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.PasserQuizController"
+      spacing="0" prefWidth="900" prefHeight="700"
+      style="-fx-background-color: #f4f6f9;">
+
+    <!-- ══ HEADER ══ -->
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: #1a1f3c; -fx-padding: 15 25;">
+        <Label text="📚" style="-fx-font-size: 24;"/>
+        <Label text="edu"
+               style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <Label text="verse"
+               style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Label fx:id="quizTitreLabel" text="Quiz"
+               style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #a0a8c0;"/>
+    </HBox>
+
+    <!-- ══ BARRE ORANGE : info + bouton retour + timer ══ -->
+    <HBox style="-fx-background-color: #f5a623; -fx-padding: 7 20;"
+          alignment="CENTER_LEFT" spacing="12">
+
+        <!-- Bouton retour catalogue -->
+        <Button text="⬅  Catalogue"
+                onAction="#retourCatalogue"
+                style="-fx-background-color: #1a1f3c;
+                       -fx-text-fill: white;
+                       -fx-font-weight: bold;
+                       -fx-font-size: 11;
+                       -fx-background-radius: 8;
+                       -fx-padding: 6 14;
+                       -fx-cursor: hand;"/>
+
+        <!-- Séparateur visuel -->
+        <Label text="|" style="-fx-text-fill: rgba(26,31,60,0.3); -fx-font-size: 16;"/>
+
+        <Label text="📝 Répondez à toutes les questions puis soumettez"
+               style="-fx-text-fill: #1a1f3c; -fx-font-weight: bold; -fx-font-size: 12;"/>
+
+        <HBox HBox.hgrow="ALWAYS"/>
+
+        <Label fx:id="timerLabel" text="⏱ 00:00"
+               style="-fx-font-size: 16; -fx-font-weight: bold;
+                      -fx-text-fill: white;
+                      -fx-background-color: #1a1f3c;
+                      -fx-background-radius: 8; -fx-padding: 5 16;"/>
+    </HBox>
+
+    <!-- ══ PROGRESSBAR ══ -->
+    <HBox style="-fx-background-color: #fff8ee; -fx-padding: 6 25;"
+          alignment="CENTER_LEFT" spacing="12">
+        <Label fx:id="progressLabel" text="0 / 0 répondu(es)"
+               style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+        <ProgressBar fx:id="progressBar" progress="0"
+                     HBox.hgrow="ALWAYS" prefHeight="10"
+                     style="-fx-accent: #f5a623; -fx-background-color: #e9ecef;"/>
+    </HBox>
+
+    <!-- ══ CONTENU ══ -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent;
+                       -fx-background: transparent;
+                       -fx-border-color: transparent;">
+        <content>
+
+            <VBox fx:id="mainContent" spacing="20" style="-fx-padding: 30;">
+
+                <VBox fx:id="questionsContainer" spacing="15"/>
+
+                <VBox fx:id="cameraSlot" />
+
+                <Button fx:id="soumettreBtn"
+                        text="✅  Soumettre mes réponses"
+                        onAction="#soumettreQuiz"
+                        style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-font-size: 14;
+                               -fx-background-radius: 10; -fx-padding: 13 30;
+                               -fx-cursor: hand;"/>
+
+            </VBox>
+        </content>
+    </ScrollPane>
+
+</VBox>

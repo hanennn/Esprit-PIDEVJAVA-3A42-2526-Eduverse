@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.controllers.MessageController" spacing="20" styleClass="content-area">
+    <stylesheets>
+        <URL value="@/forum_styles.css" />
+    </stylesheets>
+    <children>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="← Retour aux sujets" onAction="#handleBack" styleClass="btn-secondary"/>
+        </HBox>
+        <VBox fx:id="subjectCardContainer" spacing="12"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <ProgressIndicator fx:id="translateIndicator" visible="false" prefWidth="20" prefHeight="20"/>
+            <Label fx:id="infoLabel" wrapText="true" styleClass="text-muted"/>
+        </HBox>
+        <Label fx:id="validationLabel" textFill="#dc3545" wrapText="true"/>
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <content>
+                <VBox fx:id="messagesBox" spacing="18" style="-fx-background-color: transparent; -fx-padding: 10 5 10 5;"/>
+            </content>
+        </ScrollPane>
+        <VBox spacing="10" styleClass="card">
+            <Label text="Répondre" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1a1f3c;"/>
+            <TextArea fx:id="replyArea" promptText="Votre réponse..." prefRowCount="3" styleClass="reply-area"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="🎬 Ajouter GIF" onAction="#handleShowGifPicker" styleClass="btn-secondary"/>
+                <Label fx:id="selectedGifLabel" text="Aucun GIF" styleClass="text-muted"/>
+                <Button fx:id="clearGifButton" text="✖" onAction="#handleClearGif" visible="false" style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-background-radius: 4;"/>
+            </HBox>
+            <Button text="📤 Publier la réponse" onAction="#handlePublish" styleClass="btn-primary" maxWidth="Infinity"/>
+        </VBox>
+    </children>
+</VBox>

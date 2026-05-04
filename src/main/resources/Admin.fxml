@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Region?>
+
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController" prefWidth="1050" prefHeight="700">
+    
+    <!-- TOPBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" styleClass="topbar" prefHeight="60" spacing="20">
+            <padding><Insets left="20" right="20"/></padding>
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <Label text="edu" styleClass="home-logo-edu" style="-fx-font-size: 24px;"/>
+                <Label text="verse" styleClass="home-logo-verse" style="-fx-font-size: 24px;"/>
+            </HBox>
+            <Label text="— Espace Admin" style="-fx-text-fill: #5E6988; -fx-font-size: 16px;"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="⬅ Changer d'espace" onAction="#goHome" styleClass="button-accent" style="-fx-border-color: #efa515; -fx-border-radius: 8px;"/>
+        </HBox>
+    </top>
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="250" spacing="5">
+            <padding><Insets top="30" bottom="20"/></padding>
+            
+            <Label text="MENU" styleClass="sidebar-title">
+                <VBox.margin><Insets left="20" bottom="10"/></VBox.margin>
+            </Label>
+
+            <Button fx:id="btnEvent" text="🗓 Événements" onAction="#showEvents" styleClass="sidebar-btn-active" prefWidth="250"/>
+            <Button fx:id="btnInscri" text="📋 Inscriptions" onAction="#showInscriptions" styleClass="sidebar-btn" prefWidth="250"/>
+            
+            <Label text="COMPTE" styleClass="sidebar-title">
+                <VBox.margin><Insets left="20" top="20" bottom="10"/></VBox.margin>
+            </Label>
+            
+            <Button fx:id="btnStats" text="📊 Statistiques" onAction="#showStats" styleClass="sidebar-btn" prefWidth="250"/>
+            <Button fx:id="btnPdf" text="📄 Export PDF" onAction="#showPdf" styleClass="sidebar-btn" prefWidth="250"/>
+            <Button fx:id="btnCal" text="📅 Calendrier" onAction="#showCalendar" styleClass="sidebar-btn" prefWidth="250"/>
+            
+            <Region VBox.vgrow="ALWAYS" />
+            <Button fx:id="btnIa" text="🤖 Assistant IA" onAction="#showIa" styleClass="sidebar-btn" prefWidth="250" style="-fx-text-fill: #efa515;"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER (Main Content) -->
+    <center>
+        <VBox>
+            <!-- Orange Sub-header -->
+            <HBox alignment="CENTER_LEFT" styleClass="topbar-header" prefHeight="40">
+                <padding><Insets left="20"/></padding>
+                <Label fx:id="lblPagePath" text="🏠 Admin > Événements" styleClass="topbar-header-text"/>
+            </HBox>
+
+            <!-- Dynamic Content Area -->
+            <StackPane fx:id="contentArea" VBox.vgrow="ALWAYS" style="-fx-padding: 20;">
+                
+                <VBox fx:id="viewIa" visible="false">
+                    <fx:include source="AIAssistant.fxml" />
+                </VBox>
+                <VBox fx:id="viewCal" visible="false">
+                    <fx:include source="Calendar.fxml" />
+                </VBox>
+                <VBox fx:id="viewPdf" visible="false">
+                    <fx:include source="ExportPDF.fxml" />
+                </VBox>
+                <VBox fx:id="viewStats" visible="false">
+                    <fx:include source="Stats.fxml" />
+                </VBox>
+                <VBox fx:id="viewInscri" visible="false">
+                    <fx:include source="EventInscription.fxml" />
+                </VBox>
+                <VBox fx:id="viewEvent" visible="true">
+                    <fx:include source="Event.fxml" />
+                </VBox>
+
+            </StackPane>
+        </VBox>
+    </center>
+</BorderPane>
