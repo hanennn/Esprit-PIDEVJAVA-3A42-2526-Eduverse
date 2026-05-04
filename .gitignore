@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+.kotlin
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -35,6 +36,17 @@ build/
 .vscode/
 
 ### Mac OS ###
-.DS_Storetokens/
-
 .DS_Store
+
+config.properties
+uploads/
+.claude/
+tokens/
+
+### Microservice IA ###
+microservice_ia/ffmpeg.exe
+microservice_ia/ffprobe.exe
+microservice_ia/__pycache__/
+microservice_ia/*.wav
+microservice_ia/test_*.pdf
+microservice_ia/mon_modele_bourse/model.safetensors

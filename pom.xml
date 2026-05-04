@@ -94,6 +94,11 @@
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+            <version>2.0.1</version>
+        </dependency>
 
         <!-- Statistics -->
         <dependency>
@@ -103,6 +108,12 @@
         </dependency>
 
         <!-- Test -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -123,7 +134,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.example.MainGUI</mainClass>
+                    <mainClass>Main.MainGUI</mainClass>
                 </configuration>
             </plugin>
             <plugin>
