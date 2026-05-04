@@ -68,8 +68,7 @@ public class AjouterQuestionController {
     private int    quizId    = 0;
     private String quizTitre = "—";
 
-    private static final String GROQ_API_KEY =
-            "REMOVED";
+    private static final String GROQ_API_KEY = System.getenv("GROQ_API_KEY");
 
     private static final String NORMAL =
             "-fx-background-color: #f9fafb; -fx-border-color: #e5e7eb;" +
