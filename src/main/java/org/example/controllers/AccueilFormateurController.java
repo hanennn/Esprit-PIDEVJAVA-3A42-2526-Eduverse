@@ -194,6 +194,17 @@ public class AccueilFormateurController {
         }
     }
 
+    @FXML
+    public void navigateToBourses(javafx.scene.input.MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/bourses/ListeBourses.fxml"));
+            Parent root = loader.load();
+            ((javafx.scene.Node) event.getSource()).getScene().setRoot(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // PROFILE LOGIC  (from ProfessorController)
     // ═══════════════════════════════════════════════════════════════════════

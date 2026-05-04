@@ -744,6 +744,17 @@ public class AccueilEtudiantController {
     }
 
     @FXML
+    public void navigateToBourses(javafx.scene.input.MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/etudiant/EtudiantBourses.fxml"));
+            Parent root = loader.load();
+            ((javafx.scene.Node) event.getSource()).getScene().setRoot(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void navigateToEvents(javafx.scene.input.MouseEvent event) {
         try {
             System.out.println("Navigation vers Événements...");

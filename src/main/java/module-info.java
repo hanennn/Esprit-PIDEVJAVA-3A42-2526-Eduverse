@@ -17,6 +17,8 @@ module eduverse.dao {
     requires com.google.gson;
     requires com.fasterxml.jackson.databind;
     requires jakarta.mail;
+    requires jakarta.activation;
+    requires org.apache.pdfbox;
     requires java.prefs;
     requires jdk.httpserver;
     requires javafx.media;
@@ -30,6 +32,15 @@ module eduverse.dao {
     opens org.example.services to javafx.base;
     opens org.example.social to javafx.graphics, javafx.fxml, javafx.base;
     opens org.example.utils to javafx.base;
+
+    opens Main to javafx.graphics, javafx.fxml;
+    opens controllers.accueil to javafx.fxml;
+    opens controllers.bourses to javafx.fxml;
+    opens controllers.demandes to javafx.fxml;
+    opens controllers.etudiant to javafx.fxml;
+    opens models to javafx.base;
+    opens services to javafx.base;
+    opens utils to javafx.base;
 
     exports app;
     exports org.example;
