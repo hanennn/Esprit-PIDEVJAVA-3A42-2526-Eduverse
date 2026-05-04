@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventInscriptionController" prefWidth="1050" prefHeight="700">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+    <top>
+        <BorderPane>
+            <left><Label text="Gestion des Inscriptions" styleClass="title-label"/></left>
+            <right>
+                <HBox styleClass="search-container">
+                    <TextField fx:id="tfSearch" promptText="Rechercher une inscription..." styleClass="search-field"/>
+                    <ComboBox fx:id="cbSort" promptText="Trier par..." styleClass="sort-combo"/>
+                </HBox>
+            </right>
+        </BorderPane>
+    </top>
+    <center>
+        <TableView fx:id="tvInscriptions" styleClass="table-view" onMouseClicked="#handleTableClick" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="colId"          text="ID"             prefWidth="50" />
+                <TableColumn fx:id="colStatut"       text="Statut"         prefWidth="120" />
+                <TableColumn fx:id="colParticipant"  text="Participant ID" prefWidth="110" />
+                <TableColumn fx:id="colEvent"        text="Event ID"       prefWidth="80" />
+                <TableColumn fx:id="colDateInsc"     text="Date Inscription" prefWidth="180" />
+            </columns>
+            <BorderPane.margin><Insets bottom="20" top="10"/></BorderPane.margin>
+        </TableView>
+    </center>
+    <bottom>
+        <VBox spacing="15">
+            <GridPane hgap="15" vgap="12">
+                <Label text="Statut:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="cbStatut" prefWidth="140" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Participant ID:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <TextField fx:id="tfParticipant" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                <Label text="Event ID:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="tfEvent" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <TextField fx:id="tfId" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            </GridPane>
+
+            <Label fx:id="lblError" styleClass="error-message" visible="false" managed="false"/>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="👁 Voir détails" onAction="#handleViewDetail" styleClass="button-nav"/>
+                <Button text="Ajouter"  onAction="#handleAdd"    styleClass="button"/>
+                <Button text="Modifier" onAction="#handleUpdate"  styleClass="button-accent"/>
+                <Button text="Supprimer" onAction="#handleDelete" styleClass="button-danger"/>
+                <Button text="Vider"    onAction="#handleClear"   styleClass="button-nav"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

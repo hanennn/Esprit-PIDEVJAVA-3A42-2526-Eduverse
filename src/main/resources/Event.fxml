@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.web.WebView?>
+
+
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventController" prefWidth="1050" prefHeight="700">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+    <center>
+        <VBox styleClass="card" spacing="10" BorderPane.alignment="CENTER">
+            <!-- HEADER RECHERCHE -->
+            <BorderPane>
+                <left><Label text="Gestion des Événements" styleClass="title-label"/></left>
+                <right>
+                    <HBox styleClass="search-container" spacing="10">
+                        <TextField fx:id="tfSearch" promptText="Rechercher un événement..." styleClass="search-field"/>
+                        <ComboBox fx:id="cbSort" promptText="Trier par..." styleClass="sort-combo"/>
+                    </HBox>
+                </right>
+            </BorderPane>
+            
+            <!-- TABLE VIEW -->
+            <TableView fx:id="tvEvents" styleClass="table-view" onMouseClicked="#handleTableClick" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+                <TableColumn fx:id="colTitre" text="Titre" prefWidth="180" />
+                <TableColumn fx:id="colDesc" text="Description" prefWidth="200" />
+                <TableColumn fx:id="colType" text="Type" prefWidth="100" />
+                <TableColumn fx:id="colLien" text="Lien" prefWidth="120" />
+                <TableColumn fx:id="colLieu" text="Lieu" prefWidth="150" />
+                <TableColumn fx:id="colNiveau" text="Niveau" prefWidth="100" />
+                <TableColumn fx:id="colDate" text="Date" prefWidth="100" />
+                <TableColumn fx:id="colHeureDeb" text="Heure Début" prefWidth="100" />
+                <TableColumn fx:id="colHeureFin" text="Heure Fin" prefWidth="100" />
+            </columns>
+            <VBox.margin><Insets bottom="20" top="10"/></VBox.margin>
+        </TableView>
+        </VBox>
+    </center>
+    
+    <bottom>
+        <ScrollPane fitToWidth="true" prefHeight="350" styleClass="card" BorderPane.alignment="CENTER">
+            <BorderPane.margin><Insets top="20"/></BorderPane.margin>
+            <VBox spacing="20" style="-fx-padding: 10;">
+            <GridPane hgap="15" vgap="15">
+                <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="tfTitre" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                
+                <Label text="Type:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <TextField fx:id="tfType" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                
+                <Label text="Niveau:" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+                <TextField fx:id="tfNiveau" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+                
+                <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="tfDesc" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="3"/>
+                
+                <Label text="Lien Webinaire:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="tfLien" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                
+                <Label text="Date:" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                <DatePicker fx:id="dpDate" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                
+                <Label text="Heure Déb (HH:mm:ss):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextField fx:id="tfHeureDeb" promptText="14:30:00" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                
+                <Label text="Heure Fin (HH:mm:ss):" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                <TextField fx:id="tfHeureFin" promptText="16:30:00" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                
+                <Label text="Image URL:" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+                <TextField fx:id="tfImage" GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+
+                <Label text="Lieu (Auto via Carte):" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.columnSpan="3">
+                    <TextField fx:id="tfLieu" HBox.hgrow="ALWAYS" promptText="Saisir lieu ou pointer sur la carte..."/>
+                    <Button text="Pointer sur la carte" onAction="#handleSearchMap" styleClass="button-nav"/>
+                </HBox>
+
+                <Button text="Vérifier la météo" onAction="#handleCheckWeather" GridPane.columnIndex="4" GridPane.rowIndex="4" styleClass="button-nav"/>
+                <ProgressIndicator fx:id="piWeather" visible="false" managed="false" prefWidth="20" prefHeight="20" GridPane.columnIndex="5" GridPane.rowIndex="4"/>
+                
+                <WebView fx:id="mapWebView" prefHeight="200" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="6"/>
+                
+                <VBox fx:id="boxWeather" visible="false" managed="false" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.columnSpan="5" styleClass="weather-panel">
+                    <Label fx:id="lblWeatherCity" style="-fx-font-weight: bold;"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <ImageView fx:id="ivWeatherIcon" fitWidth="50" fitHeight="50"/>
+                        <VBox>
+                            <Label fx:id="lblWeatherTemp" style="-fx-font-size: 1.2em;"/>
+                            <Label fx:id="lblWeatherDesc"/>
+                        </VBox>
+                    </HBox>
+                    <Label fx:id="lblWeatherWarning" style="-fx-text-fill: red; -fx-font-weight: bold;" visible="false" managed="false"/>
+                </VBox>
+
+                <TextField fx:id="tfId" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+            </GridPane>
+            
+            <Label fx:id="lblError" styleClass="error-message" visible="false" managed="false"/>
+            
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="👁 Voir détails" onAction="#handleViewDetail" styleClass="button-nav"/>
+                <Button text="Ajouter" onAction="#handleAdd" styleClass="button"/>
+                <Button text="Modifier" onAction="#handleUpdate" styleClass="button-accent"/>
+                <Button text="Supprimer" onAction="#handleDelete" styleClass="button-danger"/>
+                <Button text="Vider" onAction="#handleClear" styleClass="button-nav"/>
+            </HBox>
+            </VBox>
+        </ScrollPane>
+    </bottom>
+</BorderPane>

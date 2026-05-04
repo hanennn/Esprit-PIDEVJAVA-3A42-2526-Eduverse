@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<ScrollPane fitToWidth="true" styleClass="stats-container" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StatsController">
+    <VBox spacing="30" alignment="TOP_CENTER">
+        <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+        
+        <Label text="Tableau de Bord Statistiques" styleClass="stats-title" />
+        
+        <!-- Cards section -->
+        <HBox spacing="20" alignment="CENTER">
+            <VBox styleClass="stat-card" alignment="CENTER">
+                <Label text="Total Événements" styleClass="stat-card-label" />
+                <Label fx:id="totalEventsLabel" text="0" styleClass="stat-card-value" />
+            </VBox>
+            <VBox styleClass="stat-card" alignment="CENTER">
+                <Label text="Total Inscriptions" styleClass="stat-card-label" />
+                <Label fx:id="totalInscriptionsLabel" text="0" styleClass="stat-card-value" />
+            </VBox>
+        </HBox>
+        
+        <!-- Charts section -->
+        <GridPane hgap="20" vgap="20" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" />
+                <ColumnConstraints percentWidth="50" />
+            </columnConstraints>
+            
+            <VBox spacing="10" GridPane.columnIndex="0" styleClass="chart-container">
+                <Label text="Participation par Événement" styleClass="chart-title" />
+                <StackPane fx:id="barChartPane" minHeight="400" />
+            </VBox>
+            
+            <VBox spacing="10" GridPane.columnIndex="1" styleClass="chart-container">
+                <Label text="État des Inscriptions" styleClass="chart-title" />
+                <StackPane fx:id="pieChartPane" minHeight="400" />
+            </VBox>
+        </GridPane>
+    </VBox>
+</ScrollPane>

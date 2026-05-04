@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.EventDetailController"
+            prefWidth="700" prefHeight="550">
+
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #3182CE, #2B6CB0); -fx-padding: 30 40 25 40;">
+            <Label fx:id="lblTitre" text="Titre de l'événement"
+                   style="-fx-font-size: 26px; -fx-font-weight: 700; -fx-text-fill: white; -fx-wrap-text: true;"/>
+            <HBox spacing="15" VBox.vgrow="NEVER" style="-fx-padding: 10 0 0 0;">
+                <Label fx:id="lblTypeTag"
+                       style="-fx-background-color: rgba(255,255,255,0.25); -fx-text-fill: white; -fx-font-weight: 600; -fx-padding: 4 12; -fx-background-radius: 20;"/>
+                <Label fx:id="lblNiveauTag"
+                       style="-fx-background-color: rgba(236,201,75,0.85); -fx-text-fill: #1A202C; -fx-font-weight: 600; -fx-padding: 4 12; -fx-background-radius: 20;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #f7f9fc;">
+            <VBox spacing="20" style="-fx-padding: 30 40;">
+
+                <!-- Description -->
+                <VBox spacing="6">
+                    <Label text="📋 Description" style="-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4A5568;"/>
+                    <Label fx:id="lblDesc" wrapText="true"
+                           style="-fx-font-size: 14px; -fx-text-fill: #2D3748; -fx-background-color: white; -fx-padding: 12; -fx-background-radius: 8; -fx-border-color: #E2E8F0; -fx-border-radius: 8;"/>
+                </VBox>
+
+                <!-- Infos en grille -->
+                <GridPane hgap="20" vgap="15">
+                    <!-- Date -->
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="📅 Date" style="-fx-font-size: 12px; -fx-font-weight: 600; -fx-text-fill: #718096;"/>
+                        <Label fx:id="lblDate"
+                               style="-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #2D3748;"/>
+                    </VBox>
+                    <!-- Heure -->
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="🕐 Horaire" style="-fx-font-size: 12px; -fx-font-weight: 600; -fx-text-fill: #718096;"/>
+                        <Label fx:id="lblHoraire"
+                               style="-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #2D3748;"/>
+                    </VBox>
+                    <!-- Niveau -->
+                    <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <Label text="🎯 Niveau" style="-fx-font-size: 12px; -fx-font-weight: 600; -fx-text-fill: #718096;"/>
+                        <Label fx:id="lblNiveau"
+                               style="-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #2D3748;"/>
+                    </VBox>
+                </GridPane>
+
+                <!-- Lien webinaire -->
+                <VBox spacing="6">
+                    <Label text="🔗 Lien Webinaire" style="-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4A5568;"/>
+                    <Label fx:id="lblLien" wrapText="true"
+                           style="-fx-font-size: 13px; -fx-text-fill: #3182CE; -fx-underline: true; -fx-cursor: hand;"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 15 30; -fx-background-color: white; -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0;">
+            <Button text="Fermer" onAction="#handleClose" styleClass="button-nav"/>
+        </HBox>
+    </bottom>
+</BorderPane>

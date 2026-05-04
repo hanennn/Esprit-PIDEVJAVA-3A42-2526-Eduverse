@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Region?>
+
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StudentController" prefWidth="1050" prefHeight="700">
+    
+    <!-- TOPBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" styleClass="topbar" prefHeight="60" spacing="20">
+            <padding><Insets left="20" right="20"/></padding>
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <Label text="edu" styleClass="home-logo-edu" style="-fx-font-size: 24px;"/>
+                <Label text="verse" styleClass="home-logo-verse" style="-fx-font-size: 24px;"/>
+            </HBox>
+            <Label text="— Espace Étudiant" style="-fx-text-fill: #5E6988; -fx-font-size: 16px;"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="⬅ Changer d'espace" onAction="#goHome" styleClass="button-accent" style="-fx-border-color: #efa515; -fx-border-radius: 8px;"/>
+        </HBox>
+    </top>
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="250" spacing="5">
+            <padding><Insets top="30" bottom="20"/></padding>
+            
+            <Label text="MENU" styleClass="sidebar-title">
+                <VBox.margin><Insets left="20" bottom="10"/></VBox.margin>
+            </Label>
+
+            <Button fx:id="btnDispo" text="📅 Événements" onAction="#showDispo" styleClass="sidebar-btn-active" prefWidth="250"/>
+            <Button fx:id="btnMesInsc" text="🎓 Mes Participations" onAction="#showMesInsc" styleClass="sidebar-btn" prefWidth="250"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER CONTENT -->
+    <center>
+        <VBox>
+            <!-- Bandeau Sous-Titre Orange -->
+            <HBox alignment="CENTER_LEFT" styleClass="topbar-header" prefHeight="40">
+                <padding><Insets left="20"/></padding>
+                <Label fx:id="lblPagePath" text="🏠 Accueil > Événements Disponibles" styleClass="topbar-header-text"/>
+            </HBox>
+
+            <!-- Variables vues dynamiques -->
+            <StackPane fx:id="contentArea" VBox.vgrow="ALWAYS" style="-fx-padding: 20;">
+                
+                <!-- Vue 1 : Événements Disponibles -->
+                <VBox fx:id="viewDispo" visible="true" spacing="10">
+                    <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                        <Label text="Tous les Événements Disponibles" styleClass="card-title"/>
+                        <TableView fx:id="tvDispo" styleClass="table-view" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colIdEvent" text="ID" prefWidth="50"/>
+                                <TableColumn fx:id="colTitre" text="Titre" prefWidth="250"/>
+                                <TableColumn fx:id="colDesc" text="Description" prefWidth="300"/>
+                                <TableColumn fx:id="colDate" text="Date" prefWidth="150"/>
+                            </columns>
+                            <VBox.margin><Insets top="15" bottom="15"/></VBox.margin>
+                        </TableView>
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button text="👁 Voir détails" onAction="#handleViewDetail" styleClass="button-nav"/>
+                            <Button text="✒️ S'inscrire à l'événement sélectionné" onAction="#handleInscription" styleClass="button-primary"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Vue 2 : Mes Participations -->
+                <VBox fx:id="viewInsc" visible="false" spacing="10">
+                    <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                        <Label text="L'historique de mes Inscriptions" styleClass="card-title"/>
+                        <TableView fx:id="tvMesInsc" styleClass="table-view" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colIdInsc" text="ID Insc." prefWidth="70"/>
+                                <TableColumn fx:id="colEventIdInsc" text="ID Event" prefWidth="80"/>
+                                <TableColumn fx:id="colTitreInsc" text="Titre événement" prefWidth="200"/>
+                                <TableColumn fx:id="colDateInsc" text="Date d'inscription" prefWidth="180"/>
+                                <TableColumn fx:id="colStatut" text="Statut" prefWidth="110"/>
+                            </columns>
+                            <VBox.margin><Insets top="15" bottom="15"/></VBox.margin>
+                        </TableView>
+
+                        <!-- Actions Participations -->
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <!-- Modifier statut -->
+                            <VBox spacing="4" alignment="CENTER_LEFT">
+                                <Label text="Modifier le statut de votre présence :" style="-fx-font-size:12px; -fx-text-fill:#aaa;"/>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <ComboBox fx:id="cbStatut" promptText="Modifier Statut" prefWidth="150"/>
+                                    <Button text="✔ Confirmer" onAction="#handleUpdateInscription" styleClass="button-accent"/>
+                                </HBox>
+                            </VBox>
+                            
+                            <Region HBox.hgrow="ALWAYS" />
+
+                            <!-- Se désinscrire -->
+                            <HBox alignment="BOTTOM_RIGHT">
+                                <Button text="🗑 Se désinscrire" onAction="#handleDesinscription" styleClass="button-danger"/>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+            </StackPane>
+        </VBox>
+    </center>
+</BorderPane>
