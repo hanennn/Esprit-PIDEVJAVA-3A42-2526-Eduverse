@@ -11,7 +11,7 @@ public class userService extends AbstractService<User> {
 
     @Override
     public void add(User user) {
-        String query = "INSERT INTO utilisateurs (nom, prenom, email) VALUES (?, ?, ?)";
+        String query = "INSERT INTO user (nom, prenom, email) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, user.getNom());
             pstmt.setString(2, user.getPrenom());
@@ -24,7 +24,7 @@ public class userService extends AbstractService<User> {
 
     @Override
     public void update(User user) {
-        String query = "UPDATE utilisateurs SET nom=?, prenom=?, email=? WHERE id=?";
+        String query = "UPDATE user SET nom=?, prenom=?, email=? WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, user.getNom());
             pstmt.setString(2, user.getPrenom());
@@ -38,7 +38,7 @@ public class userService extends AbstractService<User> {
 
     @Override
     public void delete(int id) {
-        String query = "DELETE FROM utilisateurs WHERE id=?";
+        String query = "DELETE FROM user WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -49,7 +49,7 @@ public class userService extends AbstractService<User> {
 
     @Override
     public User getById(int id) {
-        String query = "SELECT * FROM utilisateurs WHERE id=?";
+        String query = "SELECT * FROM user WHERE id=?";
         User user = null;
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -70,7 +70,7 @@ public class userService extends AbstractService<User> {
 
     @Override
     public List<User> getAll() {
-        String query = "SELECT * FROM utilisateurs";
+        String query = "SELECT * FROM user";
         List<User> list = new ArrayList<>();
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             try (ResultSet rs = pstmt.executeQuery()) {

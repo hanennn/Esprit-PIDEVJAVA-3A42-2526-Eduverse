@@ -61,17 +61,6 @@ public class DataBase {
                     ")";
             stmt.executeUpdate(createDemandes);
 
-            String createUsers = "CREATE TABLE IF NOT EXISTS utilisateurs (" +
-                    "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                    "nom VARCHAR(255), " +
-                    "prenom VARCHAR(255), " +
-                    "email VARCHAR(255)" +
-                    ")";
-            stmt.executeUpdate(createUsers);
-
-            String insertDummyUser = "INSERT IGNORE INTO utilisateurs (id, nom, prenom, email) VALUES (1, 'Klibi', 'Fatma', 'fatma.klibi@esprit.tn')";
-            stmt.executeUpdate(insertDummyUser);
-            
             String createAnalyseInterview = "CREATE TABLE IF NOT EXISTS analyse_interview (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "demande_id INT NOT NULL, " +
