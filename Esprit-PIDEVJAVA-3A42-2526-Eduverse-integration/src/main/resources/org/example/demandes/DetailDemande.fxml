@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.controllers.DetailDemandeController"
+      prefHeight="780.0" prefWidth="1280.0"
+      spacing="0" style="-fx-background-color: #f4f6f8;">
+
+
+
+    <!-- ══════ MAIN CONTENT ══════ -->
+    <VBox HBox.hgrow="ALWAYS" spacing="0">
+        <HBox style="-fx-background-color: linear-gradient(to right, #f5a623, #f7b731); -fx-padding: 10 36;"
+              alignment="CENTER_LEFT" spacing="10">
+            <Label text="🏠 Accueil  ›  Demandes  ›  Detail"
+                   style="-fx-text-fill: #1a1a2e; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Button text="⬅ Retour a la liste" onAction="#retourListe" mnemonicParsing="false"
+                    style="-fx-background-color: #1a1a2e; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 8; -fx-padding: 6 16; -fx-cursor: hand; -fx-font-size: 11px;"/>
+        </HBox>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    style="-fx-background-color: #f4f6f8; -fx-background: #f4f6f8; -fx-border-color: transparent;">
+            <VBox spacing="22" style="-fx-background-color: #f4f6f8;">
+                <padding><Insets top="28" right="36" bottom="36" left="36"/></padding>
+
+                <Label text="Detail de la Demande"
+                       style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+                <VBox spacing="16"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 28;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+
+                    <Label text="Niveau d'etudes" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <TextField fx:id="tfNiveauEtudes" editable="false" promptText="Niveau d'etudes" prefHeight="40"
+                               style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                      -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 10 14; -fx-opacity: 0.8; -fx-font-size: 13px;"/>
+
+                    <Label text="Statut" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <ComboBox fx:id="cbStatut" disable="true" maxWidth="Infinity" promptText="Statut" prefHeight="40"
+                              style="-fx-opacity: 0.8;"/>
+
+                    <Label text="Lettre de motivation" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <TextArea fx:id="taLettreMotivation" editable="false" prefHeight="110" promptText="Lettre de motivation"
+                              style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                     -fx-border-radius: 10; -fx-background-radius: 10; -fx-opacity: 0.8; -fx-font-size: 13px;"/>
+
+                    <Label fx:id="lblErreur" text="" textFill="RED" visible="false">
+                        <font><Font name="System Bold" size="12.0"/></font>
+                    </Label>
+
+                    <!-- Analyse CV -->
+                    <VBox fx:id="vboxCvAnalyse" visible="false" managed="false" spacing="10"
+                          style="-fx-background-color: #f0f8ff; -fx-background-radius: 10; -fx-padding: 16; -fx-border-color: #4facfe; -fx-border-radius: 10; -fx-border-width: 1;">
+                        <Label text="Analyse du CV par IA" style="-fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-font-size: 14px;"/>
+                        <Label fx:id="lblCvAnalyse" text="" wrapText="true"
+                               style="-fx-font-size: 13px; -fx-text-fill: #333;"/>
+                        <Button fx:id="btnTelechargerCV" text="Telecharger le CV" onAction="#telechargerCV" mnemonicParsing="false"
+                                style="-fx-background-color: #4facfe; -fx-text-fill: white; -fx-font-weight: bold;
+                                       -fx-font-size: 12px; -fx-background-radius: 8; -fx-padding: 8 20; -fx-cursor: hand;"/>
+                    </VBox>
+                </VBox>
+
+                <HBox spacing="12">
+                    <Button fx:id="btnModifier" mnemonicParsing="false" onAction="#activerModification" text="Modifier"
+                            style="-fx-background-color: linear-gradient(to right, #f5a623, #f7b731); -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                    <Button fx:id="btnSauvegarder" disable="true" mnemonicParsing="false" onAction="#sauvegarder" text="Sauvegarder"
+                            style="-fx-background-color: #2ecc71; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                    <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#supprimer" text="Supprimer"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                    <Button mnemonicParsing="false" onAction="#genererPDF" text="Generer PDF"
+                            style="-fx-background-color: #a855f7; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                    <Button mnemonicParsing="false" onAction="#retourListe" text="Retour"
+                            style="-fx-background-color: #1a1a2e; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 10; -fx-padding: 11 24; -fx-cursor: hand;"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</HBox>

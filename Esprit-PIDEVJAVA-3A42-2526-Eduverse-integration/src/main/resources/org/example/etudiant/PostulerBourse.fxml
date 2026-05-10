@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.controllers.PostulerController"
+      prefHeight="780.0" prefWidth="1280.0"
+      spacing="0" style="-fx-background-color: #f4f6f8;">
+
+
+    <!-- ══════ MAIN CONTENT ══════ -->
+    <VBox HBox.hgrow="ALWAYS" spacing="0">
+        <HBox style="-fx-background-color: linear-gradient(to right, #f5a623, #f7b731); -fx-padding: 10 36;"
+              alignment="CENTER_LEFT" spacing="10">
+            <Label text="🏠 Accueil  ›  Bourses  ›  Postuler"
+                   style="-fx-text-fill: #1a1a2e; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Button text="⬅ Retour aux bourses" onAction="#annuler" mnemonicParsing="false"
+                    style="-fx-background-color: #1a1a2e; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 8; -fx-padding: 6 16; -fx-cursor: hand; -fx-font-size: 11px;"/>
+        </HBox>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    style="-fx-background-color: #f4f6f8; -fx-background: #f4f6f8; -fx-border-color: transparent;">
+            <VBox spacing="22" style="-fx-background-color: #f4f6f8;">
+                <padding><Insets top="28" right="36" bottom="36" left="36"/></padding>
+
+                <Label text="Postuler a une Bourse"
+                       style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+                <VBox spacing="16"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 28;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+
+                    <Label fx:id="lblBourseTitre" text="Bourse: "
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                    <Region prefHeight="2" style="-fx-background-color: linear-gradient(to right, #f5a623, #f7b731); -fx-background-radius: 2;"/>
+
+                    <Label text="Niveau d'etudes" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 0 0 0;"/>
+                    <TextField fx:id="tfNiveauEtudes" promptText="Votre niveau d'etudes (ex: Licence, Master...)" prefHeight="42"
+                               style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                      -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 10 14; -fx-font-size: 13px;"/>
+
+                    <Label text="Lettre de motivation" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <TextArea fx:id="taLettreMotivation" prefHeight="160"
+                              promptText="Redigez votre lettre de motivation (min 50 caracteres)..."
+                              style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                     -fx-border-radius: 10; -fx-background-radius: 10; -fx-font-size: 13px;"/>
+
+                    <Label text="CV (optionnel)" style="-fx-text-fill: #444; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Button fx:id="btnCV" text="Joindre mon CV (PDF)" onAction="#choisirCV" mnemonicParsing="false"
+                                style="-fx-background-color: #1a1a2e; -fx-text-fill: white; -fx-font-weight: bold;
+                                       -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 12px;"/>
+                        <Label fx:id="lblCVStatus" text="" style="-fx-text-fill: #2ecc71; -fx-font-size: 12px;"/>
+                    </HBox>
+
+                    <Label fx:id="lblErreur" text="" textFill="RED" visible="false">
+                        <font><Font name="System Bold" size="12.0"/></font>
+                    </Label>
+                </VBox>
+
+                <HBox spacing="12">
+                    <Button mnemonicParsing="false" onAction="#soumettreDemande" text="🎓  Soumettre ma candidature"
+                            style="-fx-background-color: linear-gradient(to right, #f5a623, #f7b731); -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 14px;
+                                   -fx-background-radius: 10; -fx-padding: 14 36; -fx-cursor: hand;
+                                   -fx-effect: dropshadow(gaussian, rgba(245,166,35,0.3), 8, 0, 0, 3);"/>
+                    <Button mnemonicParsing="false" onAction="#annuler" text="Annuler"
+                            style="-fx-background-color: #f4f6f9; -fx-text-fill: #666;
+                                   -fx-font-size: 13px; -fx-border-color: #dde1e7;
+                                   -fx-border-radius: 10; -fx-background-radius: 10;
+                                   -fx-padding: 14 30; -fx-cursor: hand;"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</HBox>

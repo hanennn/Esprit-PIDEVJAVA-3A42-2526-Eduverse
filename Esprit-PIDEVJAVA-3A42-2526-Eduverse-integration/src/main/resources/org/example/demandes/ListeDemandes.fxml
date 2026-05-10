@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.controllers.ListeDemandesController"
+      prefHeight="780.0" prefWidth="1280.0"
+      spacing="0" style="-fx-background-color: #f4f6f8;">
+
+    <!-- ══════ SIDEBAR ══════ -->
+    <!-- ══ SIDEBAR ══ -->
+    <VBox minWidth="220" maxWidth="220"
+          style="-fx-background-color: #1a1a2e; -fx-min-height: 780;">
+
+        <VBox alignment="CENTER" prefHeight="80"
+              style="-fx-border-color: rgba(255,255,255,0.08); -fx-border-width: 0 0 1 0; -fx-padding: 0 20;">
+            <HBox alignment="CENTER" spacing="0">
+                <Label text="Edu"   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label text="verse" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+            </HBox>
+            <Label text="Espace Admin"
+                   style="-fx-font-size: 11px; -fx-text-fill: rgba(255,255,255,0.4);"/>
+        </VBox>
+
+        <Label text="MENU"
+               style="-fx-font-size: 10px; -fx-text-fill: rgba(255,255,255,0.3);
+                      -fx-font-weight: bold; -fx-padding: 20 20 8 20;"/>
+
+        <VBox spacing="2" style="-fx-padding: 0 10;" VBox.vgrow="ALWAYS">
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#goToAdminUser"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="👥" style="-fx-font-size: 15px;"/>
+                <Label text="Utilisateurs"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#NavigateToBourses"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="📚" style="-fx-font-size: 15px;"/>
+                <Label text="Bourse"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+            <!-- ACTIVE -->
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  style="-fx-padding: 0 12; -fx-background-color: #f5a623; -fx-background-radius: 6; -fx-cursor: hand;">
+                <Label text="📚" style="-fx-font-size: 15px;"/>
+                <Label text="Demandes"
+                       style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#goToAdminCours"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="📚" style="-fx-font-size: 15px;"/>
+                <Label text="Cours"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#goToAdminQuiz"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="🎯" style="-fx-font-size: 15px;"/>
+                <Label text="Quiz"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#goToAdminCertification"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="🏅" style="-fx-font-size: 15px;"/>
+                <Label text="Certifications"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#goToAdminEvents"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="📅" style="-fx-font-size: 15px;"/>
+                <Label text="Événements"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#goToAdminForum"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="💬" style="-fx-font-size: 15px;"/>
+                <Label text="Forum"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="44" spacing="12"
+                  onMouseClicked="#goToAdminBadwords"
+                  style="-fx-padding: 0 12; -fx-cursor: hand; -fx-background-radius: 6;">
+                <Label text="🚫" style="-fx-font-size: 15px;"/>
+                <Label text="Badwords"
+                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;"/>
+            </HBox>
+
+        </VBox>
+        <Label text="COMPTE"
+               style="-fx-font-size: 10px; -fx-text-fill: rgba(255,255,255,0.3);
+                      -fx-font-weight: bold; -fx-padding: 10 20 8 20;"/>
+
+        <VBox style="-fx-padding: 0 10 20 10;">
+            <Button fx:id="addUserBtn"
+                    text="⏻  Déconnexion"
+                    onAction="#allerAccueil"
+                    maxWidth="Infinity" prefHeight="40"
+                    style="-fx-background-color: transparent; -fx-text-fill: #e74c3c;
+                           -fx-border-color: rgba(231,76,60,0.4); -fx-border-width: 1;
+                           -fx-border-radius: 6; -fx-background-radius: 6;
+                           -fx-font-size: 13px; -fx-cursor: hand;"/>
+        </VBox>
+
+    </VBox>
+    <!-- ══════ MAIN CONTENT ══════ -->
+    <ScrollPane fitToWidth="true" HBox.hgrow="ALWAYS"
+                style="-fx-background-color: #f4f6f8; -fx-background: #f4f6f8; -fx-border-color: transparent;">
+        <VBox spacing="22" style="-fx-background-color: #f4f6f8;">
+            <padding><Insets top="30" right="36" bottom="36" left="36"/></padding>
+
+            <!-- ── Header ── -->
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox HBox.hgrow="ALWAYS">
+                    <Label text="Gestion des Demandes"
+                           style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                    <Label text="Consultez et gerez les demandes de bourse"
+                           style="-fx-font-size: 13px; -fx-text-fill: #999; -fx-padding: 2 0 0 0;"/>
+                </VBox>
+            </HBox>
+
+            <!-- ── Filtres ── -->
+            <VBox spacing="12"
+                  style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 18;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                <Label text="🔍  Recherche et Filtres"
+                       style="-fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-font-size: 13px;"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="tfRecherche" prefHeight="38" prefWidth="220"
+                               promptText="Rechercher par titre..."
+                               style="-fx-background-color: #f7f8fb; -fx-border-color: #e2e5ea;
+                                      -fx-border-radius: 10; -fx-background-radius: 10;
+                                      -fx-padding: 8 14; -fx-font-size: 13px;"/>
+                    <ComboBox fx:id="cbStatut" prefHeight="38" prefWidth="160" promptText="Filtrer par statut"/>
+                    <ComboBox fx:id="cbNiveau" prefHeight="38" prefWidth="160" promptText="Filtrer par niveau"/>
+                    <Button mnemonicParsing="false" onAction="#reinitialiserFiltres" text="🔄 Reset"
+                            style="-fx-background-color: #1a1a2e; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-background-radius: 8;
+                                   -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 12px;"/>
+                </HBox>
+            </VBox>
+
+            <!-- ── Table Demandes ── -->
+            <VBox spacing="14"
+                  style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 22;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Liste des Demandes"
+                           style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                    <Label text="—" style="-fx-text-fill: #ddd;"/>
+                    <Label text="Double-cliquez pour voir le detail"
+                           style="-fx-font-size: 12px; -fx-text-fill: #aaa;"/>
+                </HBox>
+                <TableView fx:id="tableView" minHeight="320"
+                           style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="colBourseTitre" prefWidth="250" text="Bourse"/>
+                        <TableColumn fx:id="colNiveau"      prefWidth="180" text="Niveau"/>
+                        <TableColumn fx:id="colStatut"      prefWidth="150" text="Statut"/>
+                        <TableColumn fx:id="colDate"        prefWidth="220" text="Date"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Aucune demande trouvee."
+                               style="-fx-text-fill: #bbb; -fx-font-size: 14px;"/>
+                    </placeholder>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+
+            <!-- ══════ SECTION INTERVIEWS IA ══════ -->
+            <VBox spacing="4">
+                <Label text="Resultats des Interviews IA"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                <Label text="Consultez les analyses IA de toutes les interviews"
+                       style="-fx-font-size: 13px; -fx-text-fill: #999;"/>
+            </VBox>
+
+            <!-- ── Table Interviews ── -->
+            <VBox spacing="14"
+                  style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 22;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Liste des interviews"
+                           style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                    <Label text="—" style="-fx-text-fill: #ddd;"/>
+                    <Label text="Cliquez sur une ligne pour voir le detail"
+                           style="-fx-font-size: 12px; -fx-text-fill: #aaa;"/>
+                </HBox>
+                <TableView fx:id="tableInterviews" minHeight="200" maxHeight="250"
+                           style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="colId"      prefWidth="60"  text="#"/>
+                        <TableColumn fx:id="colDemande" prefWidth="280" text="Bourse"/>
+                        <TableColumn fx:id="colProfil"  prefWidth="300" text="Profil"/>
+                        <TableColumn fx:id="colDateIA"  prefWidth="180" text="Date analyse"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Aucune interview realisee."
+                               style="-fx-text-fill: #bbb; -fx-font-size: 13px;"/>
+                    </placeholder>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+
+            <!-- ── Interview Detail Panel (hidden until row selected) ── -->
+            <VBox fx:id="vboxDetail" spacing="16" visible="false" managed="false">
+
+                <Label fx:id="lblBourseTitre" text=""
+                       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+
+                <HBox spacing="16">
+                    <VBox HBox.hgrow="ALWAYS" spacing="8"
+                          style="-fx-background-color: linear-gradient(to bottom right, #4facfe, #00f2fe);
+                                 -fx-background-radius: 14; -fx-padding: 22;">
+                        <Label text="PROFIL GLOBAL"
+                               style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.8);"/>
+                        <Label fx:id="lblProfil" text="-" wrapText="true"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="8"
+                          style="-fx-background-color: linear-gradient(to bottom right, #43e97b, #38f9d7);
+                                 -fx-background-radius: 14; -fx-padding: 22;">
+                        <Label text="RECOMMANDATION"
+                               style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.8);"/>
+                        <Label fx:id="lblRecommandation" text="-" wrapText="true"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="16">
+                    <VBox spacing="10" prefWidth="280"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 20;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                        <Label text="Emotions"
+                               style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                        <VBox fx:id="vboxEmotions" spacing="6"/>
+                    </VBox>
+                    <VBox spacing="10" prefWidth="200"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 20;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                        <Label text="Analyse Audio"
+                               style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                        <HBox spacing="6">
+                            <Label text="Debit :"         style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
+                            <Label fx:id="lblDebit"       text="-"/>
+                        </HBox>
+                        <HBox spacing="6">
+                            <Label text="Hesitations :"   style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
+                            <Label fx:id="lblHesitations" text="-"/>
+                        </HBox>
+                        <HBox spacing="6">
+                            <Label text="Energie :"       style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
+                            <Label fx:id="lblEnergie"     text="-"/>
+                        </HBox>
+                        <HBox spacing="6">
+                            <Label text="Duree :"         style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
+                            <Label fx:id="lblDuree"       text="-"/>
+                        </HBox>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="10"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 20;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                        <Label text="Transcription"
+                               style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                        <Label fx:id="lblTranscription" text="-" wrapText="true"
+                               style="-fx-font-size: 12px; -fx-text-fill: #444; -fx-line-spacing: 3;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+</HBox>

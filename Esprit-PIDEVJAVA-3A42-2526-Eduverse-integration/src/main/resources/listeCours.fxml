@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.ListeCoursController"
+      prefWidth="900" prefHeight="650"
+      style="-fx-background-color: #f0f2f5;">
+
+
+    <!-- NAVBAR -->
+    <HBox prefHeight="60">
+        <HBox prefWidth="260" prefHeight="60" alignment="CENTER"
+              style="-fx-background-color: #1a1a2e;">
+            <Label text="Edu"
+                   style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label text="verse"
+                   style="-fx-text-fill: #f5a623; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+        </HBox>
+        <HBox HBox.hgrow="ALWAYS" prefHeight="60" alignment="CENTER" spacing="24"
+              style="-fx-background-color: #f5a623;">
+            <Label text="ACCUEIL"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="À PROPOS"   style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="BOURSES"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="COURS"      style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="ÉVÉNEMENTS" style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="FORUM"      style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+            <Label text="CONTACT"    style="-fx-font-size: 11px; -fx-font-weight: bold;"/>
+
+        </HBox>
+        <Button text="Vue Étudiant" onAction="#versEtudiant"
+                style="-fx-background-color: white; -fx-text-fill: #f5a623;
+               -fx-border-color: #f5a623; -fx-border-radius: 4;
+               -fx-font-size: 11px; -fx-font-weight: bold;"/>
+        <Button text="Admin" onAction="#goToAdmin"/>
+
+
+    </HBox>
+
+
+    <!-- CONTENU -->
+    <HBox spacing="24" style="-fx-padding: 28 40 28 40;" VBox.vgrow="ALWAYS">
+
+        <!-- Gauche : liste des cours -->
+        <VBox spacing="16" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Mes Cours Enseignés"
+                       style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"
+                       HBox.hgrow="ALWAYS"/>
+
+            </HBox>
+
+            <!-- ScrollPane pour la liste -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background: transparent; -fx-background-color: transparent;">
+                <VBox fx:id="listContainer" spacing="16"/>
+            </ScrollPane>
+        </VBox>
+
+        <!-- Droite : statistiques -->
+        <VBox spacing="12" prefWidth="240">
+            <Label text="Statistiques Globales"
+                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+            <VBox alignment="CENTER" spacing="4"
+                  style="-fx-background-color: white; -fx-background-radius: 10;
+                         -fx-border-color: #e0e0e0; -fx-border-radius: 10; -fx-padding: 16;">
+                <Label fx:id="nbCours" text="0"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                <Label text="Cours Actifs" style="-fx-font-size: 12px; -fx-text-fill: #888;"/>
+            </VBox>
+
+            <VBox alignment="CENTER" spacing="4"
+                  style="-fx-background-color: white; -fx-background-radius: 10;
+                         -fx-border-color: #e0e0e0; -fx-border-radius: 10; -fx-padding: 16;">
+                <Label text="0"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                <Label text="Total Étudiants" style="-fx-font-size: 12px; -fx-text-fill: #888;"/>
+            </VBox>
+
+            <VBox alignment="CENTER" spacing="4"
+                  style="-fx-background-color: white; -fx-background-radius: 10;
+                         -fx-border-color: #e0e0e0; -fx-border-radius: 10; -fx-padding: 16;">
+                <Label text="0/5"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                <Label text="Note Moyenne" style="-fx-font-size: 12px; -fx-text-fill: #888;"/>
+            </VBox>
+
+            <!-- Actions rapides -->
+            <Label text="Actions Rapides"
+                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;
+                          -fx-padding: 8 0 0 0;"/>
+            <Button text="+ Nouveau Cours" onAction="#ajouterCours"
+                    style="-fx-background-color: #f5a623; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 6;
+                           -fx-pref-width: 240;"/>
+        </VBox>
+
+    </HBox>
+</VBox>

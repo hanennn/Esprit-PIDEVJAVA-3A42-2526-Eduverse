@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.controllers.AIAssistantController"
+            prefWidth="1050" prefHeight="700">
+    <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
+
+    <top>
+        <VBox spacing="6">
+            <Label text="🤖 Assistant IA — Création d'événements" styleClass="title-label"/>
+            <Label text="L'IA analyse vos données historiques et propose un nouvel événement adapté à votre public."
+                   style="-fx-font-size:13px; -fx-text-fill:#94a3b8;"/>
+            <Separator style="-fx-padding:4 0 0 0;"/>
+            <VBox.margin><Insets bottom="10"/></VBox.margin>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="16" VBox.vgrow="ALWAYS">
+
+            <!-- Bouton générer + indicateur de chargement -->
+            <HBox spacing="14" alignment="CENTER_LEFT">
+                <Button fx:id="btnGenerer"
+                        text="✨ Générer une suggestion"
+                        onAction="#handleGenerer"
+                        styleClass="button"
+                        prefWidth="220" prefHeight="40"/>
+                <ProgressIndicator fx:id="progressIndicator"
+                                   prefWidth="32" prefHeight="32"
+                                   visible="false" managed="false"/>
+                <Label fx:id="lblStatus"
+                       text=""
+                       style="-fx-font-size:13px; -fx-text-fill:#94a3b8;"
+                       visible="false" managed="false"/>
+            </HBox>
+
+            <!-- Zone d'affichage de la réponse IA -->
+            <VBox spacing="6" VBox.vgrow="ALWAYS">
+                <Label text="Suggestion de l'IA :"
+                       style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#cbd5e1;"/>
+                <TextArea fx:id="taReponse"
+                          editable="false"
+                          wrapText="true"
+                          promptText="La suggestion de l'IA s'affichera ici après la génération..."
+                          VBox.vgrow="ALWAYS"
+                          style="-fx-font-family:'Consolas','Courier New',monospace; -fx-font-size:13px;"/>
+            </VBox>
+
+            <!-- Bouton Créer cet événement -->
+            <HBox spacing="14" alignment="CENTER_RIGHT">
+                <Label fx:id="lblErreur"
+                       styleClass="error-message"
+                       visible="false" managed="false"/>
+                <Button fx:id="btnCreer"
+                        text="🚀 Créer cet événement"
+                        onAction="#handleCreerEvenement"
+                        styleClass="button-accent"
+                        prefWidth="240" prefHeight="40"
+                        disable="true"/>
+            </HBox>
+
+        </VBox>
+    </center>
+</BorderPane>

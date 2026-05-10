@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.controllers.StatistiquesController"
+      prefHeight="780.0" prefWidth="1280.0"
+      spacing="0" style="-fx-background-color: #f4f6f8;">
+
+
+    <!-- ══════ MAIN CONTENT ══════ -->
+    <ScrollPane fitToWidth="true" HBox.hgrow="ALWAYS"
+                style="-fx-background-color: #f4f6f8; -fx-background: #f4f6f8; -fx-border-color: transparent;">
+        <VBox spacing="22" style="-fx-background-color: #f4f6f8;">
+            <padding><Insets top="30" right="36" bottom="36" left="36"/></padding>
+
+            <Label text="Dashboard Statistiques"
+                   style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+            <!-- KPI Cards -->
+            <HBox spacing="14">
+                <VBox HBox.hgrow="ALWAYS" spacing="6" minHeight="105"
+                      style="-fx-background-color: linear-gradient(to bottom right, #4facfe, #00f2fe);
+                             -fx-background-radius: 14; -fx-padding: 18;">
+                    <Label fx:id="lblTotalBourses" text="0"
+                           style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    <Label text="BOURSES" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.85);"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="6" minHeight="105"
+                      style="-fx-background-color: linear-gradient(to bottom right, #43e97b, #38f9d7);
+                             -fx-background-radius: 14; -fx-padding: 18;">
+                    <Label fx:id="lblTotalDemandes" text="0"
+                           style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    <Label text="DEMANDES" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.85);"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="6" minHeight="105"
+                      style="-fx-background-color: linear-gradient(to bottom right, #f5a623, #f7b731);
+                             -fx-background-radius: 14; -fx-padding: 18;">
+                    <Label fx:id="lblTauxAcceptation" text="0%"
+                           style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    <Label text="TAUX ACCEPTATION" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.85);"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="6" minHeight="105"
+                      style="-fx-background-color: linear-gradient(to bottom right, #a855f7, #7c3aed);
+                             -fx-background-radius: 14; -fx-padding: 18;">
+                    <Label fx:id="lblMontantMoyen" text="0 DT"
+                           style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    <Label text="MONTANT MOYEN" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.85);"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="6" minHeight="105"
+                      style="-fx-background-color: linear-gradient(to bottom right, #ef4444, #dc2626);
+                             -fx-background-radius: 14; -fx-padding: 18;">
+                    <Label fx:id="lblMontantTotal" text="0 DT"
+                           style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    <Label text="MONTANT TOTAL" style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.85);"/>
+                </VBox>
+            </HBox>
+
+            <!-- Charts row 1 -->
+            <HBox spacing="16">
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 18;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                    <Label text="Demandes par statut" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                    <PieChart fx:id="pieStatut" prefHeight="230" labelsVisible="true" legendVisible="true"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 18;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                    <Label text="Montants des bourses" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                    <BarChart fx:id="barMontants" prefHeight="230" legendVisible="false">
+                        <xAxis><CategoryAxis label="Bourse"/></xAxis>
+                        <yAxis><NumberAxis label="Montant (DT)"/></yAxis>
+                    </BarChart>
+                </VBox>
+            </HBox>
+
+            <!-- Charts row 2 -->
+            <HBox spacing="16">
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 18;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                    <Label text="Demandes par niveau d'etudes" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                    <PieChart fx:id="pieNiveau" prefHeight="230" labelsVisible="true" legendVisible="true"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 18;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);">
+                    <Label text="Demandes par bourse" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                    <BarChart fx:id="barDemandesParBourse" prefHeight="230" legendVisible="false">
+                        <xAxis><CategoryAxis label="Bourse"/></xAxis>
+                        <yAxis><NumberAxis label="Nb demandes"/></yAxis>
+                    </BarChart>
+                </VBox>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</HBox>
