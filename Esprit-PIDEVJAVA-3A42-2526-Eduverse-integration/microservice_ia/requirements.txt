@@ -7,3 +7,4 @@ librosa
 python-multipart
 numpy
 setuptools
+PyPDF2

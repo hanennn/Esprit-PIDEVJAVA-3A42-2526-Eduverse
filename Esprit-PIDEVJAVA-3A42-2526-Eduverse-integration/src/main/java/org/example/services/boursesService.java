@@ -12,7 +12,7 @@ public class boursesService extends BoursesAbstractService<bourses> {
 
     @Override
     public void add(bourses b) {
-        String query = "INSERT INTO bourses (titre, description, image, date_attribution, date_fin, montant) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO bourse (titre, description, image, date_attribution, date_fin, montant) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, b.getTitre());
             pstmt.setString(2, b.getDescription());
@@ -28,7 +28,7 @@ public class boursesService extends BoursesAbstractService<bourses> {
 
     @Override
     public void update(bourses b) {
-        String query = "UPDATE bourses SET titre=?, description=?, image=?, date_attribution=?, date_fin=?, montant=? WHERE id=?";
+        String query = "UPDATE bourse SET titre=?, description=?, image=?, date_attribution=?, date_fin=?, montant=? WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, b.getTitre());
             pstmt.setString(2, b.getDescription());
@@ -51,7 +51,7 @@ public class boursesService extends BoursesAbstractService<bourses> {
 
     @Override
     public void delete(int id) {
-        String query = "DELETE FROM bourses WHERE id=?";
+        String query = "DELETE FROM bourse WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -62,7 +62,7 @@ public class boursesService extends BoursesAbstractService<bourses> {
 
     @Override
     public bourses getById(int id) {
-        String query = "SELECT * FROM bourses WHERE id=?";
+        String query = "SELECT * FROM bourse WHERE id=?";
         bourses b = null;
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -86,7 +86,7 @@ public class boursesService extends BoursesAbstractService<bourses> {
 
     @Override
     public List<bourses> getAll() {
-        String query = "SELECT * FROM bourses";
+        String query = "SELECT * FROM bourse";
         List<bourses> list = new ArrayList<>();
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             try (ResultSet rs = pstmt.executeQuery()) {

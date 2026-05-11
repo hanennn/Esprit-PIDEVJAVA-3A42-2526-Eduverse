@@ -9,9 +9,9 @@ public class BoursesDataBase {
     private static BoursesDataBase instance;
     private Connection connection;
 
-    private final String URL_SERVER = "jdbc:mysql://localhost:3306/";
-    private final String DB_NAME = "workshop1_java";
-    private final String URL = URL_SERVER + DB_NAME;
+    private final String URL_SERVER = "jdbc:mysql://localhost:3306/workshop1_java";
+    private final String DB_NAME = "workshop_java";
+    private final String URL = URL_SERVER ;
     private final String USERNAME = "root";
     private final String PASSWORD = "";
 

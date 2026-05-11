@@ -12,7 +12,7 @@ public class demandeService extends BoursesAbstractService<demande> {
 
     @Override
     public void add(demande d) {
-        String query = "INSERT INTO demande (date_demande, niveau_etudes, statut, lettre_motivation, note, etudiant_id, bourse_id, cv_analyse, cv_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO demande_bourse (date_demande, niveau_etudes, statut, lettre_motivation, note, etudiant_id, bourse_id, cv_analyse, cv_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setTimestamp(1, d.getDate_demande());
             pstmt.setString(2, d.getNiveau_etudes());
@@ -31,7 +31,7 @@ public class demandeService extends BoursesAbstractService<demande> {
 
     @Override
     public void update(demande d) {
-        String query = "UPDATE demande SET date_demande=?, niveau_etudes=?, statut=?, lettre_motivation=?, note=?, etudiant_id=?, bourse_id=?, cv_analyse=?, cv_path=? WHERE id=?";
+        String query = "UPDATE demande_bourse SET date_demande=?, niveau_etudes=?, statut=?, lettre_motivation=?, note=?, etudiant_id=?, bourse_id=?, cv_analyse=?, cv_path=? WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setTimestamp(1, d.getDate_demande());
             pstmt.setString(2, d.getNiveau_etudes());
@@ -57,7 +57,7 @@ public class demandeService extends BoursesAbstractService<demande> {
 
     @Override
     public void delete(int id) {
-        String query = "DELETE FROM demande WHERE id=?";
+        String query = "DELETE FROM demande_bourse WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -68,7 +68,7 @@ public class demandeService extends BoursesAbstractService<demande> {
 
     @Override
     public demande getById(int id) {
-        String query = "SELECT * FROM demande WHERE id=?";
+        String query = "SELECT * FROM demande_bourse WHERE id=?";
         demande d = null;
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -95,7 +95,7 @@ public class demandeService extends BoursesAbstractService<demande> {
 
     @Override
     public List<demande> getAll() {
-        String query = "SELECT * FROM demande";
+        String query = "SELECT * FROM demande_bourse";
         List<demande> list = new ArrayList<>();
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             try (ResultSet rs = pstmt.executeQuery()) {

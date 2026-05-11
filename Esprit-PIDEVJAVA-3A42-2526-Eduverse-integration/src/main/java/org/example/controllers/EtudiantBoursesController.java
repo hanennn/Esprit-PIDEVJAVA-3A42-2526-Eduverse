@@ -393,12 +393,55 @@ public class EtudiantBoursesController implements Initializable {
         ObservableList<demande> demandes = FXCollections.observableArrayList(dService.getAll());
         tableViewDemandes.setItems(demandes);
 
+        vboxEnregistrement.setVisible(false);
+        vboxEnregistrement.setManaged(false);
+        vboxResultats.setVisible(false);
+        vboxResultats.setManaged(false);
+
         tableViewDemandes.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> {
             if (newVal != null) {
+                selectedDemande = newVal;
                 bourses b = service.getById(newVal.getBourse_id());
                 lblBourseTitre.setText(b != null ? b.getTitre() : "Bourse #" + newVal.getBourse_id());
+
+                String statut = newVal.getStatut();
+                boolean isAccepted = (statut != null && statut.toLowerCase().contains("accept"));
+
+                if (isAccepted) {
+                    org.example.entities.AnalyseInterview existing = iaService.getByDemandeId(newVal.getId());
+                    if (existing != null) {
+                        vboxEnregistrement.setVisible(false);
+                        vboxEnregistrement.setManaged(false);
+                        vboxResultats.setVisible(true);
+                        vboxResultats.setManaged(true);
+                        lblTranscription.setText(existing.getTranscription());
+                    } else {
+                        vboxEnregistrement.setVisible(true);
+                        vboxEnregistrement.setManaged(true);
+                        vboxResultats.setVisible(false);
+                        vboxResultats.setManaged(false);
+                        resetEnregistrement();
+                    }
+                } else {
+                    vboxEnregistrement.setVisible(false);
+                    vboxEnregistrement.setManaged(false);
+                    vboxResultats.setVisible(false);
+                    vboxResultats.setManaged(false);
+                }
             }
         });
+    }
+
+    private void resetEnregistrement() {
+        btnEnregistrer.setDisable(false);
+        btnArreter.setDisable(true);
+        btnAnalyser.setDisable(true);
+        progressBar.setVisible(false);
+        lblProgress.setVisible(false);
+        lblTimer.setText("00:00");
+        lblStatutRecord.setText("Pret a enregistrer");
+        lblStatutRecord.setStyle("-fx-text-fill: #888;");
+        recordedFile = null;
     }
 
     @FXML
@@ -408,6 +451,12 @@ public class EtudiantBoursesController implements Initializable {
             showAlert("Erreur", "Selectionnez une demande acceptee avant d'enregistrer.");
             return;
         }
+        
+        if (selectedDemande.getStatut() == null || !selectedDemande.getStatut().toLowerCase().contains("accept")) {
+            showAlert("Erreur", "Vous ne pouvez passer l'interview que si votre demande est acceptée.");
+            return;
+        }
+
 
         try {
             AudioFormat format = new AudioFormat(44100, 16, 1, true, false);

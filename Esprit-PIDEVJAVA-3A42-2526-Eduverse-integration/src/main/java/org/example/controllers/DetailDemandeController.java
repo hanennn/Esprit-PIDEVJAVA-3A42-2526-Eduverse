@@ -206,8 +206,8 @@ public class DetailDemandeController implements Initializable {
         }
 
         String lm = taLettreMotivation.getText().trim();
-        if (lm.isEmpty() || lm.length() < 50) {
-            lblErreur.setText("La lettre de motivation est obligatoire (> 50 caractères)");
+        if (lm.isEmpty() || lm.length() < 5) {
+            lblErreur.setText("La lettre de motivation est obligatoire (> 5 caractères)");
             lblErreur.setVisible(true);
             taLettreMotivation.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
             return false;

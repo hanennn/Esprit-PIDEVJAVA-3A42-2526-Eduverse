@@ -50,3 +50,9 @@ microservice_ia/__pycache__/
 microservice_ia/*.wav
 microservice_ia/test_*.pdf
 microservice_ia/mon_modele_bourse/model.safetensors
+
+
+venv/
+.venv/
+__pycache__/
+*.pyc
